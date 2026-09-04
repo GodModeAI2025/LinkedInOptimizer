@@ -16,6 +16,8 @@ Verwendung:
 
 Ohne --background wird ein Gradient-Hintergrund erzeugt.
 Mit --strict endet der Aufruf bei Safe-Zone-Verletzungen mit Exitcode 1.
+Das gilt auch, wenn kein Font mit anwendbarer Groessenangabe gefunden wird:
+Dann ist die Messung nicht belastbar und zaehlt selbst als Verletzung.
 """
 
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -25,7 +27,14 @@ import sys
 
 
 def find_font(name, size):
-    """Suche Font mit Fallback auf DejaVuSans."""
+    """Suche Font mit Fallback auf DejaVuSans.
+
+    Returns:
+        Tuple (Font, exakt). exakt ist False, wenn nur ein Font ohne
+        anwendbare Groessenangabe uebrig bleibt. Die Textbreiten stammen
+        dann aus einer anderen Groesse als der angeforderten, die
+        Safe-Zone-Pruefung ist damit nicht belastbar.
+    """
     font_dirs = [
         "/usr/share/fonts/truetype/noto/",
         "/usr/share/fonts/truetype/dejavu/",
@@ -39,23 +48,23 @@ def find_font(name, size):
     for d in font_dirs:
         path = os.path.join(d, name)
         if os.path.exists(path):
-            return ImageFont.truetype(path, size)
+            return ImageFont.truetype(path, size), True
     # Fallback
     fallback = fallback_map.get(name, "DejaVuSans.ttf")
     for d in font_dirs:
         path = os.path.join(d, fallback)
         if os.path.exists(path):
             print(f"⚠️  Font {name} nicht gefunden, Fallback: {fallback}")
-            return ImageFont.truetype(path, size)
+            return ImageFont.truetype(path, size), True
     # Letzter Fallback: PIL Default in der angeforderten Groesse
     print("⚠️  Kein passender Font gefunden, verwende PIL-Default")
     try:
-        return ImageFont.load_default(size=size)
+        return ImageFont.load_default(size=size), True
     except TypeError:
         # Pillow < 10.1 kennt den size-Parameter nicht; dann bleibt nur der
         # Bitmap-Font in fester Groesse, die Safe-Zone-Pruefung misst dann zu klein.
         print("⚠️  Pillow ohne size-Parameter, Safe-Zone-Pruefung ist ungenau")
-        return ImageFont.load_default()
+        return ImageFont.load_default(), False
 
 
 def create_linkedin_banner(
@@ -93,7 +102,9 @@ def create_linkedin_banner(
 
     Returns:
         Tuple (Pfad zum gespeicherten Banner, Liste der Safe-Zone-Verletzungen).
-        Die Liste ist leer, wenn alle Elemente innerhalb der Safe Zone liegen.
+        Die Liste ist leer, wenn alle Elemente innerhalb der Safe Zone liegen und
+        die Messung belastbar ist. Ein Font ohne anwendbare Groessenangabe zaehlt
+        selbst als Verletzung, weil die gemessenen Breiten dann nichts aussagen.
     """
 
     # Validierung Schriftgrößen
@@ -138,10 +149,16 @@ def create_linkedin_banner(
     draw = ImageDraw.Draw(base)
 
     # Fonts mit Fallback
-    f_title = find_font("NotoSans-Bold.ttf", title_size)
-    f_sub = find_font("NotoSans-Regular.ttf", subtitle_size)
-    f_role = find_font("NotoSans-Light.ttf", role_size)
-    f_tags = find_font("NotoSans-Regular.ttf", tags_size)
+    f_title, title_exact = find_font("NotoSans-Bold.ttf", title_size)
+    f_sub, sub_exact = find_font("NotoSans-Regular.ttf", subtitle_size)
+    f_role, role_exact = find_font("NotoSans-Light.ttf", role_size)
+    f_tags, tags_exact = find_font("NotoSans-Regular.ttf", tags_size)
+
+    if not all([title_exact, sub_exact, role_exact, tags_exact]):
+        msg = ("Schriftgroessen nicht anwendbar (Pillow < 10.1 ohne size-Parameter), "
+               "Safe-Zone-Messung nicht belastbar")
+        violations.append(msg)
+        print(f"⚠️  WARNUNG: {msg}")
 
     # === LAYOUT ===
     y = SAFE_Y_MIN
@@ -268,7 +285,8 @@ if __name__ == "__main__":
     parser.add_argument("--book", default=None, help="Pfad zum Buchcover")
     parser.add_argument("--accent", default="0,200,255", help="Akzent-Farbe als R,G,B")
     parser.add_argument("--strict", action="store_true",
-                        help="Bei Safe-Zone-Verletzungen mit Exitcode 1 enden")
+                        help="Bei Safe-Zone-Verletzungen oder nicht belastbarer "
+                             "Messung mit Exitcode 1 enden")
     args = parser.parse_args()
 
     accent = tuple(int(x) for x in args.accent.split(","))
