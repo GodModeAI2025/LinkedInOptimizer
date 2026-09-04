@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Der Tag muss zu VERSION passen, sonst haengt am Release ein Artefakt
+      # mit einer anderen Versionsangabe als der Tagname verspricht.
+      - name: Tag gegen VERSION pruefen
+        run: python scripts/check_versions.py --expect "${GITHUB_REF_NAME#v}"
+
+      # Die gesamte Packaging-Logik steht in scripts/build_skill_package.py.
+      # Hier wird sie nur aufgerufen, damit sie lokal genauso laeuft wie hier.
+      - name: Artefakt bauen
+        id: paket
+        run: |
+          name="$(python scripts/build_skill_package.py --print-name)"
+          python scripts/build_skill_package.py "dist/$name"
+          echo "pfad=dist/$name" >> "$GITHUB_OUTPUT"
+
+      - name: Release anlegen und Artefakt anhaengen
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.paket.outputs.pfad }}
+          fail_on_unmatched_files: true
