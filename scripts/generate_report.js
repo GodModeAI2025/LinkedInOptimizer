@@ -52,11 +52,11 @@ const scoring = [
   { cat: "Banner",           raw: 5, w: 0.6, weighted: 3.0,  max: 6,  pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "Content-Qualität", raw: 5, w: 1.5, weighted: 7.5,  max: 15, pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "Posting-Frequenz", raw: 5, w: 1.0, weighted: 5.0,  max: 10, pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Engagement",       raw: 5, w: 1.5, weighted: 7.5,  max: 15, pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Engagement & Kommentare", raw: 5, w: 1.5, weighted: 7.5,  max: 15, pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "Social Proof",     raw: 5, w: 1.0, weighted: 5.0,  max: 10, pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Netzwerk",         raw: 5, w: 0.8, weighted: 4.0,  max: 8,  pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Vollständigkeit",  raw: 5, w: 0.7, weighted: 3.5,  max: 7,  pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Top Voice Ready",  raw: 5, w: 0.5, weighted: 2.5,  max: 5,  pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Netzwerk & Follower", raw: 5, w: 0.8, weighted: 4.0,  max: 8,  pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Profil-Vollständigkeit", raw: 5, w: 0.7, weighted: 3.5,  max: 7,  pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Top Voice Readiness", raw: 5, w: 0.5, weighted: 2.5,  max: 5,  pct: 50, color: YELLOW, reason: "[Begründung]" },
 ];
 const totalScore = scoring.reduce((s, d) => s + d.weighted, 0);
 

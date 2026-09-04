@@ -65,6 +65,10 @@ LinkedInOptimizer/
 │   ├── SOURCES.md              # Quellen mit Datum, zurückgezogene Zahlen, Prüfrhythmus
 │   ├── TEMPLATES.md            # Vorlagen für Headline, About, Content, Kommentare
 │   └── BANNER.md               # Technische Banner-Anleitung mit Viewport-Matrix
+├── tests/
+│   ├── fixtures/               # Drei frei erfundene Profile als JSON
+│   ├── expected/               # Erwartete Score-Bänder je Fixture
+│   └── run_eval.py             # Eval-Runner, prüft Matrix, Namen und Bänder
 └── .github/workflows/
     ├── ci.yml                  # Syntax-, Banner-, Versions-, Quellen- und Paketprüfung
     └── release.yml             # Hängt das Artefakt an ein Tag v*
@@ -86,6 +90,27 @@ Zurückgezogen, weil nicht belegbar: der genannte Plattformdurchschnitt der Enga
 ## Scoring
 
 Die zehn Kategorien, ihre Gewichte und die Begründung je Gewicht stehen in [references/SCORING.md](references/SCORING.md#gewichtung). Dort liegt auch das [Engagement-Rate-Bewertungsraster](references/SCORING.md#engagement-rate-bewertungsraster) samt Berechnungsformel und die [Score-Interpretation](references/SCORING.md#score-interpretation), die einen Gesamtscore in einen Zeithorizont bis Top Voice übersetzt.
+
+## Tests
+
+```bash
+python tests/run_eval.py
+```
+
+Der Runner liest das Gewichtsmodell aus `references/SCORING.md` und prüft damit drei erfundene
+Profil-Fixtures gegen erwartete Score-Bänder. Er stellt außerdem sicher, dass die zehn Kategorien
+in SCORING.md, SKILL.md, auf der Landingpage und in `scripts/generate_report.js` wortgleich
+heißen, und dass die Zahlen der Scoring-Engine auf der Landingpage aus
+`tests/fixtures/profile_mid.json` stammen.
+
+Die Fixtures sind frei erfunden, nicht anonymisiert. Ein reales Profil zu erheben und danach zu
+verfremden wäre genau die Datenverarbeitung, die SECURITY.md einschränkt.
+
+Ein echter Lauf lässt sich gegen dieselben Bänder prüfen:
+
+```bash
+python tests/run_eval.py --fixture profile_mid --result lauf.json
+```
 
 ## Grenzen
 

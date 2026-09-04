@@ -324,20 +324,39 @@ Community-Top-Voice-Badge, auf das es einzahlte, ist seit dem 08.10.2024 zurück
 ```
 Gewichteter Score = Σ (Kategorie_Score × Gewicht × 10)
 
-Beispiel:
-Headline:       8/10 × 1.2 =  9.6
-About:          7/10 × 1.2 =  8.4
-Banner:         9/10 × 0.6 =  5.4
-Content:        6/10 × 1.5 =  9.0
-Frequenz:       5/10 × 1.0 =  5.0
-Engagement:     7/10 × 1.5 = 10.5
-Social Proof:   9/10 × 1.0 =  9.0
-Netzwerk:       8/10 × 0.8 =  6.4
-Vollständigkeit:6/10 × 0.7 =  4.2
-Top Voice:      5/10 × 0.5 =  2.5
-──────────────────────────────────
-GESAMT:                       70.0/100
+Beispiel (dieselben Werte zeigt die Landingpage, und tests/fixtures/profile_mid.json
+haelt sie als pruefbares Fixture):
+Headline:                8/10 × 1.2 =  9.6
+About-Sektion:           7/10 × 1.2 =  8.4
+Banner:                  9/10 × 0.6 =  5.4
+Content-Qualität:        6/10 × 1.5 =  9.0
+Posting-Frequenz:        5/10 × 1.0 =  5.0
+Engagement & Kommentare: 7/10 × 1.5 = 10.5
+Social Proof:            9/10 × 1.0 =  9.0
+Netzwerk & Follower:     8/10 × 0.8 =  6.4
+Profil-Vollständigkeit:  6/10 × 0.7 =  4.2
+Top Voice Readiness:     5/10 × 0.5 =  2.5
+────────────────────────────────────────
+GESAMT:                             70.0/100
 ```
+
+Die zehn Namen oben sind verbindlich. Dieselbe Schreibweise gilt in SKILL.md, in
+`scripts/generate_report.js`, auf der Landingpage und im Report. `tests/run_eval.py`
+vergleicht die vier Stellen bei jedem CI-Lauf und faellt bei Abweichung aus.
+
+### Eval-Set
+
+`tests/run_eval.py` prueft dieses Dokument bei jedem CI-Lauf gegen drei erfundene Profile in
+`tests/fixtures/`. Geprueft werden die Gewichtssumme, die Schreibweise der zehn Kategorien in
+SKILL.md, auf der Landingpage und im Report-Template, die Nachrechnung des Gesamtscores und die
+erwarteten Baender je Kategorie in `tests/expected/`.
+
+Fuer Posting-Frequenz, Netzwerk & Follower und Profil-Vollstaendigkeit rechnet der Runner den
+Score aus den Profildaten nach, statt ihn zu glauben. Wer eine der drei Bewertungstabellen
+aendert, bekommt vom Runner eine Meldung, welche Umrechnung nachzuziehen ist.
+
+Gewichte darf man aendern. Die Baender in `tests/expected/` brechen dann, und das ist so
+gewollt: sie muessen im selben Schritt mitgeaendert werden, sonst faellt die CI aus.
 
 ### Score-Interpretation
 
@@ -356,30 +375,30 @@ Immer als **Radar-Chart** (10 Achsen) UND als **Balkendiagramm** (gewichtet) dar
 
 ```
 UNGEWICHTET (Rohscores):
-Headline:        ████████░░ 8/10
-About:           ███████░░░ 7/10
-Banner:          █████████░ 9/10
-Content:         ██████░░░░ 6/10
-Frequenz:        █████░░░░░ 5/10
-Engagement:      ███████░░░ 7/10
-Social Proof:    █████████░ 9/10
-Netzwerk:        ████████░░ 8/10
-Vollständigkeit: ██████░░░░ 6/10
-Top Voice Ready: █████░░░░░ 5/10
+Headline:                ████████░░ 8/10
+About-Sektion:           ███████░░░ 7/10
+Banner:                  █████████░ 9/10
+Content-Qualität:        ██████░░░░ 6/10
+Posting-Frequenz:        █████░░░░░ 5/10
+Engagement & Kommentare: ███████░░░ 7/10
+Social Proof:            █████████░ 9/10
+Netzwerk & Follower:     ████████░░ 8/10
+Profil-Vollständigkeit:  ██████░░░░ 6/10
+Top Voice Readiness:     █████░░░░░ 5/10
 
 GEWICHTET (Beitrag zum Gesamtscore):
-Content (15%):   █████████░ 9.0
-Engagement(15%): ██████████ 10.5
-Headline (12%):  █████████░ 9.6
-About    (12%):  ████████░░ 8.4
-Soc.Proof(10%):  █████████░ 9.0
-Frequenz (10%):  █████░░░░░ 5.0  ← GRÖSSTER HEBEL
-Netzwerk  (8%):  ██████░░░░ 6.4
-Vollst.   (7%):  ████░░░░░░ 4.2  ← QUICK WIN
-Banner    (6%):  █████░░░░░ 5.4
-TopVoice  (5%):  ██░░░░░░░░ 2.5
-──────────────────────────────────
-GESAMT:          70.0/100 [Gut]
+Content-Qualität (15%):        █████████░ 9.0
+Engagement & Kommentare (15%): ██████████ 10.5
+Headline (12%):                █████████░ 9.6
+About-Sektion (12%):           ████████░░ 8.4
+Social Proof (10%):            █████████░ 9.0
+Posting-Frequenz (10%):        █████░░░░░ 5.0  ← GRÖSSTER HEBEL
+Netzwerk & Follower (8%):      ██████░░░░ 6.4
+Profil-Vollständigkeit (7%):   ████░░░░░░ 4.2  ← QUICK WIN
+Banner (6%):                   █████░░░░░ 5.4
+Top Voice Readiness (5%):      ██░░░░░░░░ 2.5
+────────────────────────────────────────────
+GESAMT:                        70.0/100 [Gut]
 ```
 
 Die **gewichtete** Darstellung zeigt auf einen Blick, wo der größte Hebel liegt (niedrigster gewichteter Beitrag relativ zum maximal möglichen Beitrag).

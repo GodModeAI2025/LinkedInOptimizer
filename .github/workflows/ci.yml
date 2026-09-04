@@ -69,6 +69,12 @@ jobs:
       - name: Beleglage pruefen
         run: python scripts/check_sources.py
 
+      # Prueft die Scoring-Matrix gegen drei erfundene Profil-Fixtures und
+      # haelt zugleich fest, dass die zehn Kategorien in SCORING.md, SKILL.md,
+      # index.html und generate_report.js wortgleich heissen.
+      - name: Eval-Set fahren
+        run: python tests/run_eval.py
+
       # Ein kaputtes Paket soll auffallen, bevor jemand ein Tag setzt. Der
       # Schritt ruft dasselbe Skript auf wie release.yml und prueft danach das
       # Ergebnis, unabhaengig davon, was das Skript selbst zusichert.
