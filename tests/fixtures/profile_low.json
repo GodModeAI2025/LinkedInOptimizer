@@ -92,7 +92,7 @@
       "reaktionen_median": 9,
       "kommentare_median": 1,
       "engagement_rate_follower_basis": 1.1,
-      "hinweis": "Impressions sind fuer fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
+      "hinweis": "Impressions sind für fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
     }
   },
   "referenzlauf": {

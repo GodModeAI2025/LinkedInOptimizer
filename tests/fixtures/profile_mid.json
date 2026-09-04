@@ -6,7 +6,7 @@
     "name": "Beispielprofil B",
     "headline": {
       "text": "KI im Mittelstand | Head of Data @ Beispiel GmbH | GenAI, MLOps | Autor",
-      "zeichen": 72,
+      "zeichen": 71,
       "keywords": 3,
       "emojis": 0,
       "rollen_genannt": [
@@ -95,7 +95,7 @@
       "reaktionen_median": 168,
       "kommentare_median": 17,
       "engagement_rate_follower_basis": 3.0,
-      "hinweis": "Impressions sind fuer fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
+      "hinweis": "Impressions sind für fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
     }
   },
   "referenzlauf": {

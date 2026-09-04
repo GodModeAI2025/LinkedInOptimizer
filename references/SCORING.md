@@ -325,7 +325,7 @@ Community-Top-Voice-Badge, auf das es einzahlte, ist seit dem 08.10.2024 zurück
 Gewichteter Score = Σ (Kategorie_Score × Gewicht × 10)
 
 Beispiel (dieselben Werte zeigt die Landingpage, und tests/fixtures/profile_mid.json
-haelt sie als pruefbares Fixture):
+hält sie als prüfbares Fixture):
 Headline:                8/10 × 1.2 =  9.6
 About-Sektion:           7/10 × 1.2 =  8.4
 Banner:                  9/10 × 0.6 =  5.4
@@ -341,22 +341,23 @@ GESAMT:                             70.0/100
 ```
 
 Die zehn Namen oben sind verbindlich. Dieselbe Schreibweise gilt in SKILL.md, in
-`scripts/generate_report.js`, auf der Landingpage und im Report. `tests/run_eval.py`
-vergleicht die vier Stellen bei jedem CI-Lauf und faellt bei Abweichung aus.
+`scripts/generate_report.js`, auf der Landingpage und im Report. `tests/run_eval.py` im Repo
+vergleicht die vier Stellen bei jedem CI-Lauf und fällt bei Abweichung aus.
 
 ### Eval-Set
 
-`tests/run_eval.py` prueft dieses Dokument bei jedem CI-Lauf gegen drei erfundene Profile in
-`tests/fixtures/`. Geprueft werden die Gewichtssumme, die Schreibweise der zehn Kategorien in
+Das Eval-Set liegt im Repo unter `tests/` und ist nicht Teil des ausgelieferten Skill-Pakets.
+`tests/run_eval.py` prüft dieses Dokument bei jedem CI-Lauf gegen drei erfundene Profile in
+`tests/fixtures/`. Geprüft werden die Gewichtssumme, die Schreibweise der zehn Kategorien in
 SKILL.md, auf der Landingpage und im Report-Template, die Nachrechnung des Gesamtscores und die
-erwarteten Baender je Kategorie in `tests/expected/`.
+erwarteten Bänder je Kategorie in `tests/expected/`.
 
-Fuer Posting-Frequenz, Netzwerk & Follower und Profil-Vollstaendigkeit rechnet der Runner den
+Für Posting-Frequenz, Netzwerk & Follower und Profil-Vollständigkeit rechnet der Runner den
 Score aus den Profildaten nach, statt ihn zu glauben. Wer eine der drei Bewertungstabellen
-aendert, bekommt vom Runner eine Meldung, welche Umrechnung nachzuziehen ist.
+ändert, bekommt vom Runner eine Meldung, welche Umrechnung nachzuziehen ist.
 
-Gewichte darf man aendern. Die Baender in `tests/expected/` brechen dann, und das ist so
-gewollt: sie muessen im selben Schritt mitgeaendert werden, sonst faellt die CI aus.
+Gewichte darf man ändern. Die Bänder in `tests/expected/` brechen dann, und das ist so
+gewollt: sie müssen im selben Schritt mitgeändert werden, sonst fällt die CI aus.
 
 ### Score-Interpretation
 

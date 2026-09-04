@@ -6,7 +6,7 @@
     "name": "Beispielprofil C",
     "headline": {
       "text": "Industrielle Bildverarbeitung | Principal Engineer @ Beispiel AG | Edge AI, Robotik | Podcast-Host",
-      "zeichen": 101,
+      "zeichen": 98,
       "keywords": 4,
       "emojis": 0,
       "rollen_genannt": [
@@ -98,7 +98,7 @@
       "reaktionen_median": 610,
       "kommentare_median": 58,
       "engagement_rate_follower_basis": 3.2,
-      "hinweis": "Impressions sind fuer fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
+      "hinweis": "Impressions sind für fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
     }
   },
   "referenzlauf": {

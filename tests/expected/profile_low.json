@@ -1,6 +1,6 @@
 {
   "fixture": "profile_low",
-  "hinweis": "Baender von plus/minus 2 Punkten je Kategorie. Ein LLM-Scoring ist nicht deterministisch, engere Baender erzeugen rote Laeufe ohne Erkenntnisgewinn. Aendern sich die Gewichte in SCORING.md, muessen die Baender hier mitgeaendert werden.",
+  "hinweis": "Bänder von plus/minus 2 Punkten je Kategorie. Ein LLM-Scoring ist nicht deterministisch, engere Bänder erzeugen rote Läufe ohne Erkenntnisgewinn. Ändern sich die Gewichte in SCORING.md, müssen die Bänder hier mitgeändert werden.",
   "baender": {
     "Headline": [
       0,
