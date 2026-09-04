@@ -443,8 +443,11 @@ v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
 ├── SCORING.md: Nenner der Engagement-Rate geklärt, das Raster gilt für den impressions-basierten Wert
 ├── Die zehn Kategorien heißen an allen vier Stellen gleich, generate_report.js zog vier Kurznamen nach
 ├── tests/: drei frei erfundene Profil-Fixtures, erwartete Score-Bänder und tests/run_eval.py
-├── scripts/check_sources.py hält zurückgezogene Zahlen aus dem Skill heraus
-├── Landingpage: aus "Live Demo" wird "Beispiel-Dialog", jede Zahl stammt aus tests/fixtures/profile_mid.json
+├── scripts/check_sources.py hält zurückgezogene Aussagen aus dem Skill heraus; die Sperren entstehen aus der Sperrmuster-Spalte in SOURCES.md, nicht aus einer Handliste daneben
+├── Quellen-IDs werden in jeder Schreibweise geprüft, nicht nur in runden Klammern
+├── Die Checkliste in SCORING.md Abschnitt 9 ist die Quelle der 18 Profil-Elemente; SKILL.md Phase 4.3 nannte 15, die Audit-Tabelle im Report 17
+├── Audit-Tabelle im Report: 18 Elemente statt 17, Video-Content gehört zur Content-Aktivität und nicht zur Profil-Vollständigkeit
+├── Landingpage: aus "Live Demo" wird "Beispiel-Dialog", jede Zahl stammt aus tests/fixtures/profile_mid.json, und run_eval.py bindet diesen Wortlaut
 ├── Abgrenzung zu linkedin-community-builder in SKILL.md, README und auf der Landingpage, inklusive Trigger-Regel
 └── CI fährt Beleglage und Eval-Set mit
 
