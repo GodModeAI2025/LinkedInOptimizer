@@ -57,7 +57,7 @@ LinkedInOptimizer/
 ├── scripts/
 │   ├── create_banner.py        # Banner-Generator mit Safe-Zone-Validierung
 │   ├── check_versions.py       # Prüft die Versionsangaben gegen VERSION
-│   ├── check_sources.py        # Prüft SOURCES.md und die Rückkehr entfernter Zahlen
+│   ├── check_sources.py        # Prüft SOURCES.md und sperrt zurückgezogene Aussagen
 │   ├── build_skill_package.py  # Baut linkedin-optimizer.skill, reproduzierbar und offline
 │   └── generate_report.js      # DOCX-Report-Template (Node.js, npm-Paket docx)
 ├── references/
@@ -100,7 +100,9 @@ Belegt:
 - Das goldene Community-Top-Voice-Badge ist seit dem 08.10.2024 zurückgezogen (LinkedIn Help).
 - Der SSI besteht aus vier Säulen (LinkedIn Sales Blog, 03.08.2015). Die Aufteilung in je 25 Punkte bestätigt LinkedIn nicht.
 
-Zurückgezogen, weil nicht belegbar: der genannte Plattformdurchschnitt der Engagement-Rate, die Engagement-Prozentwerte je Postformat, die Wirkungsfaktoren für Kommentieren und Kontaktanfragen, die Angabe zur Sichtbarkeitsdauer eines Beitrags und die branchenspezifische Benchmark-Zeile. Die vollständige Liste mit Zahl und Begründung steht in SOURCES.md.
+Zurückgezogen, weil nicht belegbar: der genannte Plattformdurchschnitt der Engagement-Rate, die Engagement-Prozentwerte je Postformat, die Wirkungsfaktoren für Kommentieren und Kontaktanfragen, die Angabe zur Sichtbarkeitsdauer eines Beitrags, die branchenspezifische Benchmark-Zeile, die Rahmung des Punkterasters als Branchen-Benchmark und die Selbstbeschreibung des Skills als evidenzbasiert. Die vollständige Liste mit Begründung steht in SOURCES.md.
+
+`scripts/check_sources.py` baut die Sperren gegen diese Aussagen aus der Spalte „Sperrmuster“ derselben Tabelle und läuft in der CI. Es prüft Schreibweisen, keine Aussagen. Ein Muster fängt die Zahl mit Komma und mit Punkt, das Prozentzeichen und das ausgeschriebene Wort, das geschützte Leerzeichen als HTML-Entity und das ASCII-x als Faktorzeichen. Ein frei formulierter Satz, der dieselbe Behauptung ohne die gesperrte Schreibweise aufstellt, fällt nicht auf. Für „Collaborative Articles“ gibt es bewusst keine Textsperre, weil sie die richtigen Verneinungen im Skill mit treffen würde; dort ist stattdessen die Liste der geprüften Profil-Elemente gebunden.
 
 ## Scoring
 
@@ -115,8 +117,10 @@ python tests/run_eval.py
 Der Runner liest das Gewichtsmodell aus `references/SCORING.md` und prüft damit drei erfundene
 Profil-Fixtures gegen erwartete Score-Bänder. Er stellt außerdem sicher, dass die zehn Kategorien
 in SCORING.md, SKILL.md, auf der Landingpage und in `scripts/generate_report.js` wortgleich
-heißen, und dass die Zahlen der Scoring-Engine auf der Landingpage aus
-`tests/fixtures/profile_mid.json` stammen.
+heißen, dass die 18 Profil-Elemente aus der Checkliste in SCORING.md in derselben Reihenfolge in
+SKILL.md Phase 4.3 und in der Audit-Tabelle des Report-Generators stehen, dass die Zahlen der
+Scoring-Engine auf der Landingpage aus `tests/fixtures/profile_mid.json` stammen und dass die
+Landingpage den Dialog als Beispiel ausweist und die Fixture dazu nennt.
 
 Die Fixtures sind frei erfunden, nicht anonymisiert. Ein reales Profil zu erheben und danach zu
 verfremden wäre genau die Datenverarbeitung, die SECURITY.md einschränkt.

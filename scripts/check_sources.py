@@ -14,10 +14,45 @@ Geprueft wird:
 2. Jede Zeile der Quellen-Tabelle hat eine ID der Form Qn, eine http(s)-URL und
    ein Abrufdatum im Format JJJJ-MM-TT.
 3. Jede Quellen-ID, die anderswo im Repo zitiert wird, existiert in der Tabelle.
+   Gesucht wird nach jedem Vorkommen von Qn, gleich in welcher Klammer, welcher
+   Schreibweise und welchem Satzbau. Ein Fehlalarm in Fliesstext ist billiger als
+   eine ausgedachte Belegangabe im ausgelieferten Paket.
 4. Die Tabelle der zurueckgezogenen Aussagen ist nicht leer.
-5. Keine der zurueckgezogenen Zahlen steht noch irgendwo im Skill. Das ist der
-   eigentliche Zweck des Skripts: eine Zahl, die einmal als unbelegt entfernt
+5. Keine der zurueckgezogenen Aussagen steht noch irgendwo im Skill. Das ist der
+   eigentliche Zweck des Skripts: eine Aussage, die einmal als unbelegt entfernt
    wurde, darf nicht ueber eine spaetere Aenderung zurueckkommen.
+
+Zu 5 gehoert die Bauart der Sperren, denn daran ist eine frueheres Fassung
+gescheitert: Sie fuehrte eine handgepflegte Liste woertlicher Schreibweisen neben
+der Tabelle. Wer '3.4 %' mit Punkt schrieb, '3,4 Prozent' ausschrieb oder
+'3,4&nbsp;%' als HTML-Entity setzte, kam durch, und eine neu zurueckgezogene Zahl
+bekam ueberhaupt keine Sperre, solange niemand daran dachte, das Skript
+nachzuziehen.
+
+Jetzt steht die Sperre in der Tabelle selbst, in der Spalte 'Sperrmuster', und
+das Skript erzeugt daraus die Regex:
+
+* Ziffernfolgen trennen mit [.,], damit 3,4 und 3.4 dasselbe sind.
+* Das Prozentzeichen faengt auch das ausgeschriebene Wort.
+* Das Multiplikationszeichen faengt auch das ASCII-x.
+* Leerraum faengt auch das geschuetzte Leerzeichen und &nbsp;.
+* Bindestriche fangen auch die typografischen Varianten.
+* Ein fuehrendes + oder ~ ist optional, gross und klein ist egal.
+* Vor und hinter Zahlen steht eine Grenze, damit '20 %' nicht in '220 Zeichen'
+  anschlaegt.
+
+Und die Tabelle wird gegen sich selbst geprueft: Jede relative Groesse in der
+Spalte 'Frühere Aussage', also jede Angabe mit Prozent oder Faktor, muss von
+einem Sperrmuster derselben Zeile getroffen werden. Wer eine Zahl zurueckzieht
+und keine Sperre dazuschreibt, faellt hier auf und nicht erst dem Kunden.
+
+Was das Skript nicht kann: Es prueft Schreibweisen, keine Aussagen. Fuer die
+Zeile zu den Collaborative Articles gibt es deshalb bewusst keine Sperre. Ein
+Textverbot auf den Begriff wuerde die richtigen Verneinungen in SKILL.md
+mitreissen, die sagen, dass Collaborative Articles auf kein Badge mehr
+einzahlen. Gesperrt ist dort stattdessen die Elementliste, und zwar in
+tests/run_eval.py. Ein frei formulierter Satz, der die Badge-Behauptung neu
+aufstellt, faellt keinem der beiden Schritte auf.
 
 Exitcode 0, wenn alles zutrifft, sonst 1. Ist das Pruefdatum ueberschritten,
 gibt es eine Warnung, aber keinen Fehler: eine abgelaufene Pruefung soll
@@ -33,9 +68,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ROOT / "references" / "SOURCES.md"
 
 # Dateien, in denen Quellen-IDs zitiert werden duerfen und in denen die
-# zurueckgezogenen Zahlen nicht mehr vorkommen duerfen. SOURCES.md selbst ist
-# nicht dabei, dort stehen die Zahlen absichtlich noch, naemlich in der Liste
-# dessen, was entfernt wurde.
+# zurueckgezogenen Aussagen nicht mehr vorkommen duerfen. SOURCES.md selbst ist
+# nicht dabei, dort stehen die Aussagen absichtlich noch, naemlich in der Liste
+# dessen, was entfernt wurde, und in der Spalte mit den Sperrmustern.
 GEPRUEFTE_DATEIEN = [
     "SKILL.md",
     "README.md",
@@ -47,28 +82,24 @@ GEPRUEFTE_DATEIEN = [
     "scripts/create_banner.py",
 ]
 
-# Zurueckgezogene Zahlen. Links das Suchmuster, rechts die Begruendung, die im
-# Fehlerfall ausgegeben wird. Die Muster sind bewusst eng gefasst, damit sie
-# keine unbeteiligte Prozentangabe treffen.
-VERBOTEN = [
-    (r"3,4\s?%", "Plattformdurchschnitt 3,4 % Engagement-Rate, Quelle fuehrt den Wert nicht"),
-    (r"6,6\s?%", "Formatwert Multi-Image 6,6 %, keine pruefbare Quelle"),
-    (r"6,1\s?%", "Formatwert PDF-Karussell 6,1 %, keine pruefbare Quelle"),
-    (r"5,6\s?%", "Formatwert Video 5,6 %, keine pruefbare Quelle"),
-    (r"3,6\s?%", "branchenspezifischer Engagement-Benchmark 3,6 %, keine Quelle"),
-    (r"um 55\s?%", "Profilaufrufe plus 55 %, keine Quelle"),
-    (r"\+\s?55\s?%", "Profilaufrufe plus 55 %, keine Quelle"),
-    (r"\+\s?40\s?%\s?Akzeptanz", "Annahmequote plus 40 %, keine Quelle"),
-    (r"2,5×\s?mehr", "Kommentargewicht Faktor 2,5, keine Quelle"),
-    (r"[Hh]albjährliche (Review|Überprüfung)",
-     "halbjaehrliche Top-Voice-Review, LinkedIn prueft Nominierungen quartalsweise"),
-    (r"bis zu 5 Tage Sichtbarkeit", "5 Tage Sichtbarkeit seit 2025, keine Quelle"),
-    (r"um 20\s?% reduzieren", "Back-to-Back minus 20 %, keine Quelle"),
-    (r"Industrie-Benchmark", "Rahmung als Industrie-Benchmark, das Raster in SCORING.md ist keiner"),
-    (r"Engagement-Rate-Benchmarks", "Rahmung der Baender als Benchmark, sie sind ein internes Raster"),
-]
-
 DATUM = re.compile(r"\d{4}-\d{2}-\d{2}")
+QUELLEN_ID = re.compile(r"\bQ\d+\b")
+
+# Relative Groessen: Prozentangaben und Faktoren. Genau diese Klasse von Zahl
+# ist im Skill zurueckgezogen worden, und genau fuer sie verlangt das Skript ein
+# Sperrmuster. Absolute Angaben wie '15 Wörter' bleiben aussen vor, sie stehen
+# in denselben Saetzen, sind aber nicht der zurueckgezogene Teil davon.
+QUANTITAET = re.compile(r"\d+(?:[.,]\d+)?\s*(?:%|Prozent|×|x\b)")
+
+# Leerraum in einem Sperrmuster faengt auch das geschuetzte Leerzeichen und die
+# HTML-Entities dafuer.
+LEER = r"(?:\s|&nbsp;|&#160;| )*"
+BINDESTRICH = r"[-‐‑‒–]"
+
+# Spalte, in der die Sperrmuster stehen, und das Praefix, mit dem eine Zeile
+# ausdruecklich ohne Sperre gefuehrt wird.
+SPALTEN_ZURUECK = 4
+OHNE_SPERRE = "keine:"
 
 
 def lies(pfad: Path) -> str:
@@ -106,6 +137,148 @@ def tabellenzeilen(text: str, ueberschrift: str):
             continue
         zeilen.append(spalten)
     return zeilen
+
+
+def muster_aus_token(token: str) -> str:
+    """Baut aus einem Sperrmuster der Tabelle die Regex, die es sperrt.
+
+    Der Token wird so geschrieben, wie die Aussage frueher im Skill stand, also
+    zum Beispiel '3,4 %' oder '2,5×' oder '+40 % Akzeptanz'. Die Normalisierung
+    macht daraus eine Regex, die auch die naheliegenden Umschreibungen faengt.
+    """
+    teile = []
+    i = 0
+    laenge = len(token)
+    while i < laenge:
+        zeichen = token[i]
+
+        if zeichen.isspace():
+            teile.append(LEER)
+            while i < laenge and token[i].isspace():
+                i += 1
+            continue
+
+        if zeichen.isdigit():
+            stellen = []
+            while i < laenge:
+                if token[i].isdigit():
+                    stellen.append(re.escape(token[i]))
+                    i += 1
+                elif token[i] in ".," and i + 1 < laenge and token[i + 1].isdigit():
+                    stellen.append("[.,]")
+                    i += 1
+                else:
+                    break
+            teile.append(r"(?<![\d.,])" + "".join(stellen) + r"(?!\d)")
+            continue
+
+        if zeichen == "%":
+            if not teile or teile[-1] != LEER:
+                teile.append(LEER)
+            teile.append(r"(?:%|Prozent)")
+        elif zeichen == "×":
+            # Nur das typografische Zeichen gilt als Faktor. Ein ASCII-x im
+            # Sperrmuster bleibt ein Buchstabe, sonst wuerde jedes x in einem
+            # Wort zur Alternative aufgeblasen.
+            if not teile or teile[-1] != LEER:
+                teile.append(LEER)
+            teile.append(r"[x×]")
+        elif zeichen in "+~":
+            teile.append(re.escape(zeichen) + "?")
+        elif zeichen == "-":
+            teile.append(BINDESTRICH)
+        else:
+            teile.append(re.escape(zeichen))
+        i += 1
+
+    return "".join(teile)
+
+
+def sperren_aus_tabelle(zeilen, fehler):
+    """Uebersetzt die Tabelle 'Zurückgezogen' in Sperrmuster.
+
+    Rueckgabe: Liste (kompilierte Regex, Token, Aussage) und die Liste der
+    Zeilen, die bewusst ohne Sperre gefuehrt werden.
+    """
+    sperren = []
+    ohne_sperre = []
+
+    for nummer, spalten in enumerate(zeilen, 1):
+        if len(spalten) != SPALTEN_ZURUECK:
+            fehler.append(
+                f"Zurückgezogen, Zeile {nummer}: {len(spalten)} Spalten, erwartet werden "
+                f"{SPALTEN_ZURUECK} (Frühere Aussage, Stand bis, Warum entfernt, Sperrmuster)."
+            )
+            continue
+
+        aussage, _stand, _grund, sperrmuster = spalten
+        kurz = aussage if len(aussage) <= 70 else aussage[:67] + "..."
+
+        if not sperrmuster:
+            fehler.append(
+                f"Zurückgezogen, Zeile {nummer} ({kurz}): die Spalte 'Sperrmuster' ist leer. "
+                f"Entweder ein Muster eintragen oder die Zeile mit '{OHNE_SPERRE} <Grund>' "
+                "ausdruecklich ohne Sperre fuehren."
+            )
+            continue
+
+        mengen = list(QUANTITAET.finditer(aussage))
+
+        if sperrmuster.startswith(OHNE_SPERRE):
+            grund = sperrmuster[len(OHNE_SPERRE):].strip()
+            if not grund:
+                fehler.append(
+                    f"Zurückgezogen, Zeile {nummer} ({kurz}): '{OHNE_SPERRE}' ohne Begruendung."
+                )
+            if mengen:
+                fehler.append(
+                    f"Zurückgezogen, Zeile {nummer} ({kurz}): die Aussage nennt "
+                    f"{', '.join(sorted({m.group(0) for m in mengen}))}, dafuer ist "
+                    f"'{OHNE_SPERRE}' nicht zulaessig. Eine zurueckgezogene Zahl braucht ein "
+                    "Sperrmuster."
+                )
+            ohne_sperre.append((kurz, grund))
+            continue
+
+        zeilen_sperren = []
+        for token in [t.strip() for t in sperrmuster.split(";")]:
+            if not token:
+                continue
+            try:
+                regex = re.compile(muster_aus_token(token), re.IGNORECASE)
+            except re.error as ausnahme:
+                fehler.append(
+                    f"Zurückgezogen, Zeile {nummer} ({kurz}): das Sperrmuster {token!r} "
+                    f"ergibt keine gueltige Regex ({ausnahme})."
+                )
+                continue
+            zeilen_sperren.append((regex, token, kurz))
+
+        if not zeilen_sperren:
+            fehler.append(
+                f"Zurückgezogen, Zeile {nummer} ({kurz}): kein verwertbares Sperrmuster."
+            )
+            continue
+
+        # Die Tabelle gegen sich selbst: jede relative Groesse in der Aussage
+        # muss von einem Muster derselben Zeile getroffen werden.
+        for menge in mengen:
+            gedeckt = any(
+                treffer.start() <= menge.start() and treffer.end() >= menge.end()
+                for regex, _, _ in zeilen_sperren
+                for treffer in regex.finditer(aussage)
+            )
+            if not gedeckt:
+                fehler.append(
+                    f"Zurückgezogen, Zeile {nummer} ({kurz}): die Angabe "
+                    f"{menge.group(0)!r} in der Spalte 'Frühere Aussage' wird von keinem "
+                    "Sperrmuster dieser Zeile getroffen. Ohne Muster kommt die Zahl ueber "
+                    "die naechste Aenderung zurueck."
+                )
+
+        sperren.extend(zeilen_sperren)
+
+    return sperren, ohne_sperre
 
 
 def main() -> int:
@@ -155,6 +328,9 @@ def main() -> int:
     zurueck = tabellenzeilen(text, "## Zurückgezogen")
     if not zurueck:
         fehler.append("Tabelle unter '## Zurückgezogen' fehlt oder ist leer.")
+        zurueck = []
+
+    sperren, ohne_sperre = sperren_aus_tabelle(zurueck, fehler)
 
     zitiert = {}
     for name in GEPRUEFTE_DATEIEN:
@@ -164,15 +340,15 @@ def main() -> int:
             continue
         inhalt = lies(pfad)
 
-        for treffer in re.finditer(r"\((Q\d+)(?: in [^)]*)?\)", inhalt):
-            zitiert.setdefault(treffer.group(1), set()).add(name)
+        for treffer in QUELLEN_ID.finditer(inhalt):
+            zitiert.setdefault(treffer.group(0), set()).add(name)
 
-        for muster, grund in VERBOTEN:
-            for treffer in re.finditer(muster, inhalt):
+        for regex, token, aussage in sperren:
+            for treffer in regex.finditer(inhalt):
                 nummer = inhalt.count("\n", 0, treffer.start()) + 1
                 fehler.append(
-                    f"{name}:{nummer}: zurueckgezogene Angabe {treffer.group(0)!r} "
-                    f"steht wieder im Skill ({grund})."
+                    f"{name}:{nummer}: zurueckgezogene Angabe {treffer.group(0)!r} steht "
+                    f"wieder im Skill. Sperrmuster {token!r} aus der Zeile: {aussage}"
                 )
 
     for kennung, dateien in sorted(zitiert.items()):
@@ -183,9 +359,13 @@ def main() -> int:
             )
 
     print(f"  {len(ids)} Quellen mit URL und Datum: {', '.join(sorted(ids))}")
-    print(f"  {len(zurueck or [])} zurueckgezogene Aussagen dokumentiert")
+    print(f"  {len(zurueck)} zurueckgezogene Aussagen dokumentiert")
     print(f"  {len(zitiert)} Quellen-IDs im Skill zitiert")
-    print(f"  {len(VERBOTEN)} Muster gegen die Rueckkehr entfernter Zahlen geprueft")
+    print(f"  {len(sperren)} Sperrmuster aus der Tabelle erzeugt und geprueft")
+    if ohne_sperre:
+        print(f"  {len(ohne_sperre)} Zeilen ausdruecklich ohne Sperre:")
+        for kurz, grund in ohne_sperre:
+            print(f"    - {kurz}\n      Grund: {grund}")
 
     if fehler:
         print("\nFEHLER:", file=sys.stderr)
