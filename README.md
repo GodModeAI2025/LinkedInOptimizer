@@ -1,4 +1,4 @@
-# linkedin-profil-optimierung v2.2.2
+# linkedin-profil-optimierung v2.3.0
 
 [![CI](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml)
 
@@ -71,4 +71,4 @@ Offene Punkte, ohne Termin:
 
 ## Version
 
-Aktuelle Version: v2.2.2. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
+Aktuelle Version: v2.3.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).

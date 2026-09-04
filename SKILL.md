@@ -10,7 +10,7 @@ description: >
   oder wenn jemand seinen LinkedIn-Auftritt professionalisieren möchte.
 ---
 
-# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.2.2
+# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.3.0
 
 Ein evidenzbasierter 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Basiert auf LinkedIn-Algorithmus-Daten 2025/2026, Engagement-Benchmarks und den offiziellen Top Voice Kriterien.
 
@@ -388,6 +388,19 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 ## Changelog
 
 ```
+v2.3.0 (2026-09-04) – Erstes Release, Banner-Skript repariert
+├── create_banner.py: --background ist optional, ohne Hintergrundbild entsteht ein Gradient
+├── create_banner.py: die angeforderte Schriftgröße wirkt jetzt auch auf den PIL-Ersatz-Font
+├── create_banner.py: Safe-Zone-Verletzungen werden zurückgegeben, --strict endet dann mit Exitcode 1
+├── create_banner.py: ein Font ohne anwendbare Größenangabe zählt selbst als Verletzung
+├── Beispieldaten in den Templates ersetzen die vorher enthaltenen realen Profildaten
+├── requirements.txt ergänzt: Pillow ab 10.1, dazu der Hinweis auf das npm-Paket docx
+├── scripts/build_skill_package.py baut linkedin-optimizer.skill reproduzierbar und ohne Netz
+├── Release-Workflow hängt dieses Artefakt an ein Tag v*
+├── CI prüft Syntax, Banner-Verhalten, Versionsangaben und den Inhalt des Artefakts
+├── VERSION ist die Quelle der Versionsnummer, check_versions.py prüft die Kopien dagegen
+└── README und Landingpage: Grenzen, Roadmap und Installationsweg an den Stand angepasst
+
 v2.2.2 (2026-03-09) – Template anonymisiert
 ├── generate_report.js: Komplett neu geschrieben mit PROFILE/EXEC/HEADLINE/ABOUT/AUDIT/ROADMAP/LIMITS-Variablen
 ├── Report-Body ist jetzt 100% generisch — keine Namen, Firmen oder profilspezifischen Texte im Code
