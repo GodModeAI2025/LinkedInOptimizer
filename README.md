@@ -74,6 +74,21 @@ LinkedInOptimizer/
     └── release.yml             # Hängt das Artefakt an ein Tag v*
 ```
 
+## Verhältnis zum Schwester-Skill
+
+Neben diesem Skill gibt es [LinkedIn-Orchestrator](https://github.com/GodModeAI2025/LinkedIn-Orchestrator) mit dem Skill `linkedin-community-builder`. Die beiden bleiben getrennt, weil sie verschiedene Aufgaben haben.
+
+| | linkedin-profil-optimierung (dieses Repo) | linkedin-community-builder |
+|--|--|--|
+| Aufgabe | Einmalige Ist-Analyse und Profil-Artefakte | Laufender Betrieb über Wochen und Monate |
+| Ergebnis | Score, Headline, About, Banner, Wettbewerbsmatrix, SSI-Plan, DOCX-Report | Wochensystem, Content-Kalender, Community, Analytics, Monetarisierung |
+| Zeitform | Bestandsaufnahme mit Übergabe am Ende | Zustandsgesteuert, läuft weiter |
+| Werkzeuge | Chrome-Plugin, Banner-Skript, Report-Template | Rein konversationell |
+
+Beide reagieren heute auf dieselben Formulierungen: „Profil optimieren", „Profil verbessern", „Personal Branding", „Content-Strategie", „Top Voice". Das ist kein Schönheitsfehler, sondern führt dazu, dass Claude bei solchen Sätzen zwischen zwei Skills wählen muss. Die Auflösung steht im Abschnitt [Abgrenzung zum Schwester-Skill](SKILL.md#abgrenzung-zum-schwester-skill) in SKILL.md: Ist-Analyse und Artefakte hier, laufender Betrieb dort, bei beidem zuerst hier und danach Übergabe.
+
+Der Orchestrator führt seinerseits eine Abgrenzungstabelle, beschreibt diesen Skill darin aber nur in einer Zeile und ohne Trigger-Regel. Die Gegenrichtung dort nachzuziehen ist ein eigener Vorgang in jenem Repo.
+
 ## Datenbasis
 
 Jede Zahl im Skill hat in [references/SOURCES.md](references/SOURCES.md) entweder eine Zeile mit Quelle, URL, Veröffentlichungs- und Abrufdatum, oder sie steht dort unter „Zurückgezogen“ und ist aus dem Skill entfernt. Stand: 04.09.2026, nächste Prüfung: 04.03.2027.

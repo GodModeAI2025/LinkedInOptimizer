@@ -8,11 +8,48 @@ description: >
   "LinkedIn Headline optimieren", "About-Sektion schreiben", "LinkedIn Banner erstellen",
   "Content-Strategie LinkedIn", "SSI verbessern", "Top Voice werden", "LinkedIn Wettbewerbsanalyse",
   oder wenn jemand seinen LinkedIn-Auftritt professionalisieren möchte.
+  Abgrenzung: Dieser Skill macht die einmalige Ist-Analyse und liefert die Profil-Artefakte.
+  Geht es um den laufenden Betrieb, also Wochenroutine, Content-Kalender, Community-Aufbau,
+  Analytics-Auswertung oder Monetarisierung, ist linkedin-community-builder zuständig.
 ---
 
 # LinkedIn Profil-Optimierung & Thought-Leader Skill v2.3.0
 
 Ein 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Was daran belegt ist und was nicht, steht in `references/SOURCES.md`: belegte Quellen mit URL und Datum, zurückgezogene Zahlen und die Angaben, die ausdrücklich Erfahrungswerte aus der Beratungspraxis sind. Bewerte kein Kundenprofil gegen eine Zahl, die dort nicht steht.
+
+## Abgrenzung zum Schwester-Skill
+
+Es gibt einen zweiten LinkedIn-Skill derselben Herkunft: `linkedin-community-builder`
+(Repo [LinkedIn-Orchestrator](https://github.com/GodModeAI2025/LinkedIn-Orchestrator)). Beide
+reagieren auf dieselben Formulierungen, unter anderem „Profil optimieren", „Profil verbessern",
+„Personal Branding", „Content-Strategie" und „Top Voice". Ohne Regel muss das Modell raten. Die
+Regel steht hier.
+
+| | linkedin-profil-optimierung (dieser Skill) | linkedin-community-builder |
+|--|--|--|
+| Aufgabe | Einmalige Ist-Analyse und Profil-Artefakte | Laufender Betrieb über Wochen und Monate |
+| Ergebnis | Score, Headline, About, Banner, Wettbewerbsmatrix, SSI-Plan, DOCX-Report | Wochensystem, Content-Kalender, Community-Aufbau, Analytics, Monetarisierung |
+| Zeitform | Bestandsaufnahme mit Übergabe am Ende | Zustandsgesteuert, läuft weiter |
+| Werkzeuge | Chrome-Plugin, Banner-Skript, Report-Template | Rein konversationell |
+
+Entscheidungsregel bei überlappenden Anfragen:
+
+1. Geht es darum, wie das Profil dasteht, was es wert ist, wie Headline, About, Banner oder
+   Report aussehen sollen: dieser Skill.
+2. Geht es darum, was diese Woche gepostet wird, warum die Reichweite nicht wächst, wie eine
+   Community oder ein Newsletter aufgebaut wird oder wie sich das monetarisieren lässt:
+   `linkedin-community-builder`. Verweise darauf und arbeite die Frage nicht selbst ab.
+3. Kommt beides in einer Anfrage vor, beginne hier. Eine Content-Strategie ohne Ist-Analyse
+   optimiert auf ein Profil, das sich gleich ändert. Nach der Übergabe in Phase 8 verweise
+   ausdrücklich auf den Schwester-Skill für den Betrieb.
+4. „Top Voice" kommt in beiden vor und meint zweierlei: hier die Messung der Reife und der
+   Maßnahmenplan, dort die wöchentliche Umsetzung. Kläre im Zweifel mit einer Rückfrage, welche
+   der beiden Seiten gemeint ist.
+
+Der Content-Skill und der Kommentar-Skill aus Phase 6 sind Vorlagen, die einmal erstellt und
+übergeben werden. Sie ersetzen nicht die laufende Redaktionsarbeit.
+
+---
 
 ## Ressourcen-Übersicht
 
