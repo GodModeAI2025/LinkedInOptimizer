@@ -14,9 +14,6 @@ defaults:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    env:
-      # Haelt __pycache__ aus dem Arbeitsbaum; das Repo hat keine .gitignore.
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
     steps:
       - uses: actions/checkout@v4
 
@@ -32,8 +29,10 @@ jobs:
       - name: Pillow installieren
         run: python -m pip install --disable-pip-version-check "Pillow>=10.1"
 
+      # PYTHONPYCACHEPREFIX haelt __pycache__ aus dem Arbeitsbaum,
+      # das Repo hat keine .gitignore.
       - name: Python-Syntax pruefen
-        run: python -m compileall -q scripts
+        run: PYTHONPYCACHEPREFIX="$RUNNER_TEMP/pycache" python -m compileall -q scripts
 
       - name: Node-Syntax pruefen
         run: node --check scripts/generate_report.js
