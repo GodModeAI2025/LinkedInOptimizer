@@ -265,8 +265,8 @@ Erstelle für jeden Kunden einen personalisierten Content-Skill:
 - Tonalität: [z.B. „Klar, direkt, keine Floskeln. Orwell-inspiriert. Praxis vor Theorie."]
 - Sprache: [DE / EN / beides + Regeln für Code-Switching]
 
-## LINKEDIN-ALGORITHMUS-REGELN (2025/2026)
-Beachte bei JEDEM Post:
+## LINKEDIN-ALGORITHMUS-REGELN
+Arbeitsregeln dieses Skills. Belegt ist davon Punkt 1 (Dwell Time als Ranking-Signal, LinkedIn Engineering Blog vom 12.05.2020), der Rest ist Erfahrungswert. Beleglage je Aussage: `SOURCES.md`. Beachte bei JEDEM Post:
 1. Dwell Time ist das wichtigste Signal → Texte 300–400 Wörter, strukturiert, Story-Format
 2. Comment Quality > Like-Anzahl → CTAs die inhaltliche Antworten provozieren
 3. Save Rate ist Qualitätssignal → Frameworks, Listen, Checklisten einfügen
@@ -395,14 +395,14 @@ Jeder Post endet mit einem CTA. Variiere (KEINE generischen Fragen):
 ```markdown
 # LinkedIn Kommentar-Skill – [KUNDENNAME]
 
-## WARUM KOMMENTIEREN WICHTIGER IST ALS POSTEN
-- Strategisches Kommentieren (5–10/Tag) steigert Profilaufrufe um 55%
-- Eigene Content-Reichweite steigt um 20% durch aktive Kommentar-Präsenz
-- Kommentare >15 Wörter haben 2,5× mehr algorithmisches Gewicht
+## WARUM KOMMENTIEREN NEBEN DEM POSTEN ZÄHLT
+- Ein Kommentar erscheint im Netzwerk der kommentierten Person, ein eigener Post nur im eigenen
+- Substanzielle Kommentare fallen auf, kurze Zustimmung nicht
 - LinkedIn erkennt „Pod-Behavior": Nicht immer bei denselben Accounts kommentieren
+- Die Wirkung ist ein Erfahrungswert. Frühere Prozentangaben an dieser Stelle sind zurückgezogen, siehe `SOURCES.md`
 
 ## REGELN
-- Länge: 15–50 Wörter (Sweet Spot: 20–30 Wörter, >15 für algorithmisches Gewicht)
+- Länge: 15–50 Wörter (Sweet Spot: 20–30 Wörter, Erfahrungswert)
 - Sprache: [Sprache des Originalposts / DE als Default im DACH-Raum]
 - Immer Mehrwert: eigene Erfahrung, neue Perspektive oder kluge Frage
 - Kein Pod-Verhalten: Nicht jeden Tag bei denselben 5 Accounts kommentieren

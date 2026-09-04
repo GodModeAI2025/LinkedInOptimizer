@@ -18,7 +18,7 @@ Die Datei entweder in Claude Chat ziehen oder lokal auspacken:
 unzip linkedin-optimizer.skill -d /path/to/skills/user/linkedin-profil-optimierung/
 ```
 
-Im Archiv liegen SKILL.md, `references/`, `scripts/create_banner.py`, `scripts/generate_report.js`, LICENSE und requirements.txt. Landingpage, Workflows und die Repo-Werkzeuge `check_versions.py` und `build_skill_package.py` sind nicht enthalten.
+Im Archiv liegen SKILL.md, `references/` einschließlich SOURCES.md, `scripts/create_banner.py`, `scripts/generate_report.js`, LICENSE und requirements.txt. Landingpage, Workflows und die Repo-Werkzeuge `check_versions.py`, `check_sources.py` und `build_skill_package.py` sind nicht enthalten.
 
 Aus einem Klon lässt sich dasselbe Archiv selbst bauen, ohne Netz und ohne GitHub:
 
@@ -57,23 +57,31 @@ LinkedInOptimizer/
 ├── scripts/
 │   ├── create_banner.py        # Banner-Generator mit Safe-Zone-Validierung
 │   ├── check_versions.py       # Prüft die Versionsangaben gegen VERSION
+│   ├── check_sources.py        # Prüft SOURCES.md und die Rückkehr entfernter Zahlen
 │   ├── build_skill_package.py  # Baut linkedin-optimizer.skill, reproduzierbar und offline
 │   └── generate_report.js      # DOCX-Report-Template (Node.js, npm-Paket docx)
 ├── references/
-│   ├── SCORING.md              # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Benchmarks
+│   ├── SCORING.md              # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Bewertungsraster
+│   ├── SOURCES.md              # Quellen mit Datum, zurückgezogene Zahlen, Prüfrhythmus
 │   ├── TEMPLATES.md            # Vorlagen für Headline, About, Content, Kommentare
 │   └── BANNER.md               # Technische Banner-Anleitung mit Viewport-Matrix
 └── .github/workflows/
-    ├── ci.yml                  # Syntax-, Banner-, Versions- und Paketprüfung
+    ├── ci.yml                  # Syntax-, Banner-, Versions-, Quellen- und Paketprüfung
     └── release.yml             # Hängt das Artefakt an ein Tag v*
 ```
 
 ## Datenbasis
 
-- LinkedIn-Algorithmus 2025/2026 (Dwell Time, Comment Quality, Topische Konsistenz)
-- Engagement-Benchmarks: Hootsuite 2025 (3,4% Plattform-Ø)
-- Top Voice Kriterien: Halbjährliche Review seit Januar 2025
-- SSI-Framework: 4 Säulen × 25 Punkte, Ziel ≥75
+Jede Zahl im Skill hat in [references/SOURCES.md](references/SOURCES.md) entweder eine Zeile mit Quelle, URL, Veröffentlichungs- und Abrufdatum, oder sie steht dort unter „Zurückgezogen“ und ist aus dem Skill entfernt. Stand: 04.09.2026, nächste Prüfung: 04.03.2027.
+
+Belegt:
+
+- Dwell Time ist ein Ranking-Signal im Feed (LinkedIn Engineering Blog, 12.05.2020).
+- Das blaue Top-Voices-Badge wird nur auf Einladung vergeben, Nominierungen prüft LinkedIn quartalsweise (LinkedIn Help).
+- Das goldene Community-Top-Voice-Badge ist seit dem 08.10.2024 zurückgezogen (LinkedIn Help).
+- Der SSI besteht aus vier Säulen (LinkedIn Sales Blog, 03.08.2015). Die Aufteilung in je 25 Punkte bestätigt LinkedIn nicht.
+
+Zurückgezogen, weil nicht belegbar: der genannte Plattformdurchschnitt der Engagement-Rate, die Engagement-Prozentwerte je Postformat, die Wirkungsfaktoren für Kommentieren und Kontaktanfragen, die Angabe zur Sichtbarkeitsdauer eines Beitrags und die branchenspezifische Benchmark-Zeile. Die vollständige Liste mit Zahl und Begründung steht in SOURCES.md.
 
 ## Scoring
 
@@ -95,9 +103,7 @@ Offene Punkte, ohne Termin:
 
 - package.json für `docx`, dazu gepinnte Versionen statt der Untergrenze in requirements.txt.
 - Ausgabepfad des Report-Templates konfigurierbar machen, statt ihn auf die claude.ai-Sandbox zu verdrahten.
-- Quellenangaben für die Engagement-Benchmarks in SCORING.md, dazu die Klärung, welcher Nenner gilt.
 - Fehlerfälle Rate Limit beziehungsweise LinkedIn-Checkpoint und geänderte DOM-Struktur in der Fehlerbehandlung ergänzen.
-- Testfälle für das Scoring mit erwarteten Score-Bändern.
 
 ## Version
 

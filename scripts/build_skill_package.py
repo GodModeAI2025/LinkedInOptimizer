@@ -8,8 +8,8 @@ Verwendung:
 Das Skript laeuft ohne Netz und ohne GitHub. Es packt genau die Dateien, die
 der Skill zur Laufzeit braucht, dazu LICENSE und requirements.txt. Alles
 andere im Repo bleibt draussen: .git, .github, index.html, die Caches und die
-beiden Werkzeug-Skripte check_versions.py und build_skill_package.py, die nur
-im Repo-Kontext einen Sinn haben.
+Werkzeug-Skripte check_versions.py, check_sources.py und build_skill_package.py,
+die nur im Repo-Kontext einen Sinn haben.
 
 Das Archiv ist ein ZIP mit den Dateien auf oberster Ebene, also SKILL.md,
 references/ und scripts/ direkt an der Wurzel. Genau diese Form erwartet
@@ -45,6 +45,7 @@ CONTENTS = [
     "requirements.txt",
     "references/BANNER.md",
     "references/SCORING.md",
+    "references/SOURCES.md",
     "references/TEMPLATES.md",
     "scripts/create_banner.py",
     "scripts/generate_report.js",

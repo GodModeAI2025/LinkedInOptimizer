@@ -63,6 +63,12 @@ jobs:
       - name: Versionsangaben pruefen
         run: python scripts/check_versions.py
 
+      # Prueft references/SOURCES.md und haelt zugleich fest, dass keine der
+      # dort als unbelegt entfernten Zahlen ueber eine spaetere Aenderung
+      # zurueck in den Skill wandert.
+      - name: Beleglage pruefen
+        run: python scripts/check_sources.py
+
       # Ein kaputtes Paket soll auffallen, bevor jemand ein Tag setzt. Der
       # Schritt ruft dasselbe Skript auf wie release.yml und prueft danach das
       # Ergebnis, unabhaengig davon, was das Skript selbst zusichert.
@@ -98,6 +104,7 @@ jobs:
             SKILL.md \
             references/BANNER.md \
             references/SCORING.md \
+            references/SOURCES.md \
             references/TEMPLATES.md \
             requirements.txt \
             scripts/create_banner.py \
@@ -115,7 +122,7 @@ jobs:
 
           # Dieselbe Regel noch einmal als Verbot, damit sichtbar bleibt, was
           # nie ins Paket gehoert: Repo-Innereien, Landingpage, Schluesseldateien.
-          if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|build_skill_package[.]py'; then
+          if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|check_sources[.]py|build_skill_package[.]py'; then
             echo "FEHLER: Das Paket enthaelt Dateien, die nicht ausgeliefert werden duerfen." >&2
             exit 1
           fi

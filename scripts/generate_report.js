@@ -196,7 +196,7 @@ const doc = new Document({
 
       // ═══ 2. SCORING ═══
       pageBreak(), h1("2. Scoring-Details"),
-      p("Das Scoring basiert auf einem gewichteten 10-Kategorien-System. Content-Qualität und Engagement erhalten mit je 15% die höchste Gewichtung, weil der LinkedIn-Algorithmus 2025/2026 Dwell Time und Comment Quality als zentrale Ranking-Signale nutzt."),
+      p("Das Scoring basiert auf einem gewichteten 10-Kategorien-System. Content-Qualität und Engagement & Kommentare erhalten mit je 15% die höchste Gewichtung. Belegt ist davon, dass LinkedIn Dwell Time als Ranking-Signal nutzt (LinkedIn Engineering Blog, 12.05.2020). Die Höhe der Gewichte ist eine Setzung dieses Skills, keine gemessene Größe. Die Beleglage je Aussage steht in references/SOURCES.md."),
       emptyLine(),
       new Table({ width: { size: TABLE_W, type: WidthType.DXA }, columnWidths: [2600, 800, 900, 1100, 800, 800, 2360], rows: [
         new TableRow({ children: [hCell("Kategorie", 2600), hCell("Roh", 800), hCell("Gew.", 900), hCell("Punkte", 1100), hCell("Max", 800), hCell("%", 800), hCell("Bewertung", 2360)] }),
@@ -227,7 +227,7 @@ const doc = new Document({
           dCell(String(post.comments), 1500, { align: AlignmentType.CENTER }), dCell(`~${er}%`, 2160, { align: AlignmentType.CENTER, color: parseFloat(er) > 5 ? GREEN : YELLOW }),
         ] }); }),
       ] }),
-      emptyLine(), p(`Engagement-Rate geschätzt als (Reaktionen + Kommentare) / ${PROFILE.followers.toLocaleString("de-DE")} Follower. Plattform-Durchschnitt: 3,4%.`, { color: GRAY }),
+      emptyLine(), p(`Engagement-Rate geschätzt als (Reaktionen + Kommentare) / ${PROFILE.followers.toLocaleString("de-DE")} Follower. Der Wert ist follower-basiert und liegt systematisch höher als eine impressions-basierte Rate. Er ist nicht mit dem Bewertungsraster in SCORING.md vergleichbar, nur mit früheren Werten desselben Profils. Ein belegbarer Plattform-Durchschnitt liegt nicht vor, siehe references/SOURCES.md.`, { color: GRAY }),
 
       // ═══ 5. HEADLINE ═══
       pageBreak(), h1("5. Headline-Analyse & Vorschläge"),

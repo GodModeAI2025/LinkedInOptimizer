@@ -12,7 +12,7 @@ description: >
 
 # LinkedIn Profil-Optimierung & Thought-Leader Skill v2.3.0
 
-Ein evidenzbasierter 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Basiert auf LinkedIn-Algorithmus-Daten 2025/2026, Engagement-Benchmarks und den offiziellen Top Voice Kriterien.
+Ein 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Was daran belegt ist und was nicht, steht in `references/SOURCES.md`: belegte Quellen mit URL und Datum, zurückgezogene Zahlen und die Angaben, die ausdrücklich Erfahrungswerte aus der Beratungspraxis sind. Bewerte kein Kundenprofil gegen eine Zahl, die dort nicht steht.
 
 ## Ressourcen-Übersicht
 
@@ -23,6 +23,7 @@ Lies die jeweilige Datei, wenn du die Phase erreichst:
 | `references/SCORING.md` | Gewichtete 10-Kategorien-Matrix mit Sub-Kriterien und Benchmarks | Phase 2 (Scoring) |
 | `references/TEMPLATES.md` | Vorlagen für Headline, About, Content-Skill, Kommentar-Skill | Phase 4 + 6 |
 | `references/BANNER.md` | Technische Banner-Anleitung mit Safe Zones und Viewport-Matrix | Phase 5 |
+| `references/SOURCES.md` | Quellen mit Datum, zurückgezogene Zahlen, Erfahrungswerte, Prüfrhythmus | Vor jeder Zahl im Report |
 | `scripts/create_banner.py` | Ausführbares Banner-Skript mit Font-Fallback und Validierung | Phase 5 (ausführen) |
 | `scripts/generate_report.js` | DOCX-Report-Template (Node.js, npm-Paket `docx`), als Strukturvorlage nutzen und mit den erhobenen Daten befüllen | Phase 8 (anpassen + ausführen) |
 
@@ -213,18 +214,18 @@ Lies `references/TEMPLATES.md` Abschnitte 3 + 4 für Content-Skill und Kommentar
 
 ### 6.1 Content-Skill erstellen
 
-LinkedIn-Algorithmus 2025/2026 beachten:
+Algorithmische Leitplanken, mit Beleglage in `references/SOURCES.md`:
 - Dwell Time = zentrales Signal → Texte 300–400 Wörter, Story-Struktur
 - Comment Quality > Like-Volumen → CTAs die inhaltliche Antworten provozieren
 - Save Rate = Qualitätssignal → Frameworks, Listen, Checklisten
 - Topische Konsistenz → ≥80% Posts in max. 2 Fokusthemen
 - Engagement Bait wird bestraft → Kein „What do you think?", „Agree?"
 
-Top-performende Formate: Multi-Image 6,6%, PDF-Karussells 6,1%, Video (<60s) 5,6%, Umfragen ~5%.
+Formate nach Wirkung, als Reihenfolge und ohne Prozentwerte: Dokument- und Multi-Image-Beiträge vor Video, Video vor reinem Text und Link-Beiträgen. Das ist ein Erfahrungswert (`references/SOURCES.md`). Die früher hier genannten Prozentwerte je Format sind zurückgezogen, weil sich keine prüfbare Quelle dafür findet. Nenne im Report keine Format-Prozentwerte.
 
 ### 6.2 Kommentar-Strategie
 
-Strategisches Kommentieren (5–10/Tag) steigert Profilaufrufe um 55% und eigene Content-Reichweite um 20%. Kommentare >15 Wörter haben 2,5× mehr algorithmisches Gewicht. Identifiziere 15–20 Ziel-Accounts (Top Voices, C-Level, Journalisten, Peers).
+Strategisches Kommentieren (5–10/Tag) auf fremden Beiträgen zahlt auf Sichtbarkeit und Profilaufrufe ein. Kommentare über 15 Wörter mit eigener Perspektive wirken besser als kurze Zustimmung. Beides ist Erfahrungswert. Die früher hier genannten Prozentfaktoren sind zurückgezogen, die Liste steht in `references/SOURCES.md`. Identifiziere 15–20 Ziel-Accounts (Top Voices, C-Level, Journalisten, Peers).
 
 ### 6.3 Posting-Frequenz und Timing
 
@@ -234,11 +235,13 @@ Strategisches Kommentieren (5–10/Tag) steigert Profilaufrufe um 55% und eigene
 
 ## Phase 7: SSI-Optimierung
 
-Maßnahmen pro SSI-Säule (je max. 25 Punkte):
+LinkedIn benennt vier SSI-Säulen (Q5 in `references/SOURCES.md`). Die verbreitete Aufteilung in je 25 Punkte bestätigt LinkedIn dort nicht; behandle sie als Konvention, nicht als Tatsache.
+
+Maßnahmen pro SSI-Säule:
 
 1. **Professional Brand**: Profil vollständig, regelmäßig Content, Multimedia, strategische Endorsements
-2. **Find the Right People**: 5–10 strategische Connections/Woche, persönliche Requests (+40% Akzeptanz)
-3. **Engage with Insights**: Täglich kommentieren, Collaborative Articles beitragen, eigene Standpunkte
+2. **Find the Right People**: 5–10 strategische Connections/Woche, Kontaktanfragen immer mit persönlicher Nachricht (Erfahrungswert, die frühere Prozentangabe zur Annahmequote ist zurückgezogen)
+3. **Engage with Insights**: Täglich kommentieren, eigene Standpunkte. Beiträge zu Collaborative Articles zahlen nicht mehr auf ein Badge ein (Q3), sie bleiben nur als Sichtbarkeitskanal sinnvoll.
 4. **Build Relationships**: Inbox pflegen, Kommentare <2h beantworten, Follow-ups, Empfehlungen schreiben
 
 Ziel-SSI nach 90 Tagen: ≥75
@@ -299,13 +302,17 @@ Pro Quartal testen: Headline (Nische-First vs Mission), Hook-Typ, Posting-Zeit, 
 
 ### 8.3 KPI-Dashboard
 
-Monatlich tracken: Follower, Profilaufrufe, Engagement-Rate (Ziel >5%), Kommentare/Post (>15), Impressions/Post (>5.000), Save-Rate (>2%), SSI (≥75), Posting-Frequenz (≥3/Woche), Newsletter-Abos.
+Monatlich tracken: Follower, Profilaufrufe, Engagement-Rate, Kommentare/Post, Impressions/Post, Save-Rate, SSI, Posting-Frequenz, Newsletter-Abos.
+
+Die Zielwerte dazu (Engagement-Rate >5 %, Kommentare/Post >15, Impressions/Post >5.000, Save-Rate >2 %, SSI ≥75, Posting-Frequenz ≥3/Woche) sind selbst gesetzte Ziele, keine Branchenwerte. Kennzeichne sie im Report so und vergleiche sie nur mit dem Vormonat desselben Profils.
 
 ---
 
 ## Top Voice Badge – Anforderungen
 
-Einladungsbasiert durch LinkedIn-Redaktion, halbjährliche Überprüfung seit Januar 2025.
+Das blaue Top-Voices-Badge vergibt LinkedIn nur auf Einladung. Nominierungen (auch Selbstnominierungen) prüft LinkedIn quartalsweise (Q4 in `references/SOURCES.md`). Das goldene Community-Top-Voice-Badge über Collaborative Articles ist seit dem 08.10.2024 zurückgezogen und lässt sich nicht mehr verdienen (Q3).
+
+Die folgende Tabelle ist kein Kriterienkatalog von LinkedIn, sondern die Übersetzung der öffentlich genannten Anforderungen in beobachtbare Größen. Behandle sie als Arbeitsraster.
 
 | Kriterium | Messbar machen |
 |-----------|---------------|
@@ -321,9 +328,10 @@ Verstärker: Newsletter, Video-Content, LinkedIn Live, hohe Save-Rate, externe P
 
 ## Branchenspezifische Anpassungen
 
+Die folgenden Zeilen sind Erfahrungswerte, keine erhobenen Branchenkennzahlen. Die früher hier geführte Zeile mit branchenspezifischen Engagement-Benchmarks ist zurückgezogen, weil sich weder Nenner noch Erhebung belegen ließen (`references/SOURCES.md`).
+
 | Parameter | Tech/KI | Energie | Finance | Consulting | Healthcare |
 |-----------|---------|---------|---------|------------|------------|
-| Engagement-Benchmark | 3,6% | 3,3% | 3,2% | 3,2% | 3,3% |
 | Tone of Voice | Pragmatisch | Zukunftsorientiert | Reguliert | Framework-orientiert | Evidenzbasiert |
 | Top-Format | Karussell + Code | Text+Bild, Video | Analyse, Charts | Frameworks, Listen | Case Studies |
 | Posting-Frequenz | 4–5×/Woche | 3–4×/Woche | 2–3×/Woche | 3–4×/Woche | 2–3×/Woche |
