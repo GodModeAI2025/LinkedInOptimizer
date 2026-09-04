@@ -64,14 +64,22 @@ jobs:
         run: python scripts/check_versions.py
 
       # Prueft references/SOURCES.md und haelt zugleich fest, dass keine der
-      # dort als unbelegt entfernten Zahlen ueber eine spaetere Aenderung
-      # zurueck in den Skill wandert.
+      # dort als unbelegt entfernten Aussagen ueber eine spaetere Aenderung
+      # zurueck in den Skill wandert. Die Sperren erzeugt das Skript aus der
+      # Spalte "Sperrmuster" der Tabelle "Zurückgezogen", und es prueft die
+      # Tabelle gegen sich selbst: eine neue Zeile ohne Sperrmuster faellt hier
+      # auf. Die Grenze steht im Docstring des Skripts: geprueft werden
+      # Schreibweisen, keine Aussagen.
       - name: Beleglage pruefen
         run: python scripts/check_sources.py
 
       # Prueft die Scoring-Matrix gegen drei erfundene Profil-Fixtures und
-      # haelt zugleich fest, dass die zehn Kategorien in SCORING.md, SKILL.md,
-      # index.html und generate_report.js wortgleich heissen.
+      # haelt zugleich drei Listen zusammen: die zehn Kategorien heissen in
+      # SCORING.md, SKILL.md, index.html und generate_report.js wortgleich, die
+      # 18 Profil-Elemente aus der Checkliste in SCORING.md stehen in derselben
+      # Reihenfolge in SKILL.md Phase 4.3 und in der Audit-Tabelle des
+      # Report-Generators, und die Landingpage weist ihren Dialog als Beispiel
+      # aus und nennt die Fixture, aus der seine Zahlen stammen.
       - name: Eval-Set fahren
         run: python tests/run_eval.py
 
