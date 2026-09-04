@@ -11,14 +11,17 @@ Verwendung:
         --tags "#GenAI  #EnterpriseAI" \
         [--background background.png] \
         [--book cover.png] \
-        [--accent 0,200,255]
+        [--accent 0,200,255] \
+        [--strict]
 
 Ohne --background wird ein Gradient-Hintergrund erzeugt.
+Mit --strict endet der Aufruf bei Safe-Zone-Verletzungen mit Exitcode 1.
 """
 
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import os
 import argparse
+import sys
 
 
 def find_font(name, size):
@@ -89,7 +92,8 @@ def create_linkedin_banner(
         tags_size: Schriftgröße Tags (min. 16)
 
     Returns:
-        Pfad zum gespeicherten Banner
+        Tuple (Pfad zum gespeicherten Banner, Liste der Safe-Zone-Verletzungen).
+        Die Liste ist leer, wenn alle Elemente innerhalb der Safe Zone liegen.
     """
 
     # Validierung Schriftgrößen
@@ -97,6 +101,8 @@ def create_linkedin_banner(
     assert subtitle_size >= 22, f"Untertitel zu klein: {subtitle_size}px (min. 22)"
     assert role_size >= 18, f"Rolle zu klein: {role_size}px (min. 18)"
     assert tags_size >= 16, f"Tags zu klein: {tags_size}px (min. 16)"
+
+    violations = []
 
     # === SETUP ===
     SAFE_X_MIN = 520
@@ -148,7 +154,9 @@ def create_linkedin_banner(
             # Safe-Zone-Check
             bbox = draw.textbbox((TEXT_X, y), line, font=f_title)
             if bbox[2] > SAFE_X_MAX:
-                print(f"⚠️  WARNUNG: Titel '{line}' ragt über Safe Zone (x={bbox[2]})")
+                msg = f"Titel '{line}' ragt über Safe Zone (x={bbox[2]}, max={SAFE_X_MAX})"
+                violations.append(msg)
+                print(f"⚠️  WARNUNG: {msg}")
             y += title_size + 6
 
     # Akzentlinie
@@ -161,7 +169,9 @@ def create_linkedin_banner(
         draw.text((TEXT_X, y), subtitle, fill=(180, 215, 245), font=f_sub)
         bbox = draw.textbbox((TEXT_X, y), subtitle, font=f_sub)
         if bbox[2] > SAFE_X_MAX:
-            print(f"⚠️  WARNUNG: Untertitel ragt über Safe Zone (x={bbox[2]})")
+            msg = f"Untertitel ragt über Safe Zone (x={bbox[2]}, max={SAFE_X_MAX})"
+            violations.append(msg)
+            print(f"⚠️  WARNUNG: {msg}")
         y += subtitle_size + 10
 
     # Rolle
@@ -169,7 +179,9 @@ def create_linkedin_banner(
         draw.text((TEXT_X, y), role, fill=(150, 190, 220), font=f_role)
         bbox = draw.textbbox((TEXT_X, y), role, font=f_role)
         if bbox[2] > SAFE_X_MAX:
-            print(f"⚠️  WARNUNG: Rolle ragt über Safe Zone (x={bbox[2]})")
+            msg = f"Rolle ragt über Safe Zone (x={bbox[2]}, max={SAFE_X_MAX})"
+            violations.append(msg)
+            print(f"⚠️  WARNUNG: {msg}")
         y += role_size + 12
 
     # Tags (KEIN farbiger Hintergrund – nur Textfarbe)
@@ -177,12 +189,16 @@ def create_linkedin_banner(
         draw.text((TEXT_X, y), tags, fill=accent_color, font=f_tags)
         bbox = draw.textbbox((TEXT_X, y), tags, font=f_tags)
         if bbox[2] > SAFE_X_MAX:
-            print(f"⚠️  WARNUNG: Tags ragen über Safe Zone (x={bbox[2]})")
+            msg = f"Tags ragen über Safe Zone (x={bbox[2]}, max={SAFE_X_MAX})"
+            violations.append(msg)
+            print(f"⚠️  WARNUNG: {msg}")
         y += tags_size + 8
 
     # Layout-Überlauf prüfen
     if y > SAFE_Y_MAX:
-        print(f"⚠️  WARNUNG: Content überläuft y-Safe-Zone (y={y}, max={SAFE_Y_MAX})")
+        msg = f"Content überläuft y-Safe-Zone (y={y}, max={SAFE_Y_MAX})"
+        violations.append(msg)
+        print(f"⚠️  WARNUNG: {msg}")
 
     # === BUCH-COVER (optional) ===
     if book_cover_path and os.path.exists(book_cover_path):
@@ -220,8 +236,10 @@ def create_linkedin_banner(
         if bk_x + book_img.width < SAFE_X_MAX:
             base.paste(book_img, (bk_x, bk_y), book_img)
         else:
-            print(f"⚠️  Buch passt nicht in Safe Zone (x_end={bk_x + book_img.width})")
-            print("   → Buch wird weggelassen.")
+            msg = (f"Buchcover passt nicht in Safe Zone "
+                   f"(x_end={bk_x + book_img.width}, max={SAFE_X_MAX}), wird weggelassen")
+            violations.append(msg)
+            print(f"⚠️  {msg}")
 
     # === SPEICHERN ===
     final = base.convert('RGB')
@@ -234,7 +252,7 @@ def create_linkedin_banner(
 
     print(f"✓ Banner gespeichert: {output_path}")
     print(f"  Größe: {final.size}, Datei: {file_size / 1024:.0f} KB")
-    return output_path
+    return output_path, violations
 
 
 if __name__ == "__main__":
@@ -249,10 +267,12 @@ if __name__ == "__main__":
     parser.add_argument("--tags", default="", help="Hashtags")
     parser.add_argument("--book", default=None, help="Pfad zum Buchcover")
     parser.add_argument("--accent", default="0,200,255", help="Akzent-Farbe als R,G,B")
+    parser.add_argument("--strict", action="store_true",
+                        help="Bei Safe-Zone-Verletzungen mit Exitcode 1 enden")
     args = parser.parse_args()
 
     accent = tuple(int(x) for x in args.accent.split(","))
-    create_linkedin_banner(
+    _, violations = create_linkedin_banner(
         background_path=args.background,
         output_path=args.output,
         title_line1=args.title1,
@@ -263,3 +283,9 @@ if __name__ == "__main__":
         book_cover_path=args.book,
         accent_color=accent,
     )
+
+    if violations and args.strict:
+        print(f"\n✗ {len(violations)} Safe-Zone-Verletzung(en):", file=sys.stderr)
+        for v in violations:
+            print(f"  - {v}", file=sys.stderr)
+        sys.exit(1)
