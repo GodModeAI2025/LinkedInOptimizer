@@ -13,7 +13,7 @@ description: >
   Analytics-Auswertung oder Monetarisierung, ist linkedin-community-builder zuständig.
 ---
 
-# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.3.0
+# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.4.0
 
 Ein 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Was daran belegt ist und was nicht, steht in `references/SOURCES.md`: belegte Quellen mit URL und Datum, zurückgezogene Zahlen und die Angaben, die ausdrücklich Erfahrungswerte aus der Beratungspraxis sind. Bewerte kein Kundenprofil gegen eine Zahl, die dort nicht steht.
 
@@ -435,6 +435,19 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 ## Changelog
 
 ```
+v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
+├── references/SOURCES.md: sieben Quellen mit URL, Veröffentlichungs- und Abrufdatum, dazu je Quelle, was sie nicht belegt
+├── Elf unbelegte Zahlen ohne Ersatz entfernt, darunter der Plattformdurchschnitt der Engagement-Rate und die Werte je Postformat
+├── Sachfehler korrigiert: das goldene Community-Top-Voice-Badge ist seit dem 08.10.2024 zurückgezogen, Nominierungen prüft LinkedIn quartalsweise
+├── Sub-Kriterium Collaborative Articles entfällt, der Punkt liegt bei Momentum; Creator Mode durch Creator-Tools ersetzt
+├── SCORING.md: Nenner der Engagement-Rate geklärt, das Raster gilt für den impressions-basierten Wert
+├── Die zehn Kategorien heißen an allen vier Stellen gleich, generate_report.js zog vier Kurznamen nach
+├── tests/: drei frei erfundene Profil-Fixtures, erwartete Score-Bänder und tests/run_eval.py
+├── scripts/check_sources.py hält zurückgezogene Zahlen aus dem Skill heraus
+├── Landingpage: aus "Live Demo" wird "Beispiel-Dialog", jede Zahl stammt aus tests/fixtures/profile_mid.json
+├── Abgrenzung zu linkedin-community-builder in SKILL.md, README und auf der Landingpage, inklusive Trigger-Regel
+└── CI fährt Beleglage und Eval-Set mit
+
 v2.3.0 (2026-09-04) – Erstes Release, Banner-Skript repariert
 ├── create_banner.py: --background ist optional, ohne Hintergrundbild entsteht ein Gradient
 ├── create_banner.py: die angeforderte Schriftgröße wirkt jetzt auch auf den PIL-Ersatz-Font

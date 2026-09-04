@@ -1,4 +1,4 @@
-# linkedin-profil-optimierung v2.3.0
+# linkedin-profil-optimierung v2.4.0
 
 [![CI](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml)
 
@@ -150,4 +150,4 @@ Offene Punkte, ohne Termin:
 
 Die Versionsnummer steht in der Datei `VERSION`. README, SKILL.md, Landingpage und Report-Template führen sie als Kopie; `scripts/check_versions.py` vergleicht sie bei jedem Push gegen `VERSION` und schlägt bei Abweichung fehl. Der Release-Workflow prüft zusätzlich, dass der Tagname zu `VERSION` passt.
 
-Aktuelle Version: v2.3.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
+Aktuelle Version: v2.4.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
