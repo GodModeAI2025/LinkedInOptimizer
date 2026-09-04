@@ -39,14 +39,17 @@ Was geprueft wird:
 8. Die Checkliste in SCORING.md Abschnitt 9 ist die Quelle der Wahrheit fuer die
    geprueften Profil-Elemente. Ihre Kurznamen stehen in derselben Reihenfolge in
    der Audit-Tabelle von scripts/generate_report.js und in der Aufzaehlung in
-   SKILL.md Phase 4.3, und die Stueckzahl stimmt an allen drei Stellen. Das war
-   der Befund aus der Abnahme: dieselbe Liste lief unter drei Laengen (15, 17,
-   18) und trug in zweien davon noch die Elemente 'Creator Mode' und
-   'Collaborative Articles', die laut Q3 und Q7 in SOURCES.md hinfaellig sind.
-   Diese Pruefung bindet die Listen aneinander. Sie prueft Namen und Reihenfolge,
-   nicht den Fliesstext drumherum: ein Satz wie 'Collaborative Articles bringen
-   das goldene Badge' faellt ihr nicht auf, denn ein Textverbot auf den Begriff
-   wuerde die richtigen Verneinungen in SKILL.md mitreissen.
+   SKILL.md Phase 4.3, und die Stueckzahl stimmt an allen vier Stellen: dazu
+   gehoert die Beschreibung der Deliverables in SKILL.md, die sonst weiter eine
+   eigene Zahl fuehrt. Das war der Befund aus der Abnahme: dieselbe Liste lief
+   unter drei Laengen (15, 17, 18) und trug in zweien davon noch die Elemente
+   'Creator Mode' und 'Collaborative Articles', die laut Q3 und Q7 in SOURCES.md
+   hinfaellig sind.
+   Diese Pruefung bindet die Listen aneinander. Sie prueft Namen, Reihenfolge und
+   Stueckzahl, nicht den Fliesstext drumherum: ein Satz wie 'Collaborative
+   Articles bringen das goldene Badge' faellt ihr nicht auf. Dafuer ist
+   scripts/check_sources.py zustaendig, das fuer genau diesen Absatz eine
+   Quellenangabe verlangt.
 9. Die Landingpage bezeichnet den Dialog als Beispiel und nennt die Fixture, aus
    der seine Zahlen stammen. pruefe_landing bindet die Zahlen, diese Pruefung
    bindet die Aussage, dass sie nicht gemessen sind.
@@ -394,6 +397,30 @@ def pruefe_profil_elemente(fehler, scoring, skill, js):
             fehler.append(
                 f"scripts/generate_report.js nennt {satz!r} nicht. Die Stueckzahl im Report "
                 f"muss auf {len(elemente)} stehen, so viele Elemente hat die Checkliste."
+            )
+
+    # Dieselbe Stueckzahl steht in SKILL.md noch einmal in der Beschreibung der
+    # Deliverables, und zwar zweimal: in Phase 7 und in der Kurzliste davor.
+    # Genau die blieb bei der letzten Aenderung auf 17 stehen, waehrend Phase 4.3
+    # und die Audit-Tabelle schon auf 18 waren. Geprueft wird deshalb nicht nur,
+    # ob die Zahl vorkommt, sondern dass keine abweichende dasteht.
+    for muster, wo in (
+        (r"(\d+)-Punkte-Checkliste", "N-Punkte-Checkliste"),
+        (r"X von (\d+) erfüllt", "X von N erfüllt"),
+    ):
+        treffer = re.findall(muster, skill)
+        if not treffer:
+            fehler.append(
+                f"SKILL.md enthaelt die Stelle {wo!r} nicht mehr. Sie bindet die Stueckzahl "
+                "der Profil-Elemente an die Checkliste und darf nicht ersatzlos verschwinden."
+            )
+            continue
+        abweichend = sorted({z for z in treffer if int(z) != len(elemente)})
+        if abweichend:
+            fehler.append(
+                f"SKILL.md nennt an der Stelle {wo!r} die Zahl(en) "
+                f"{', '.join(abweichend)}, die Checkliste in references/SCORING.md hat "
+                f"{len(elemente)} Elemente."
             )
 
 

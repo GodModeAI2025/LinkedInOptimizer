@@ -35,9 +35,15 @@ das Skript erzeugt daraus die Regex:
 * Ziffernfolgen trennen mit [.,], damit 3,4 und 3.4 dasselbe sind.
 * Das Prozentzeichen faengt auch das ausgeschriebene Wort.
 * Das Multiplikationszeichen faengt auch das ASCII-x.
-* Leerraum faengt auch das geschuetzte Leerzeichen und &nbsp;.
+* Leerraum faengt auch das geschuetzte Leerzeichen, &nbsp; und den Bindestrich,
+  damit 'Creator Mode' auch 'Creator-Mode' und 'CreatorMode' faengt.
+* Umlaute fangen auch ihre ae-Umschrift. Die Skripte im Repo schreiben Umlaute
+  aus, und generate_report.js wird mitgeprueft.
 * Bindestriche fangen auch die typografischen Varianten.
 * Ein fuehrendes + oder ~ ist optional, gross und klein ist egal.
+* Drei Punkte im Muster stehen fuer eine Luecke von bis zu 40 Zeichen in
+  derselben Zeile. Damit haengt ein Kontextwort nicht daran, dass es direkt vor
+  der Zahl steht: 'Umfragen...~5 %' faengt auch 'Umfragen erreichen ~5 %'.
 * Vor und hinter Zahlen steht eine Grenze, damit '20 %' nicht in '220 Zeichen'
   anschlaegt.
 
@@ -46,13 +52,20 @@ Spalte 'Frühere Aussage', also jede Angabe mit Prozent oder Faktor, muss von
 einem Sperrmuster derselben Zeile getroffen werden. Wer eine Zahl zurueckzieht
 und keine Sperre dazuschreibt, faellt hier auf und nicht erst dem Kunden.
 
-Was das Skript nicht kann: Es prueft Schreibweisen, keine Aussagen. Fuer die
-Zeile zu den Collaborative Articles gibt es deshalb bewusst keine Sperre. Ein
-Textverbot auf den Begriff wuerde die richtigen Verneinungen in SKILL.md
-mitreissen, die sagen, dass Collaborative Articles auf kein Badge mehr
-einzahlen. Gesperrt ist dort stattdessen die Elementliste, und zwar in
-tests/run_eval.py. Ein frei formulierter Satz, der die Badge-Behauptung neu
-aufstellt, faellt keinem der beiden Schritte auf.
+Eine Zeile ohne Sperrmuster gibt es nicht. Eine frueher hier eingebaute
+Ausnahme, mit der sich eine Zeile ueber das Wort 'keine:' und eine beliebige
+Begruendung von der Sperre befreien liess, ist wieder entfernt: sie haette
+jede Sperre ohne Codeaenderung abschaltbar gemacht, und der Zaehler in der
+Ausgabe waere der einzige Hinweis darauf gewesen. Wer eine Sperre fuer schaedlich
+haelt, aendert das Muster, nicht den Schalter.
+
+Was das Skript nicht kann: Es prueft Schreibweisen, keine Aussagen. Ein frei
+formulierter Satz, der eine zurueckgezogene Behauptung in neuen Worten
+aufstellt, faellt ihm nicht auf. Fuer die eine Behauptung, an der das teuer
+waere, steht deshalb unten eine zweite, engere Pruefung: BEHAUPTUNGS_REGELN
+verlangt, dass ein Absatz, der Collaborative Articles und ein Badge in einem Zug
+nennt, Q3 zitiert. Das ist kein Beweis, sondern eine Schwelle. Wer die falsche
+Aussage mit der richtigen Quellenangabe hinschreibt, kommt weiter durch.
 
 Exitcode 0, wenn alles zutrifft, sonst 1. Ist das Pruefdatum ueberschritten,
 gibt es eine Warnung, aber keinen Fehler: eine abgelaufene Pruefung soll
@@ -91,15 +104,56 @@ QUELLEN_ID = re.compile(r"\bQ\d+\b")
 # in denselben Saetzen, sind aber nicht der zurueckgezogene Teil davon.
 QUANTITAET = re.compile(r"\d+(?:[.,]\d+)?\s*(?:%|Prozent|×|x\b)")
 
-# Leerraum in einem Sperrmuster faengt auch das geschuetzte Leerzeichen und die
-# HTML-Entities dafuer.
-LEER = r"(?:\s|&nbsp;|&#160;| )*"
+# Leerraum in einem Sperrmuster faengt auch das geschuetzte Leerzeichen, die
+# HTML-Entities dafuer und den Bindestrich. Der Bindestrich gehoert dazu, weil
+# 'Creator-Mode' sonst an der Sperre 'Creator Mode' vorbeigeht und der
+# zurueckgezogene Schalter ueber die Schreibweise zurueckkommt.
 BINDESTRICH = r"[-‐‑‒–]"
+LEER = r"(?:\s|&nbsp;|&#160;| |" + BINDESTRICH + r")*"
 
-# Spalte, in der die Sperrmuster stehen, und das Praefix, mit dem eine Zeile
-# ausdruecklich ohne Sperre gefuehrt wird.
+# Umlaute in einem Sperrmuster fangen auch ihre ae-Umschrift. Die Skripte im
+# Repo schreiben Umlaute aus, und scripts/generate_report.js steht mit auf der
+# Liste der geprueften Dateien.
+UMLAUTE = {
+    "ä": r"(?:ä|ae)",
+    "ö": r"(?:ö|oe)",
+    "ü": r"(?:ü|ue)",
+    "ß": r"(?:ß|ss)",
+}
+
+# Drei Punkte in einem Sperrmuster: eine Luecke von bis zu 40 Zeichen in
+# derselben Zeile. Damit muss ein Kontextwort nicht unmittelbar vor der Zahl
+# stehen.
+LUECKE = r"[^\n]{0,40}?"
+LUECKE_TOKEN = "..."
+
+# Spalte, in der die Sperrmuster stehen. Eine Zeile ohne Muster gibt es nicht;
+# die frueher hier gefuehrte Ausnahme 'keine:' ist entfernt, siehe Docstring.
 SPALTEN_ZURUECK = 4
-OHNE_SPERRE = "keine:"
+ABGESCHALTET = re.compile(r"^\s*keine\b", re.IGNORECASE)
+
+# Behauptungen, die sich nicht ueber eine Schreibweise sperren lassen, weil das
+# Textverbot die richtigen Verneinungen mit treffen wuerde. Statt eines Verbots
+# steht hier eine Belegpflicht: Nennt ein Absatz beide Begriffe in einem Zug,
+# muss er die Quelle zitieren, die die Sache klaert. Diese Liste steht bewusst
+# im Code und nicht in der Tabelle. Sie ist keine Sperrliste von Schreibweisen,
+# sondern eine Regel; und wer sie lockert, hinterlaesst einen Diff im Skript
+# statt einer geaenderten Tabellenzelle.
+BEHAUPTUNGS_REGELN = [
+    {
+        "name": "Collaborative Articles und Badge",
+        "erster": re.compile(r"Collaborative" + LEER + r"Articles", re.IGNORECASE),
+        "zweiter": re.compile(r"Badge", re.IGNORECASE),
+        "beleg": re.compile(r"\bQ3\b"),
+        "hinweis": (
+            "Ein Absatz, der Collaborative Articles und ein Badge in einem Zug nennt, "
+            "muss Q3 zitieren. Q3 belegt, dass das goldene Community-Top-Voice-Badge "
+            "seit dem 08.10.2024 nicht mehr ueber Collaborative Articles zu verdienen "
+            "ist. Die Pruefung ersetzt kein Lesen: eine falsche Aussage mit richtiger "
+            "Quellenangabe kommt durch."
+        ),
+    },
+]
 
 
 def lies(pfad: Path) -> str:
@@ -152,6 +206,11 @@ def muster_aus_token(token: str) -> str:
     while i < laenge:
         zeichen = token[i]
 
+        if token.startswith(LUECKE_TOKEN, i):
+            teile.append(LUECKE)
+            i += len(LUECKE_TOKEN)
+            continue
+
         if zeichen.isspace():
             teile.append(LEER)
             while i < laenge and token[i].isspace():
@@ -187,6 +246,8 @@ def muster_aus_token(token: str) -> str:
             teile.append(re.escape(zeichen) + "?")
         elif zeichen == "-":
             teile.append(BINDESTRICH)
+        elif zeichen.lower() in UMLAUTE:
+            teile.append(UMLAUTE[zeichen.lower()])
         else:
             teile.append(re.escape(zeichen))
         i += 1
@@ -197,11 +258,11 @@ def muster_aus_token(token: str) -> str:
 def sperren_aus_tabelle(zeilen, fehler):
     """Uebersetzt die Tabelle 'Zurückgezogen' in Sperrmuster.
 
-    Rueckgabe: Liste (kompilierte Regex, Token, Aussage) und die Liste der
-    Zeilen, die bewusst ohne Sperre gefuehrt werden.
+    Rueckgabe: Liste (kompilierte Regex, Token, Aussage). Jede Zeile muss ein
+    Muster tragen. Es gibt keinen Weg, eine Zeile ueber die Tabelle von der
+    Sperre zu befreien.
     """
     sperren = []
-    ohne_sperre = []
 
     for nummer, spalten in enumerate(zeilen, 1):
         if len(spalten) != SPALTEN_ZURUECK:
@@ -217,28 +278,21 @@ def sperren_aus_tabelle(zeilen, fehler):
         if not sperrmuster:
             fehler.append(
                 f"Zurückgezogen, Zeile {nummer} ({kurz}): die Spalte 'Sperrmuster' ist leer. "
-                f"Entweder ein Muster eintragen oder die Zeile mit '{OHNE_SPERRE} <Grund>' "
-                "ausdruecklich ohne Sperre fuehren."
+                "Jede zurueckgezogene Aussage braucht mindestens ein Muster."
+            )
+            continue
+
+        if ABGESCHALTET.match(sperrmuster):
+            fehler.append(
+                f"Zurückgezogen, Zeile {nummer} ({kurz}): die Spalte 'Sperrmuster' schaltet "
+                "die Sperre ab. Das ist nicht vorgesehen. Eine Zeile ohne Muster gibt es "
+                "nicht; wenn ein Textverbot hier schaedlich waere, gehoert die Aussage in "
+                "BEHAUPTUNGS_REGELN in scripts/check_sources.py und damit in einen "
+                "Codediff, nicht in eine Tabellenzelle."
             )
             continue
 
         mengen = list(QUANTITAET.finditer(aussage))
-
-        if sperrmuster.startswith(OHNE_SPERRE):
-            grund = sperrmuster[len(OHNE_SPERRE):].strip()
-            if not grund:
-                fehler.append(
-                    f"Zurückgezogen, Zeile {nummer} ({kurz}): '{OHNE_SPERRE}' ohne Begruendung."
-                )
-            if mengen:
-                fehler.append(
-                    f"Zurückgezogen, Zeile {nummer} ({kurz}): die Aussage nennt "
-                    f"{', '.join(sorted({m.group(0) for m in mengen}))}, dafuer ist "
-                    f"'{OHNE_SPERRE}' nicht zulaessig. Eine zurueckgezogene Zahl braucht ein "
-                    "Sperrmuster."
-                )
-            ohne_sperre.append((kurz, grund))
-            continue
 
         zeilen_sperren = []
         for token in [t.strip() for t in sperrmuster.split(";")]:
@@ -278,7 +332,39 @@ def sperren_aus_tabelle(zeilen, fehler):
 
         sperren.extend(zeilen_sperren)
 
-    return sperren, ohne_sperre
+    return sperren
+
+
+def absaetze(text: str):
+    """Absaetze eines Textes als (Startzeile, Text), getrennt an Leerzeilen."""
+    gesammelt = []
+    start = 1
+    for nummer, zeile in enumerate(text.split("\n"), 1):
+        if zeile.strip():
+            if not gesammelt:
+                start = nummer
+            gesammelt.append(zeile)
+        elif gesammelt:
+            yield start, "\n".join(gesammelt)
+            gesammelt = []
+    if gesammelt:
+        yield start, "\n".join(gesammelt)
+
+
+def pruefe_behauptungen(name: str, inhalt: str, fehler):
+    """Belegpflicht fuer Behauptungen, die sich nicht sperren lassen."""
+    for regel in BEHAUPTUNGS_REGELN:
+        for zeile, absatz in absaetze(inhalt):
+            if not regel["erster"].search(absatz):
+                continue
+            if not regel["zweiter"].search(absatz):
+                continue
+            if regel["beleg"].search(absatz):
+                continue
+            fehler.append(
+                f"{name}:{zeile}: der Absatz faellt unter die Regel "
+                f"{regel['name']!r}, nennt aber keine Quelle. {regel['hinweis']}"
+            )
 
 
 def main() -> int:
@@ -330,7 +416,7 @@ def main() -> int:
         fehler.append("Tabelle unter '## Zurückgezogen' fehlt oder ist leer.")
         zurueck = []
 
-    sperren, ohne_sperre = sperren_aus_tabelle(zurueck, fehler)
+    sperren = sperren_aus_tabelle(zurueck, fehler)
 
     zitiert = {}
     for name in GEPRUEFTE_DATEIEN:
@@ -351,6 +437,8 @@ def main() -> int:
                     f"wieder im Skill. Sperrmuster {token!r} aus der Zeile: {aussage}"
                 )
 
+        pruefe_behauptungen(name, inhalt, fehler)
+
     for kennung, dateien in sorted(zitiert.items()):
         if kennung not in ids:
             fehler.append(
@@ -362,10 +450,9 @@ def main() -> int:
     print(f"  {len(zurueck)} zurueckgezogene Aussagen dokumentiert")
     print(f"  {len(zitiert)} Quellen-IDs im Skill zitiert")
     print(f"  {len(sperren)} Sperrmuster aus der Tabelle erzeugt und geprueft")
-    if ohne_sperre:
-        print(f"  {len(ohne_sperre)} Zeilen ausdruecklich ohne Sperre:")
-        for kurz, grund in ohne_sperre:
-            print(f"    - {kurz}\n      Grund: {grund}")
+    print(f"  {len(BEHAUPTUNGS_REGELN)} Behauptungsregel(n) mit Belegpflicht geprueft:")
+    for regel in BEHAUPTUNGS_REGELN:
+        print(f"    - {regel['name']}")
 
     if fehler:
         print("\nFEHLER:", file=sys.stderr)

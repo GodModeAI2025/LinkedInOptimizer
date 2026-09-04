@@ -20,10 +20,13 @@ Stand liegt. Gesucht wird nach jedem Vorkommen von `Qn`, gleich in welcher Klamm
 Satzbau, damit eine ausgedachte Belegangabe nicht über eine andere Schreibweise ins Paket kommt.
 
 Die Sperren gegen zurückgezogene Aussagen erzeugt dasselbe Skript aus der Spalte „Sperrmuster"
-der Tabelle weiter unten. Sie prüfen Schreibweisen, keine Aussagen. Was sie nicht leisten, steht
-dort ausdrücklich: Für die Zeile zu den Collaborative Articles gibt es bewusst keine Sperre, und
-ein frei formulierter Satz, der eine zurückgezogene Behauptung neu aufstellt, ohne die gesperrte
-Schreibweise zu verwenden, fällt keinem Prüfschritt auf.
+der Tabelle weiter unten. Jede Zeile trägt ein Muster; es gibt keinen Weg, eine Zeile über die
+Tabelle von der Sperre zu befreien. Die Sperren prüfen Schreibweisen, keine Aussagen. Ein frei
+formulierter Satz, der eine zurückgezogene Behauptung in neuen Worten aufstellt, fällt ihnen
+nicht auf. Für die eine Behauptung, bei der das teuer wäre, steht in `check_sources.py` eine
+zweite, engere Prüfung: Ein Absatz, der Collaborative Articles und ein Badge in einem Zug nennt,
+muss Q3 zitieren. Das ist eine Schwelle und kein Beweis. Wer die falsche Aussage mit der richtigen
+Quellenangabe hinschreibt, kommt weiterhin durch.
 
 ---
 
@@ -63,8 +66,11 @@ Die Spalte **Sperrmuster** ist der maschinenlesbare Teil dieser Tabelle. `script
 baut daraus die Regex, mit der es die ausgelieferten Dateien absucht. Mehrere Muster werden mit
 Semikolon getrennt. Geschrieben werden sie so, wie die Aussage früher im Skill stand; das Skript
 normalisiert selbst: `3,4` fängt auch `3.4`, `%` fängt auch das ausgeschriebene Prozent, `×` fängt
-auch das ASCII-x, Leerzeichen fangen auch `&nbsp;`, Bindestriche fangen auch die typografischen
-Varianten, ein führendes `+` oder `~` ist optional, Groß- und Kleinschreibung ist egal.
+auch das ASCII-x, Leerzeichen fangen auch `&nbsp;` und den Bindestrich (`Creator Mode` fängt also
+auch `Creator-Mode`), Umlaute fangen auch ihre ae-Umschrift, Bindestriche fangen auch die
+typografischen Varianten, ein führendes `+` oder `~` ist optional, Groß- und Kleinschreibung ist
+egal. Drei Punkte im Muster stehen für eine Lücke von bis zu 40 Zeichen in derselben Zeile:
+`Umfragen...~5 %` fängt auch `Umfragen erreichen ~5 %`.
 
 Zwei Regeln für neue Zeilen:
 
@@ -75,13 +81,17 @@ Zwei Regeln für neue Zeilen:
    anderer Stelle im Repo legitim vorkommt. Unverwechselbare Werte wie 3,4 % oder 2,5× stehen
    allein.
 
-Wo eine Sperre schaden würde, steht `keine:` und dahinter der Grund. Das ist zulässig, solange die
-Zeile keine Prozentangabe und keinen Faktor nennt; sonst weist das Skript sie zurück.
+3. Jede Zeile trägt ein Muster. Es gibt keine Möglichkeit, eine Zeile hier von der Sperre zu
+   befreien. Eine frühere Fassung erlaubte dafür `keine:` und eine beliebige Begründung; damit
+   ließ sich jede Sperre durch das Ändern einer Tabellenzelle abschalten, auch die gegen den
+   Creator Mode. Wenn ein Textverbot an einer Stelle wirklich schaden würde, weil es richtige
+   Verneinungen mit treffen würde, gehört die Aussage in `BEHAUPTUNGS_REGELN` in
+   `scripts/check_sources.py`. Das ist ein Codediff und keine Tabellenzelle.
 
 | Frühere Aussage | Stand bis | Warum entfernt | Sperrmuster |
 |-----------------|-----------|----------------|-------------|
 | „Engagement-Benchmarks: Hootsuite 2025 (3,4 % Plattform-Ø)" (README, Landingpage, Report-Template) | v2.3.0 | Die genannte Quelle führt diesen Wert nicht. Ihre aktuelle Fassung nennt Branchenwerte ohne Nenner und ohne Erhebungszeitraum. Ein Plattformdurchschnitt ohne definierten Nenner ist als Vergleichsmaßstab wertlos. | 3,4 % |
-| „Top-performende Formate: Multi-Image 6,6 %, PDF-Karussells 6,1 %, Video (<60s) 5,6 %, Umfragen ~5 %" (SKILL.md Phase 6) | v2.3.0 | Keine prüfbare Primärquelle. Die öffentlich zugänglichen Anbieterstudien nennen für dieselben Formate deutlich abweichende Werte und wechseln sie jährlich. Die Reihenfolge der Formate bleibt als Erfahrungswert stehen, die Prozentwerte nicht. | 6,6 %; 6,1 %; 5,6 %; Umfragen ~5 % |
+| „Top-performende Formate: Multi-Image 6,6 %, PDF-Karussells 6,1 %, Video (<60s) 5,6 %, Umfragen ~5 %" (SKILL.md Phase 6) | v2.3.0 | Keine prüfbare Primärquelle. Die öffentlich zugänglichen Anbieterstudien nennen für dieselben Formate deutlich abweichende Werte und wechseln sie jährlich. Die Reihenfolge der Formate bleibt als Erfahrungswert stehen, die Prozentwerte nicht. | 6,6 %; 6,1 %; 5,6 %; Umfragen...~5 % |
 | „steigert Profilaufrufe um 55 % und eigene Content-Reichweite um 20 %" (SKILL.md Phase 6.2) | v2.3.0 | Keine Quelle auffindbar. Die Empfehlung, täglich substanziell zu kommentieren, bleibt als Erfahrungswert. | 55 %; Content-Reichweite um 20 %; +20 % Content-Reichweite |
 | „Kommentare >15 Wörter haben 2,5× mehr algorithmisches Gewicht" (SKILL.md Phase 6.2, SCORING.md) | v2.3.0 | Kein belegbarer Faktor. Dass längere, inhaltliche Kommentare besser wirken als kurze Zustimmung, bleibt als Erfahrungswert; die Zahl 2,5 nicht. | 2,5×; 2,5-fach |
 | „Back-to-Back-Posts im selben Format können Performance um 20 % reduzieren" (SCORING.md) | v2.3.0 | Kein Beleg. Die Regel, Formate abzuwechseln, bleibt ohne Prozentwert. | um 20 % reduzieren; minus 20 % |
@@ -92,8 +102,8 @@ Zeile keine Prozentangabe und keinen Faktor nennt; sonst weist das Skript sie zu
 | Rahmung des Punkterasters als „Industrie-Benchmark" (SKILL.md, README, Landingpage) | v2.3.0 | Das Raster in SCORING.md ist ein internes Bewertungsschema dieses Skills. Es gegen einen Branchenwert zu stellen, den es nicht gibt, macht aus einer Setzung eine Messung. | Industrie-Benchmark |
 | Rahmung der Punktebänder als „Engagement-Rate-Benchmarks" (SCORING.md) | v2.3.0 | Dieselbe Rahmung eine Ebene tiefer. Die Bänder sind ein Raster, kein erhobener Vergleichswert. | Engagement-Rate-Benchmarks |
 | „Dieser Skill ist evidenzbasiert." (SKILL.md, README, Landingpage) | v2.3.0 | Von zehn Kategoriegewichten ist keines gemessen, und die Zahlen in dieser Tabelle mussten zurückgezogen werden. Belegt sind die sieben Aussagen oben, nicht der Skill als Ganzes. Das Muster fasst nur die Selbstbeschreibung: das Wort allein steht in der Branchentabelle in SKILL.md als Tonfall für Healthcare und ist dort in Ordnung. | Skill ist evidenzbasiert; evidenzbasierter Skill |
-| Sub-Kriterium „Collaborative Articles" in der Kategorie Top Voice Readiness (SCORING.md) | v2.3.0 | Zahlte auf das goldene Community-Badge ein, das laut Q3 nicht mehr vergeben wird. Der Punkt liegt jetzt bei „Momentum". | keine: Ein Textverbot auf den Begriff würde die richtigen Verneinungen in SKILL.md treffen, die sagen, dass Collaborative Articles auf kein Badge mehr einzahlen. Gesperrt ist stattdessen die Elementliste, siehe tests/run_eval.py |
-| Checklistenpunkt „Creator Mode aktiv" in der Profil-Vollständigkeit (SCORING.md) | v2.3.0 | Den Schalter gibt es laut Q7 seit März 2024 nicht mehr. Ersetzt durch die Nutzung der Creator-Tools, die ohne Schalter verfügbar bleiben. Der Begriff selbst ist gesperrt; über den Schalter lässt sich in der Vergangenheitsform reden, dafür steht im Changelog „Creator-Mode-Schalter". | Creator Mode |
+| Sub-Kriterium „Collaborative Articles" in der Kategorie Top Voice Readiness (SCORING.md) | v2.3.0 | Zahlte auf das goldene Community-Badge ein, das laut Q3 nicht mehr vergeben wird. Der Punkt liegt jetzt bei „Momentum". | Collaborative Articles beitragen; Beiträge zu LinkedIn Collaborative Articles; Social Proof + Collaborative Articles |
+| Checklistenpunkt „Creator Mode aktiv" in der Profil-Vollständigkeit (SCORING.md) | v2.3.0 | Den Schalter gibt es laut Q7 seit März 2024 nicht mehr. Ersetzt durch die Nutzung der Creator-Tools, die ohne Schalter verfügbar bleiben. Der Begriff ist gesperrt, mit und ohne Bindestrich; über den entfallenen Schalter wird im Changelog über Q7 geredet, nicht über seinen Namen. | Creator Mode |
 
 ---
 

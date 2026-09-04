@@ -67,9 +67,11 @@ jobs:
       # dort als unbelegt entfernten Aussagen ueber eine spaetere Aenderung
       # zurueck in den Skill wandert. Die Sperren erzeugt das Skript aus der
       # Spalte "Sperrmuster" der Tabelle "Zurückgezogen", und es prueft die
-      # Tabelle gegen sich selbst: eine neue Zeile ohne Sperrmuster faellt hier
-      # auf. Die Grenze steht im Docstring des Skripts: geprueft werden
-      # Schreibweisen, keine Aussagen.
+      # Tabelle gegen sich selbst: eine Zeile ohne Sperrmuster faellt hier auf,
+      # und eine Zeile, die ihre Sperre abschalten will, ebenfalls. Dazu kommt
+      # eine Belegpflicht fuer die eine Behauptung, die sich nicht ueber eine
+      # Schreibweise sperren laesst. Die Grenze steht im Docstring des Skripts:
+      # geprueft werden Schreibweisen, keine Aussagen.
       - name: Beleglage pruefen
         run: python scripts/check_sources.py
 
@@ -78,7 +80,8 @@ jobs:
       # SCORING.md, SKILL.md, index.html und generate_report.js wortgleich, die
       # 18 Profil-Elemente aus der Checkliste in SCORING.md stehen in derselben
       # Reihenfolge in SKILL.md Phase 4.3 und in der Audit-Tabelle des
-      # Report-Generators, und die Landingpage weist ihren Dialog als Beispiel
+      # Report-Generators, die Stueckzahl stimmt zusaetzlich in der
+      # Deliverables-Beschreibung von SKILL.md, und die Landingpage weist ihren Dialog als Beispiel
       # aus und nennt die Fixture, aus der seine Zahlen stammen.
       - name: Eval-Set fahren
         run: python tests/run_eval.py

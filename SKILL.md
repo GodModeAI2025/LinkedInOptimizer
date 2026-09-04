@@ -300,7 +300,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
    - Profil-Metadaten: Name, Position, Unternehmen, Standort, Follower, Connections
    - Headline-Varianten: Aus Phase 4.1
    - About-Analyse: Verbotene Wörter, CTA-Bewertung, Hashtag-Status
-   - Profil-Audit: 17-Punkte-Checkliste mit Status je Element
+   - Profil-Audit: 18-Punkte-Checkliste mit Status je Element
    - Roadmap: Kundenspezifisch priorisierte Maßnahmen
 4. Passe die letzte Zeile an: der Ausgabepfad steht fest auf `/mnt/user-data/outputs/`. Außerhalb der claude.ai-Sandbox muss dort ein existierendes Verzeichnis stehen.
 5. Führe das Skript aus: `node generate_report.js`. Es schreibt den Pfad der erzeugten Datei als `Done: …` nach stdout.
@@ -320,7 +320,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 
 6. **About-Sektion-Analyse** (1 Seite): Hook-Bewertung der ersten 270 Zeichen, gefundene verbotene Wörter mit konkreten Ersetzungsvorschlägen und Begründung, CTA-Bewertung mit Alternativvorschlag, fehlende Elemente (Hashtags, Zeichenauslastung).
 
-7. **Profil-Audit** (1 Seite): 17-Punkte-Checkliste als Tabelle mit Status (Vorhanden/Fehlt/Teilweise) und konkreter Maßnahme je Element. Zusammenfassung: X von 17 erfüllt.
+7. **Profil-Audit** (1 Seite): 18-Punkte-Checkliste als Tabelle mit Status (Vorhanden/Fehlt/Teilweise) und konkreter Maßnahme je Element. Zusammenfassung: X von 18 erfüllt.
 
 8. **Roadmap** (1 Seite): Zeitlich priorisierte Maßnahmen (Woche 1–2 Quick Wins → Woche 3–4 Content-Start → Monat 2–3 Skalierung → Monat 4–6 Authority Building). Erwarteter Score nach 3 Monaten mit Begründung.
 
@@ -438,17 +438,20 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
 ├── references/SOURCES.md: sieben Quellen mit URL, Veröffentlichungs- und Abrufdatum, dazu je Quelle, was sie nicht belegt
 ├── Elf unbelegte Zahlen ohne Ersatz entfernt, darunter der Plattformdurchschnitt der Engagement-Rate und die Werte je Postformat
-├── Sachfehler korrigiert: das goldene Community-Top-Voice-Badge ist seit dem 08.10.2024 zurückgezogen, Nominierungen prüft LinkedIn quartalsweise
-├── Sub-Kriterium Collaborative Articles entfällt, der Punkt liegt bei Momentum; der Creator-Mode-Schalter ist durch die Creator-Tools ersetzt
+├── Sachfehler korrigiert: das goldene Community-Top-Voice-Badge ist seit dem 08.10.2024 zurückgezogen (Q3), Nominierungen prüft LinkedIn quartalsweise (Q4)
+├── Sub-Kriterium Collaborative Articles entfällt, der Punkt liegt bei Momentum; der laut Q7 entfallene Schalter ist durch die Creator-Tools ersetzt
 ├── SCORING.md: Nenner der Engagement-Rate geklärt, das Raster gilt für den impressions-basierten Wert
 ├── Die zehn Kategorien heißen an allen vier Stellen gleich, generate_report.js zog vier Kurznamen nach
 ├── tests/: drei frei erfundene Profil-Fixtures, erwartete Score-Bänder und tests/run_eval.py
 ├── scripts/check_sources.py hält zurückgezogene Aussagen aus dem Skill heraus; die Sperren entstehen aus der Sperrmuster-Spalte in SOURCES.md, nicht aus einer Handliste daneben
 ├── Quellen-IDs werden in jeder Schreibweise geprüft, nicht nur in runden Klammern
-├── Die Checkliste in SCORING.md Abschnitt 9 ist die Quelle der 18 Profil-Elemente; SKILL.md Phase 4.3 nannte 15, die Audit-Tabelle im Report 17
+├── Die Checkliste in SCORING.md Abschnitt 9 ist die Quelle der 18 Profil-Elemente; SKILL.md Phase 4.3 nannte 15, die Deliverables-Beschreibung 17, die Audit-Tabelle im Report 17
 ├── Audit-Tabelle im Report: 18 Elemente statt 17, Video-Content gehört zur Content-Aktivität und nicht zur Profil-Vollständigkeit
 ├── Landingpage: aus "Live Demo" wird "Beispiel-Dialog", jede Zahl stammt aus tests/fixtures/profile_mid.json, und run_eval.py bindet diesen Wortlaut
 ├── Abgrenzung zu linkedin-community-builder in SKILL.md, README und auf der Landingpage, inklusive Trigger-Regel
+├── Sperrmuster fangen jetzt auch die Bindestrich-Schreibweise, die ae-Umschrift von Umlauten und ein Kontextwort mit Abstand zur Zahl
+├── Die Ausnahme, mit der sich eine Sperre über die Tabellenzelle „keine:" abschalten ließ, ist wieder entfernt; die Zeile zu Collaborative Articles trägt die Schreibweisen aus v2.3.0
+├── Neue Belegpflicht in check_sources.py: ein Absatz, der Collaborative Articles und ein Badge in einem Zug nennt, muss Q3 zitieren
 └── CI fährt Beleglage und Eval-Set mit
 
 v2.3.0 (2026-09-04) – Erstes Release, Banner-Skript repariert
