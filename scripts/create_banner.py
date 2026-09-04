@@ -44,9 +44,15 @@ def find_font(name, size):
         if os.path.exists(path):
             print(f"⚠️  Font {name} nicht gefunden, Fallback: {fallback}")
             return ImageFont.truetype(path, size)
-    # Letzter Fallback: PIL Default
-    print(f"⚠️  Kein passender Font gefunden, verwende PIL-Default")
-    return ImageFont.load_default()
+    # Letzter Fallback: PIL Default in der angeforderten Groesse
+    print("⚠️  Kein passender Font gefunden, verwende PIL-Default")
+    try:
+        return ImageFont.load_default(size=size)
+    except TypeError:
+        # Pillow < 10.1 kennt den size-Parameter nicht; dann bleibt nur der
+        # Bitmap-Font in fester Groesse, die Safe-Zone-Pruefung misst dann zu klein.
+        print("⚠️  Pillow ohne size-Parameter, Safe-Zone-Pruefung ist ungenau")
+        return ImageFont.load_default()
 
 
 def create_linkedin_banner(
