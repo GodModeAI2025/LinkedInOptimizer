@@ -47,10 +47,20 @@ das Skript erzeugt daraus die Regex:
 * Vor und hinter Zahlen steht eine Grenze, damit '20 %' nicht in '220 Zeichen'
   anschlaegt.
 
-Und die Tabelle wird gegen sich selbst geprueft: Jede relative Groesse in der
-Spalte 'Frühere Aussage', also jede Angabe mit Prozent oder Faktor, muss von
-einem Sperrmuster derselben Zeile getroffen werden. Wer eine Zahl zurueckzieht
-und keine Sperre dazuschreibt, faellt hier auf und nicht erst dem Kunden.
+Und die Tabelle wird gegen sich selbst geprueft, zweifach:
+
+* Jede relative Groesse in der Spalte 'Frühere Aussage', also jede Angabe mit
+  Prozent oder Faktor, muss von einem Sperrmuster derselben Zeile getroffen
+  werden. Wer eine Zahl zurueckzieht und keine Sperre dazuschreibt, faellt hier
+  auf und nicht erst dem Kunden.
+* Mindestens ein Muster jeder Zeile muss den eigenen Wortlaut in der Spalte
+  'Frühere Aussage' treffen. Das erdet die Sperre am zurueckgezogenen Text.
+  Ohne diese Pruefung genuegte irgendein Wort in der Zelle: die Zeile blieb
+  stehen, der Zaehler stimmte, und die Sperre lief ins Leere.
+
+Was bleibt: ein Muster laesst sich auf einen Teil des Wortlauts verengen, etwa
+von 'Creator Mode' auf 'Creator Mode aktiv'. Das faellt hier nicht auf, steht
+aber als Aenderung in der Tabelle und damit im Diff.
 
 Eine Zeile ohne Sperrmuster gibt es nicht. Eine frueher hier eingebaute
 Ausnahme, mit der sich eine Zeile ueber das Wort 'keine:' und eine beliebige
@@ -130,7 +140,7 @@ LUECKE_TOKEN = "..."
 # Spalte, in der die Sperrmuster stehen. Eine Zeile ohne Muster gibt es nicht;
 # die frueher hier gefuehrte Ausnahme 'keine:' ist entfernt, siehe Docstring.
 SPALTEN_ZURUECK = 4
-ABGESCHALTET = re.compile(r"^\s*keine\b", re.IGNORECASE)
+ABGESCHALTET = re.compile(r"^\s*keine\s*:", re.IGNORECASE)
 
 # Behauptungen, die sich nicht ueber eine Schreibweise sperren lassen, weil das
 # Textverbot die richtigen Verneinungen mit treffen wuerde. Statt eines Verbots
@@ -313,6 +323,21 @@ def sperren_aus_tabelle(zeilen, fehler):
                 f"Zurückgezogen, Zeile {nummer} ({kurz}): kein verwertbares Sperrmuster."
             )
             continue
+
+        # Erdung: mindestens ein Muster der Zeile muss den eigenen Wortlaut in
+        # der Spalte 'Frühere Aussage' treffen. Ohne das laesst sich eine Sperre
+        # aushebeln, indem jemand ein beliebiges anderes Wort in die Zelle
+        # schreibt: die Zeile bleibt stehen, der Zaehler stimmt, und die Sperre
+        # greift ins Leere. Genau dieser Weg stand offen, solange nur geprueft
+        # wurde, ob ueberhaupt etwas in der Zelle steht.
+        if not any(regex.search(aussage) for regex, _, _ in zeilen_sperren):
+            fehler.append(
+                f"Zurückgezogen, Zeile {nummer} ({kurz}): kein Sperrmuster dieser Zeile "
+                "trifft die eigene Spalte 'Frühere Aussage'. Ein Muster, das nicht einmal "
+                "den zurueckgezogenen Wortlaut faengt, sperrt nichts. Entweder das Muster "
+                "korrigieren oder in der Spalte 'Frühere Aussage' den Wortlaut eintragen, "
+                "wie er im Skill stand."
+            )
 
         # Die Tabelle gegen sich selbst: jede relative Groesse in der Aussage
         # muss von einem Muster derselben Zeile getroffen werden.

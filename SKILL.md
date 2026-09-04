@@ -451,6 +451,7 @@ v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
 ├── Abgrenzung zu linkedin-community-builder in SKILL.md, README und auf der Landingpage, inklusive Trigger-Regel
 ├── Sperrmuster fangen jetzt auch die Bindestrich-Schreibweise, die ae-Umschrift von Umlauten und ein Kontextwort mit Abstand zur Zahl
 ├── Die Ausnahme, mit der sich eine Sperre über die Tabellenzelle „keine:" abschalten ließ, ist wieder entfernt; die Zeile zu Collaborative Articles trägt die Schreibweisen aus v2.3.0
+├── Jedes Sperrmuster muss den eigenen Wortlaut in der Spalte „Frühere Aussage" treffen, sonst fällt die Zeile im CI-Lauf auf
 ├── Neue Belegpflicht in check_sources.py: ein Absatz, der Collaborative Articles und ein Badge in einem Zug nennt, muss Q3 zitieren
 └── CI fährt Beleglage und Eval-Set mit
 

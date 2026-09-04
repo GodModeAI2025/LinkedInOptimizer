@@ -72,7 +72,7 @@ typografischen Varianten, ein führendes `+` oder `~` ist optional, Groß- und K
 egal. Drei Punkte im Muster stehen für eine Lücke von bis zu 40 Zeichen in derselben Zeile:
 `Umfragen...~5 %` fängt auch `Umfragen erreichen ~5 %`.
 
-Zwei Regeln für neue Zeilen:
+Vier Regeln für neue Zeilen:
 
 1. Jede Prozentangabe und jeder Faktor in der Spalte „Frühere Aussage" muss von einem Sperrmuster
    derselben Zeile getroffen werden. Das prüft `check_sources.py` gegen die Tabelle selbst. Wer
@@ -87,6 +87,14 @@ Zwei Regeln für neue Zeilen:
    Creator Mode. Wenn ein Textverbot an einer Stelle wirklich schaden würde, weil es richtige
    Verneinungen mit treffen würde, gehört die Aussage in `BEHAUPTUNGS_REGELN` in
    `scripts/check_sources.py`. Das ist ein Codediff und keine Tabellenzelle.
+4. Mindestens ein Muster der Zeile muss den eigenen Wortlaut in der Spalte „Frühere Aussage"
+   treffen. Das prüft `check_sources.py` ebenfalls gegen die Tabelle selbst und erdet die
+   Sperre am zurückgezogenen Text. Ohne diese Regel genügte irgendein Wort in der Zelle: die
+   Zeile bliebe stehen, der Zähler stimmte, und die Sperre liefe ins Leere. Deshalb trägt die
+   Spalte „Frühere Aussage" den Wortlaut, wie er im Skill stand, und nicht nur eine
+   Umschreibung. Was offen bleibt: ein Muster lässt sich auf einen Teil des Wortlauts
+   verengen, etwa von „Creator Mode" auf „Creator Mode aktiv". Das fällt hier nicht auf,
+   steht aber als Änderung in der Tabelle und damit im Diff.
 
 | Frühere Aussage | Stand bis | Warum entfernt | Sperrmuster |
 |-----------------|-----------|----------------|-------------|
@@ -102,7 +110,7 @@ Zwei Regeln für neue Zeilen:
 | Rahmung des Punkterasters als „Industrie-Benchmark" (SKILL.md, README, Landingpage) | v2.3.0 | Das Raster in SCORING.md ist ein internes Bewertungsschema dieses Skills. Es gegen einen Branchenwert zu stellen, den es nicht gibt, macht aus einer Setzung eine Messung. | Industrie-Benchmark |
 | Rahmung der Punktebänder als „Engagement-Rate-Benchmarks" (SCORING.md) | v2.3.0 | Dieselbe Rahmung eine Ebene tiefer. Die Bänder sind ein Raster, kein erhobener Vergleichswert. | Engagement-Rate-Benchmarks |
 | „Dieser Skill ist evidenzbasiert." (SKILL.md, README, Landingpage) | v2.3.0 | Von zehn Kategoriegewichten ist keines gemessen, und die Zahlen in dieser Tabelle mussten zurückgezogen werden. Belegt sind die sieben Aussagen oben, nicht der Skill als Ganzes. Das Muster fasst nur die Selbstbeschreibung: das Wort allein steht in der Branchentabelle in SKILL.md als Tonfall für Healthcare und ist dort in Ordnung. | Skill ist evidenzbasiert; evidenzbasierter Skill |
-| Sub-Kriterium „Collaborative Articles" in der Kategorie Top Voice Readiness (SCORING.md) | v2.3.0 | Zahlte auf das goldene Community-Badge ein, das laut Q3 nicht mehr vergeben wird. Der Punkt liegt jetzt bei „Momentum". | Collaborative Articles beitragen; Beiträge zu LinkedIn Collaborative Articles; Social Proof + Collaborative Articles |
+| Sub-Kriterium „Collaborative Articles" in der Kategorie Top Voice Readiness. Wortlaut bis v2.3.0: „Social Proof + Collaborative Articles" und „Regelmäßige Beiträge zu LinkedIn Collaborative Articles" (SCORING.md), „Collaborative Articles beitragen" (SKILL.md Phase 7) | v2.3.0 | Zahlte auf das goldene Community-Badge ein, das laut Q3 nicht mehr vergeben wird. Der Punkt liegt jetzt bei „Momentum". | Collaborative Articles beitragen; Beiträge zu LinkedIn Collaborative Articles; Social Proof + Collaborative Articles |
 | Checklistenpunkt „Creator Mode aktiv" in der Profil-Vollständigkeit (SCORING.md) | v2.3.0 | Den Schalter gibt es laut Q7 seit März 2024 nicht mehr. Ersetzt durch die Nutzung der Creator-Tools, die ohne Schalter verfügbar bleiben. Der Begriff ist gesperrt, mit und ohne Bindestrich; über den entfallenen Schalter wird im Changelog über Q7 geredet, nicht über seinen Namen. | Creator Mode |
 
 ---
