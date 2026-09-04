@@ -17,7 +17,6 @@ Verwendung:
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import os
 import argparse
-import sys
 
 
 def find_font(name, size):
