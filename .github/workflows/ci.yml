@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Pillow >= 10.1, weil ImageFont.load_default() erst ab 10.1.0 einen
+      # size-Parameter kennt. Ohne den faellt create_banner.py auf einen
+      # Bitmap-Font in fester Groesse zurueck, meldet die Messung selbst als
+      # Safe-Zone-Verletzung und beendet --strict auch bei sauberem Text mit 1.
+      # Das Repo hat keine requirements.txt, die Untergrenze steht deshalb hier.
+      - name: Pillow installieren
+        run: python -m pip install --disable-pip-version-check "Pillow>=10.1"
+
+      # PYTHONPYCACHEPREFIX haelt __pycache__ aus dem Arbeitsbaum,
+      # das Repo hat keine .gitignore.
+      - name: Python-Syntax pruefen
+        run: PYTHONPYCACHEPREFIX="$RUNNER_TEMP/pycache" python -m compileall -q scripts
+
+      - name: Node-Syntax pruefen
+        run: node --check scripts/generate_report.js
+
+      - name: Banner ohne Verletzung endet mit 0
+        run: |
+          python scripts/create_banner.py \
+            --output "$RUNNER_TEMP/banner-clean.png" \
+            --title1 "Safe Zone" \
+            --title2 "CI Smoke Test" \
+            --subtitle "Kurzer Untertitel" \
+            --role "Beispielrolle @ Beispiel GmbH" \
+            --tags "#CI #SafeZone" \
+            --strict
+
+      - name: Banner mit Verletzung endet ungleich 0
+        run: |
+          rc=0
+          python scripts/create_banner.py \
+            --output "$RUNNER_TEMP/banner-broken.png" \
+            --title1 "Ein viel zu langer Titel der die Safe Zone garantiert nach rechts verlaesst" \
+            --strict 2> "$RUNNER_TEMP/banner-broken.err" || rc=$?
+          cat "$RUNNER_TEMP/banner-broken.err"
+          if [ "$rc" -eq 0 ]; then
+            echo "FEHLER: --strict hat die Safe-Zone-Verletzung nicht gemeldet" >&2
+            exit 1
+          fi
+          grep -q "Safe-Zone-Verletzung" "$RUNNER_TEMP/banner-broken.err"
+
+      - name: Versionsangaben pruefen
+        run: python scripts/check_versions.py
