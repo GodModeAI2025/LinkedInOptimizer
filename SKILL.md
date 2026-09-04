@@ -188,6 +188,8 @@ Kritische Regeln im Überblick:
 - Dunkler Hintergrund + weiße Schrift für maximalen Kontrast
 - Mindestschriftgrößen: Titel ≥48px, Untertitel ≥22px, Rolle ≥18px, Tags ≥16px
 
+`scripts/create_banner.py` braucht Pillow ab 10.1. Fehlt es, endet der Aufruf mit `ModuleNotFoundError: No module named 'PIL'`. Installiere die Abhängigkeit vorher mit `pip install -r requirements.txt` im Skill-Verzeichnis, also dort, wo diese SKILL.md und requirements.txt nebeneinander liegen.
+
 Banner erstellen:
 ```bash
 python scripts/create_banner.py \
@@ -364,7 +366,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
 **Wettbewerber nicht abrufbar**: Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Sind nur 2 erreichbar, erstelle die Matrix mit 2 und vermerke die Abweichung im Report. Bei <2: Branchenbenchmarks aus der Tabelle oben verwenden.
 
-**Banner-Erstellung scheitert**: Font-Fallback (DejaVuSans) und Gradient-Fallback sind im Skript eingebaut. Wenn Buchcover nicht in Safe Zone passt: weglassen.
+**Banner-Erstellung scheitert**: Bei `ModuleNotFoundError: No module named 'PIL'` fehlt Pillow. Hole `pip install -r requirements.txt` im Skill-Verzeichnis nach; die Datei liegt neben dieser SKILL.md und begründet dort die Untergrenze 10.1. Font-Fallback (DejaVuSans) und Gradient-Fallback sind im Skript eingebaut. Wenn Buchcover nicht in Safe Zone passt: weglassen.
 
 **DOCX-Generierung scheitert**: Prüfe ob das npm-Paket `docx` im Arbeitsverzeichnis installiert ist (`npm install docx`). Eine globale Installation reicht nicht: `require("docx")` durchsucht nur die node_modules-Ordner oberhalb des Skripts, nicht das globale npm-Verzeichnis. Prüfe das Ergebnis mit `unzip -l <Ausgabedatei>.docx`, `word/document.xml` muss enthalten sein. Bei Syntax-Fehlern im Report-Skript: Keine typografischen Anführungszeichen (U+201E, U+201C) in JavaScript-Strings verwenden — nur ASCII-Quotes (`"` und `'`). Umlaute (ä, ö, ü, ß) und andere UTF-8-Zeichen sind dagegen problemlos möglich und sollen immer korrekt geschrieben werden — niemals als ASCII-Umschreibungen (ae, oe, ue, ss).
 
