@@ -1,0 +1,14 @@
+# Abhaengigkeiten von scripts/create_banner.py.
+#
+# Pillow ab 10.1.0: erst diese Version nimmt in ImageFont.load_default() einen
+# size-Parameter entgegen. Mit aelteren Versionen zeichnet das Skript den
+# Ersatz-Font in fester Bitmap-Groesse, die Safe-Zone-Messung passt dann nicht
+# zum Bild, und --strict bricht auch bei sauberem Text ab.
+#
+# Die Untergrenze stammt aus der Pillow-Aenderung selbst, nicht aus einem Lauf
+# gegen 10.1. Die CI installiert diese Datei und laeuft damit gegen die jeweils
+# aktuelle Version. Kein Pin und keine Obergrenze.
+Pillow>=10.1
+
+# scripts/generate_report.js braucht zusaetzlich das npm-Paket docx
+# (npm install docx). Dafuer gibt es noch keine package.json.

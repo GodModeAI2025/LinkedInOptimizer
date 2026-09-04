@@ -661,6 +661,20 @@ section {
 .install-card pre .comment { color: var(--text-dim); }
 .install-card pre .cmd { color: var(--accent-green); }
 
+.install-note {
+  margin-top: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 70ch;
+}
+
+.install-note code {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--accent-green);
+}
+
 /* ─── Data Basis ─── */
 .data-grid {
   display: grid;
@@ -801,7 +815,7 @@ footer .footer-right a:hover { color: var(--text); }
   <div class="hero-content">
     <div class="hero-badge">
       <span class="dot"></span>
-      v2.2.2 · Claude Cowork Skill · MIT License
+      v2.3.0 · Claude Cowork Skill · MIT License
     </div>
     <h1>LinkedIn Profile<br><span class="gradient">Intelligence.</span></h1>
     <p>Professionelle Profilanalyse mit gewichtetem Scoring, Headline-Optimierung, Banner-Erstellung, Content-Strategie und DOCX-Report. Evidenzbasiert auf LinkedIn-Algorithmus-Daten 2025/2026.</p>
@@ -1085,25 +1099,25 @@ footer .footer-right a:hover { color: var(--text); }
     <div class="install-card">
       <div class="card-header">
         <span class="step">A</span>
-        .skill-Datei bauen
+        .skill-Datei laden
       </div>
-      <pre><span class="comment"># Klonen & ZIP bauen</span>
-<span class="cmd">git clone</span> https://github.com/GodModeAI2025/LinkedInOptimizer.git
-<span class="cmd">cd</span> LinkedInOptimizer
-<span class="cmd">zip -r</span> ../linkedin-optimizer.skill .
+      <pre><span class="comment"># Artefakt des letzten Release holen</span>
+<span class="cmd">curl -LO</span> https://github.com/GodModeAI2025/LinkedInOptimizer/releases/latest/download/linkedin-optimizer.skill
 <span class="comment"># → linkedin-optimizer.skill in Claude Chat ziehen</span></pre>
     </div>
     <div class="install-card">
       <div class="card-header">
         <span class="step">B</span>
-        Manuell kopieren
+        In den Skills-Ordner entpacken
       </div>
-      <pre><span class="comment"># Direkt in den Skills-Ordner kopieren</span>
-<span class="cmd">cp -r</span> . /path/to/skills/user/linkedin-profil-optimierung/
+      <pre><span class="comment"># Dieselbe Datei, lokal ausgepackt</span>
+<span class="cmd">unzip</span> linkedin-optimizer.skill -d /path/to/skills/user/linkedin-profil-optimierung/
 <span class="comment"># Der Skill aktiviert sich automatisch</span>
 <span class="comment"># bei LinkedIn-bezogenen Anfragen.</span></pre>
     </div>
   </div>
+
+  <p class="install-note">Das Archiv enthält SKILL.md, references/ und scripts/, dazu LICENSE und requirements.txt. Landingpage, Workflows und Repo-Werkzeuge sind nicht darin. Wer lieber selbst baut: <code>python scripts/build_skill_package.py dist/linkedin-optimizer.skill</code> im Klon erzeugt dieselbe Datei, Byte für Byte.</p>
 </section>
 
 <!-- ─── CTA ─── -->

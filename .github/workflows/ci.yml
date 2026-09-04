@@ -21,13 +21,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      # Pillow >= 10.1, weil ImageFont.load_default() erst ab 10.1.0 einen
-      # size-Parameter kennt. Ohne den faellt create_banner.py auf einen
-      # Bitmap-Font in fester Groesse zurueck, meldet die Messung selbst als
-      # Safe-Zone-Verletzung und beendet --strict auch bei sauberem Text mit 1.
-      # Das Repo hat keine requirements.txt, die Untergrenze steht deshalb hier.
-      - name: Pillow installieren
-        run: python -m pip install --disable-pip-version-check "Pillow>=10.1"
+      # Die Untergrenze Pillow>=10.1 und ihre Begruendung stehen in
+      # requirements.txt. Hier wird dieselbe Datei installiert, die auch im
+      # Skill-Paket liegt, damit die CI genau das prueft, was Anwender bekommen.
+      - name: Abhaengigkeiten installieren
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
 
       # PYTHONPYCACHEPREFIX haelt __pycache__ aus dem Arbeitsbaum,
       # das Repo hat keine .gitignore.
@@ -64,3 +62,62 @@ jobs:
 
       - name: Versionsangaben pruefen
         run: python scripts/check_versions.py
+
+      # Ein kaputtes Paket soll auffallen, bevor jemand ein Tag setzt. Der
+      # Schritt ruft dasselbe Skript auf wie release.yml und prueft danach das
+      # Ergebnis, unabhaengig davon, was das Skript selbst zusichert.
+      - name: Skill-Paket bauen und pruefen
+        run: |
+          name="$(python scripts/build_skill_package.py --print-name)"
+
+          # Der Dateiname ist Teil des dokumentierten Downloads. Weicht er ab,
+          # zeigt die Anleitung nach dem ersten Tag auf eine URL, die 404 liefert.
+          url="https://github.com/GodModeAI2025/LinkedInOptimizer/releases/latest/download/$name"
+          for datei in README.md index.html; do
+            if ! grep -qF "$url" "$datei"; then
+              echo "FEHLER: $datei nennt nicht die Download-URL $url" >&2
+              exit 1
+            fi
+          done
+
+          python scripts/build_skill_package.py "$RUNNER_TEMP/paket-a/$name"
+          python scripts/build_skill_package.py "$RUNNER_TEMP/paket-b/$name"
+          paket="$RUNNER_TEMP/paket-a/$name"
+
+          # Zwei Laeufe hintereinander muessen dieselben Bytes liefern.
+          cmp "$paket" "$RUNNER_TEMP/paket-b/$name"
+
+          # Vorhanden, nicht leer, lesbares ZIP.
+          test -s "$paket"
+          python -c "import sys, zipfile; sys.exit(0 if zipfile.is_zipfile(sys.argv[1]) and zipfile.ZipFile(sys.argv[1]).testzip() is None else 1)" "$paket"
+
+          # Genau diese Eintraege, keine weiteren. Der Vergleich faellt in beide
+          # Richtungen auf: fehlende Datei und ungewollte Zugabe.
+          erwartet="$(printf '%s\n' \
+            LICENSE \
+            SKILL.md \
+            references/BANNER.md \
+            references/SCORING.md \
+            references/TEMPLATES.md \
+            requirements.txt \
+            scripts/create_banner.py \
+            scripts/generate_report.js | sort)"
+          tatsaechlich="$(unzip -Z1 "$paket" | sort)"
+          diff <(echo "$erwartet") <(echo "$tatsaechlich")
+
+          # Wer nur das Paket hat, findet requirements.txt darin, aber ohne
+          # diese Zeile nirgends den Weg dorthin. Der dokumentierte Aufruf
+          # endet dann mit ModuleNotFoundError: No module named 'PIL'.
+          if ! unzip -p "$paket" SKILL.md | grep -qF "pip install -r requirements.txt"; then
+            echo "FEHLER: SKILL.md im Paket nennt pip install -r requirements.txt nicht." >&2
+            exit 1
+          fi
+
+          # Dieselbe Regel noch einmal als Verbot, damit sichtbar bleibt, was
+          # nie ins Paket gehoert: Repo-Innereien, Landingpage, Schluesseldateien.
+          if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|build_skill_package[.]py'; then
+            echo "FEHLER: Das Paket enthaelt Dateien, die nicht ausgeliefert werden duerfen." >&2
+            exit 1
+          fi
+
+          unzip -l "$paket"

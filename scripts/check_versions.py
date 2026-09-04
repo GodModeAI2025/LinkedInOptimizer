@@ -1,24 +1,35 @@
 # -*- coding: utf-8 -*-
 """Prueft, ob die Skill-Version an allen dokumentierten Stellen uebereinstimmt.
 
-Geprueft werden fuenf Fundstellen: die Ueberschrift und der Versions-Abschnitt
+Die Quelle ist die Datei VERSION im Repo-Wurzelverzeichnis. Sie enthaelt eine
+Zeile mit der Versionsnummer ohne fuehrendes v. Alles andere ist eine Kopie,
+die hier gegen die Quelle geprueft wird.
+
+Geprueft werden sechs Fundstellen: die Ueberschrift und der Versions-Abschnitt
 der README, die Ueberschrift und der oberste Changelog-Eintrag in SKILL.md, das
 Hero-Badge der Landingpage und der DOCX-Kopfzeilen-String im Report-Template.
 
-Exitcode 0, wenn alle fuenf dieselbe Version nennen. Exitcode 1, wenn sie
-auseinanderlaufen oder wenn eine Fundstelle gar nicht mehr gefunden wird. Der
+Exitcode 0, wenn alle sechs die Version aus VERSION nennen. Exitcode 1, wenn
+eine davon abweicht oder wenn eine Fundstelle gar nicht mehr gefunden wird. Der
 zweite Fall ist Absicht: eine geloeschte oder umformulierte Versionszeile darf
 nicht stillschweigend durchgehen.
+
+Mit --expect X muss zusaetzlich VERSION selbst X sein. Der Release-Workflow
+uebergibt dort den Tagnamen ohne v, damit ein Tag, der nicht zum Repo passt,
+kein Release erzeugt.
 
 Die Dokument-Versionen von references/SCORING.md (v2.0) sind bewusst nicht Teil
 der Pruefung, sie zaehlen eigenstaendig.
 """
 
+import argparse
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+VERSION_FILE = ROOT / "VERSION"
 
 VERSION = r"(\d+\.\d+\.\d+)"
 
@@ -56,7 +67,47 @@ CHECKS = [
 ]
 
 
+def read_source_version():
+    """Liest die Versionsnummer aus VERSION. None, wenn das nicht geht."""
+    if not VERSION_FILE.exists():
+        print("FEHLER: VERSION fehlt im Repo-Wurzelverzeichnis.", file=sys.stderr)
+        return None
+    raw = VERSION_FILE.read_text(encoding="utf-8").strip()
+    if not re.fullmatch(r"\d+\.\d+\.\d+", raw):
+        print(
+            f"FEHLER: VERSION enthaelt keine Versionsnummer der Form 1.2.3: {raw!r}",
+            file=sys.stderr,
+        )
+        return None
+    return raw
+
+
 def main():
+    parser = argparse.ArgumentParser(
+        description="Prueft die Versionsangaben gegen die Datei VERSION."
+    )
+    parser.add_argument(
+        "--expect",
+        metavar="X",
+        help="Verlangt zusaetzlich, dass VERSION genau X ist (ohne fuehrendes v).",
+    )
+    args = parser.parse_args()
+
+    source = read_source_version()
+    if source is None:
+        return 1
+
+    print(f"  v{source:<8} VERSION (Quelle)")
+
+    if args.expect is not None:
+        expected = args.expect.lstrip("v")
+        if expected != source:
+            print(
+                f"\nFEHLER: erwartet wurde v{expected}, VERSION nennt v{source}.",
+                file=sys.stderr,
+            )
+            return 1
+
     found = []
     missing = []
 
@@ -81,16 +132,21 @@ def main():
             print(f"  - {entry}", file=sys.stderr)
         return 1
 
-    versions = {version for _, _, version in found}
-    if len(versions) > 1:
+    abweichend = [
+        f"{rel_path} ({label}): v{version}"
+        for rel_path, label, version in found
+        if version != source
+    ]
+    if abweichend:
         print(
-            "\nFEHLER: Versionsangaben laufen auseinander: "
-            + ", ".join(sorted("v" + v for v in versions)),
+            f"\nFEHLER: Fundstellen weichen von VERSION (v{source}) ab:",
             file=sys.stderr,
         )
+        for entry in abweichend:
+            print(f"  - {entry}", file=sys.stderr)
         return 1
 
-    print(f"\nOK: alle {len(found)} Fundstellen nennen v{versions.pop()}")
+    print(f"\nOK: VERSION und alle {len(found)} Fundstellen nennen v{source}")
     return 0
 
 
