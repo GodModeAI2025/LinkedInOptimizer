@@ -111,26 +111,31 @@ const ABOUT = {
 };
 
 // [Nr, Element, Status, Maßnahme, Farbe]
+// Die Elementnamen und ihre Reihenfolge stammen aus der Checkliste in
+// references/SCORING.md Abschnitt 9. tests/run_eval.py vergleicht sie bei jedem
+// CI-Lauf mit dieser Tabelle und mit der Aufzaehlung in SKILL.md Phase 4.3.
+// Wer hier etwas aendert, ohne SCORING.md mitzuziehen, faellt im Eval-Lauf auf.
 const AUDIT = [
-  ["1",  "Professionelles Profilbild",  "[Status]", "[Maßnahme]", GREEN],
-  ["2",  "Custom Banner",               "[Status]", "[Maßnahme]", YELLOW],
-  ["3",  "Headline optimiert",          "[Status]", "[Maßnahme]", YELLOW],
-  ["4",  "About-Sektion",               "[Status]", "[Maßnahme]", YELLOW],
-  ["5",  "Featured Section",            "[Status]", "[Maßnahme]", RED],
-  ["6",  "Creator Mode",                "[Status]", "[Maßnahme]", YELLOW],
-  ["7",  "Custom CTA-Button",           "[Status]", "[Maßnahme]", YELLOW],
-  ["8",  "Custom URL",                  "[Status]", "[Maßnahme]", GREEN],
-  ["9",  "Eigener Newsletter",          "[Status]", "[Maßnahme]", RED],
-  ["10", "Empfehlungen >= 5",           "[Status]", "[Maßnahme]", RED],
-  ["11", "Skills",                      "[Status]", "[Maßnahme]", GREEN],
-  ["12", "Positionen beschrieben",      "[Status]", "[Maßnahme]", GREEN],
-  ["13", "Zertifikate/Publikationen",   "[Status]", "[Maßnahme]", RED],
-  ["14", "Collaborative Articles",      "[Status]", "[Maßnahme]", RED],
-  ["15", "Video-Content",               "[Status]", "[Maßnahme]", RED],
-  ["16", "Ausbildung",                  "[Status]", "[Maßnahme]", GREEN],
-  ["17", "Sprachen",                    "[Status]", "[Maßnahme]", GREEN],
+  ["1",  "Professionelles Profilbild", "[Status]", "[Maßnahme]", GREEN],
+  ["2",  "Custom Banner",              "[Status]", "[Maßnahme]", YELLOW],
+  ["3",  "Headline optimiert",         "[Status]", "[Maßnahme]", YELLOW],
+  ["4",  "About-Sektion",              "[Status]", "[Maßnahme]", YELLOW],
+  ["5",  "Featured Section",           "[Status]", "[Maßnahme]", RED],
+  ["6",  "Aktuelle Position",          "[Status]", "[Maßnahme]", GREEN],
+  ["7",  "Weitere Positionen",         "[Status]", "[Maßnahme]", GREEN],
+  ["8",  "Ausbildung",                 "[Status]", "[Maßnahme]", GREEN],
+  ["9",  "Skills",                     "[Status]", "[Maßnahme]", GREEN],
+  ["10", "Empfehlungen",               "[Status]", "[Maßnahme]", RED],
+  ["11", "Zertifikate / Lizenzen",     "[Status]", "[Maßnahme]", RED],
+  ["12", "Publikationen / Projekte",   "[Status]", "[Maßnahme]", RED],
+  ["13", "Sprachen",                   "[Status]", "[Maßnahme]", GREEN],
+  ["14", "Eigener Newsletter",         "[Status]", "[Maßnahme]", RED],
+  ["15", "Creator-Tools",              "[Status]", "[Maßnahme]", YELLOW],
+  ["16", "Custom CTA-Button",          "[Status]", "[Maßnahme]", YELLOW],
+  ["17", "Custom URL",                 "[Status]", "[Maßnahme]", GREEN],
+  ["18", "Kontaktdaten",               "[Status]", "[Maßnahme]", YELLOW],
 ];
-const AUDIT_SUMMARY = "[X von 17 Elementen — Zusammenfassung]";
+const AUDIT_SUMMARY = "[X von 18 Elementen, Zusammenfassung]";
 
 const ROADMAP = {
   week12: ["[Maßnahme]"],
@@ -248,7 +253,7 @@ const doc = new Document({
 
       // ═══ 7. AUDIT ═══
       pageBreak(), h1("7. Profil-Audit"),
-      p("17 Elemente geprüft. Fehlende Elemente sind die schnellsten Hebel zur Score-Verbesserung."),
+      p("18 Elemente geprüft. Fehlende Elemente sind die schnellsten Hebel zur Score-Verbesserung."),
       emptyLine(),
       new Table({ width: { size: TABLE_W, type: WidthType.DXA }, columnWidths: [500, 3200, 1200, 4460], rows: [
         new TableRow({ children: [hCell("#", 500), hCell("Element", 3200), hCell("Status", 1200), hCell("Maßnahme", 4460)] }),

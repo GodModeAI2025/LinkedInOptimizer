@@ -36,6 +36,20 @@ Was geprueft wird:
    committete Quelldatei.
 7. Die Pflicht-Deliverables aus den Erwartungsdateien stehen in der
    Deliverables-Tabelle der README.
+8. Die Checkliste in SCORING.md Abschnitt 9 ist die Quelle der Wahrheit fuer die
+   geprueften Profil-Elemente. Ihre Kurznamen stehen in derselben Reihenfolge in
+   der Audit-Tabelle von scripts/generate_report.js und in der Aufzaehlung in
+   SKILL.md Phase 4.3, und die Stueckzahl stimmt an allen drei Stellen. Das war
+   der Befund aus der Abnahme: dieselbe Liste lief unter drei Laengen (15, 17,
+   18) und trug in zweien davon noch die Elemente 'Creator Mode' und
+   'Collaborative Articles', die laut Q3 und Q7 in SOURCES.md hinfaellig sind.
+   Diese Pruefung bindet die Listen aneinander. Sie prueft Namen und Reihenfolge,
+   nicht den Fliesstext drumherum: ein Satz wie 'Collaborative Articles bringen
+   das goldene Badge' faellt ihr nicht auf, denn ein Textverbot auf den Begriff
+   wuerde die richtigen Verneinungen in SKILL.md mitreissen.
+9. Die Landingpage bezeichnet den Dialog als Beispiel und nennt die Fixture, aus
+   der seine Zahlen stammen. pruefe_landing bindet die Zahlen, diese Pruefung
+   bindet die Aussage, dass sie nicht gemessen sind.
 
 Die Fixtures sind frei erfunden. Es sind keine anonymisierten Echtprofile: ein
 Echtprofil zu erheben und danach zu verfremden waere genau die Datenverarbeitung,
@@ -211,7 +225,37 @@ def checkliste(scoring: str):
     punkte = [z.strip()[1:].strip() for z in scoring.splitlines() if z.strip().startswith("□")]
     if len(punkte) != 18:
         raise Fehler(f"Die Vollstaendigkeits-Checkliste hat {len(punkte)} Punkte, erwartet sind 18.")
+    for punkt in punkte:
+        if " (" not in punkt or not punkt.endswith(")"):
+            raise Fehler(
+                f"Checklistenpunkt {punkt!r} hat nicht die Form 'Kurzname (Kriterium)'. "
+                "Ohne die Klammer laesst sich kein Kurzname ableiten, und die Bindung an "
+                "die Audit-Tabelle und an SKILL.md faellt aus."
+            )
     return punkte
+
+
+def profil_elemente(scoring: str):
+    """Die Kurznamen der Checkliste, also alles vor der ersten Klammer."""
+    return [punkt.split(" (", 1)[0].strip() for punkt in checkliste(scoring)]
+
+
+def elemente_aus_report(js: str):
+    """Die Elementspalte der AUDIT-Tabelle in scripts/generate_report.js."""
+    treffer = re.search(r"const AUDIT = \[(.*?)\n\];", js, re.S)
+    if treffer is None:
+        raise Fehler("scripts/generate_report.js: die AUDIT-Tabelle ist nicht lesbar.")
+    return re.findall(r'\[\s*"[^"]*",\s*"([^"]*)"', treffer.group(1))
+
+
+def elemente_aus_skill(skill: str):
+    """Die Aufzaehlung in SKILL.md Phase 4.3, dazu die dort genannte Stueckzahl."""
+    treffer = re.search(r"Prüfe die (\d+) Profil-Elemente[^(]*\(([^)]*)\)", skill)
+    if treffer is None:
+        raise Fehler(
+            "SKILL.md Phase 4.3: der Satz 'Prüfe die N Profil-Elemente (...)' ist nicht lesbar."
+        )
+    return int(treffer.group(1)), [n.strip() for n in treffer.group(2).split(",")]
 
 
 def namen_aus_skill(skill: str):
@@ -296,6 +340,60 @@ def pruefe_quellen(fehler, scoring, skill, seite, js, modell):
             fehler.append(
                 f"references/SCORING.md hat keinen Abschnitt "
                 f"'## n. {name.upper()} (Gewicht: {modell[name]}%)'."
+            )
+
+
+def pruefe_profil_elemente(fehler, scoring, skill, js):
+    """Haelt die drei Listen der geprueften Profil-Elemente aneinander.
+
+    Quelle der Wahrheit ist die Checkliste in SCORING.md Abschnitt 9. Die
+    Audit-Tabelle im Report und die Aufzaehlung in SKILL.md Phase 4.3 muessen
+    dieselben Kurznamen in derselben Reihenfolge fuehren.
+    """
+    try:
+        elemente = profil_elemente(scoring)
+    except Fehler as ausnahme:
+        fehler.append(str(ausnahme))
+        return
+
+    try:
+        report = elemente_aus_report(js)
+    except Fehler as ausnahme:
+        fehler.append(str(ausnahme))
+        report = None
+    if report is not None and report != elemente:
+        fehler.append(
+            "Die Audit-Tabelle in scripts/generate_report.js nennt andere Profil-Elemente "
+            "als die Checkliste in references/SCORING.md:\n"
+            f"    SCORING.md:          {elemente}\n"
+            f"    generate_report.js:  {report}"
+        )
+
+    try:
+        anzahl, aus_skill = elemente_aus_skill(skill)
+    except Fehler as ausnahme:
+        fehler.append(str(ausnahme))
+        aus_skill, anzahl = None, None
+    if aus_skill is not None and aus_skill != elemente:
+        fehler.append(
+            "SKILL.md Phase 4.3 nennt andere Profil-Elemente als die Checkliste in "
+            "references/SCORING.md:\n"
+            f"    SCORING.md: {elemente}\n"
+            f"    SKILL.md:   {aus_skill}"
+        )
+    if anzahl is not None and anzahl != len(elemente):
+        fehler.append(
+            f"SKILL.md Phase 4.3 spricht von {anzahl} Profil-Elementen, die Checkliste in "
+            f"references/SCORING.md hat {len(elemente)}."
+        )
+
+    # Die beiden Stellen im Report, die die Stueckzahl im Klartext nennen. Ohne
+    # sie stuende im Kundendokument weiter eine Zahl, die niemand nachzieht.
+    for satz in (f"[X von {len(elemente)} Elementen", f'p("{len(elemente)} Elemente geprüft.'):
+        if satz not in js:
+            fehler.append(
+                f"scripts/generate_report.js nennt {satz!r} nicht. Die Stueckzahl im Report "
+                f"muss auf {len(elemente)} stehen, so viele Elemente hat die Checkliste."
             )
 
 
@@ -445,6 +543,30 @@ def pruefe_landing(fehler, seite):
                 )
 
 
+# Was auf der Landingpage stehen muss, damit der Dialog nicht als Messung
+# durchgeht, und warum. Die Zahlen im Dialog bindet pruefe_landing an die
+# Fixture; diese Liste bindet die Aussage, dass sie nicht gemessen sind. Ohne
+# sie liesse sich 'Beispiel-Dialog' wieder in 'Live Demo' aendern, ohne dass ein
+# Pruefschritt anschlaegt.
+LANDING_EHRLICHKEIT = [
+    ('<div class="section-label">Beispiel-Dialog</div>',
+     "Die Ueberschrift des Dialogs muss ihn als Beispiel ausweisen."),
+    ('<div class="chat-status">Nachgestellter Dialog &middot; Werte aus '
+     'tests/fixtures/profile_mid.json</div>',
+     "Die Statuszeile muss den Dialog als nachgestellt ausweisen und die Fixture nennen."),
+    ("Der Dialog rechts ist nachgestellt.",
+     "Der Fliesstext muss sagen, dass der Dialog nachgestellt ist."),
+    ("hinterlegt als tests/fixtures/profile_mid.json, kein gemessenes Profil",
+     "Der Fliesstext muss die Fixture nennen und sagen, dass sie kein gemessenes Profil ist."),
+]
+
+
+def pruefe_landing_ehrlichkeit(fehler, seite):
+    for satz, grund in LANDING_EHRLICHKEIT:
+        if satz not in seite:
+            fehler.append(f"index.html: {grund} Erwartet wird der Wortlaut {satz!r}.")
+
+
 def pruefe_deliverables(fehler, readme):
     vorhanden = deliverables_aus_readme(readme)
     for name in sorted(EXPECTED.glob("*.json")):
@@ -485,6 +607,7 @@ def main() -> int:
 
     try:
         pruefe_quellen(fehler, scoring, skill, seite, js, modell)
+        pruefe_profil_elemente(fehler, scoring, skill, js)
 
         namen = [args.fixture] if args.fixture else sorted(p.stem for p in FIXTURES.glob("*.json"))
         ergebnis = json.loads(lies(Path(args.result))) if args.result else None
@@ -497,6 +620,7 @@ def main() -> int:
 
         if not args.result:
             pruefe_landing(fehler, seite)
+            pruefe_landing_ehrlichkeit(fehler, seite)
             pruefe_deliverables(fehler, readme)
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
@@ -507,7 +631,7 @@ def main() -> int:
             print(f"  - {eintrag}", file=sys.stderr)
         return 1
 
-    print("\nOK: Kategorienamen an vier Stellen gleich, alle Fixtures im Band.")
+    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, alle Fixtures im Band.")
     return 0
 
 

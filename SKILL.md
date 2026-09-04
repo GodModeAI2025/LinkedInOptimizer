@@ -94,7 +94,7 @@ const spans = aboutSection?.querySelectorAll('span[aria-hidden="true"]');
 // Laengsten Span nehmen = vollstaendiger Text
 // Wenn abgeschnitten: zweite Haelfte mit .substring(800) nachladen
 
-// Featured Section, Creator Mode, Empfehlungen
+// Featured Section, Creator-Tools, Empfehlungen
 const hasFeatured = !!document.getElementById('featured');
 ```
 
@@ -211,7 +211,7 @@ Die ersten 270 Zeichen (vor „…mehr") entscheiden über Weiterlesen. Orwell-P
 
 ### 4.3 Quick-Win-Checkliste
 
-Prüfe 15 Profil-Elemente (Profilbild, Banner, Headline, About, Featured, Creator Mode, CTA, URL, Newsletter, Empfehlungen, Skills, Positionen, Publikationen, Collaborative Articles, Video-Content) und erstelle einen Maßnahmenplan.
+Prüfe die 18 Profil-Elemente aus der Checkliste in `references/SCORING.md` Abschnitt 9 (Professionelles Profilbild, Custom Banner, Headline optimiert, About-Sektion, Featured Section, Aktuelle Position, Weitere Positionen, Ausbildung, Skills, Empfehlungen, Zertifikate / Lizenzen, Publikationen / Projekte, Sprachen, Eigener Newsletter, Creator-Tools, Custom CTA-Button, Custom URL, Kontaktdaten) und erstelle einen Maßnahmenplan. Dieselbe Liste in derselben Reihenfolge steht in der Audit-Tabelle von `scripts/generate_report.js`; `tests/run_eval.py` hält die drei Stellen gegeneinander.
 
 ---
 
@@ -439,7 +439,7 @@ v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
 ├── references/SOURCES.md: sieben Quellen mit URL, Veröffentlichungs- und Abrufdatum, dazu je Quelle, was sie nicht belegt
 ├── Elf unbelegte Zahlen ohne Ersatz entfernt, darunter der Plattformdurchschnitt der Engagement-Rate und die Werte je Postformat
 ├── Sachfehler korrigiert: das goldene Community-Top-Voice-Badge ist seit dem 08.10.2024 zurückgezogen, Nominierungen prüft LinkedIn quartalsweise
-├── Sub-Kriterium Collaborative Articles entfällt, der Punkt liegt bei Momentum; Creator Mode durch Creator-Tools ersetzt
+├── Sub-Kriterium Collaborative Articles entfällt, der Punkt liegt bei Momentum; der Creator-Mode-Schalter ist durch die Creator-Tools ersetzt
 ├── SCORING.md: Nenner der Engagement-Rate geklärt, das Raster gilt für den impressions-basierten Wert
 ├── Die zehn Kategorien heißen an allen vier Stellen gleich, generate_report.js zog vier Kurznamen nach
 ├── tests/: drei frei erfundene Profil-Fixtures, erwartete Score-Bänder und tests/run_eval.py

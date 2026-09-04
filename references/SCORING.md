@@ -167,7 +167,7 @@ dieser Grenze steht in `SOURCES.md`.
 | 7–8 | 2–3×/Woche | Konsistenter Rhythmus, keine Pausen >7 Tage |
 | 9–10 | 3–5×/Woche | Fester Rhythmus seit ≥3 Monaten, nie Back-to-Back gleiche Formate |
 
-**Algorithmus-Kontext**: Ein Beitrag bleibt über die Erstverteilung hinaus sichtbar, solange er Engagement erzeugt. Formate abwechseln statt zweimal hintereinander dasselbe Format zu posten. Die früher hier genannten Zahlen (5 Tage Sichtbarkeit seit 2025, minus 20 % bei Back-to-Back) sind zurückgezogen, weil sich dafür keine Quelle finden ließ (siehe `SOURCES.md`).
+**Algorithmus-Kontext**: Ein Beitrag bleibt über die Erstverteilung hinaus sichtbar, solange er Engagement erzeugt. Formate abwechseln statt zweimal hintereinander dasselbe Format zu posten. Die früher hier genannten Zahlen zur Sichtbarkeitsdauer und zum Back-to-Back-Effekt sind zurückgezogen, weil sich dafür keine Quelle finden ließ. Sie stehen mit Begründung in der Tabelle „Zurückgezogen" in `SOURCES.md` und werden dort auch gegen eine Rückkehr gesperrt.
 
 ---
 
@@ -249,25 +249,32 @@ dieser Grenze steht in `SOURCES.md`.
 
 ### Checkliste (jeder Punkt = 0 oder 1)
 
+Diese Liste ist die Quelle der Wahrheit für die geprüften Profil-Elemente. Jede Zeile hat die
+Form `Kurzname (Kriterium)`. Der Kurzname vor der Klammer ist der Name, unter dem das Element
+in SKILL.md Phase 4.3 und in der Audit-Tabelle von `scripts/generate_report.js` auftaucht.
+`tests/run_eval.py` vergleicht die drei Listen bei jedem CI-Lauf Zeile für Zeile. Wer hier ein
+Element ergänzt, streicht oder umbenennt, muss die beiden anderen Stellen mitziehen, sonst
+schlägt der Lauf fehl.
+
 ```
 □ Professionelles Profilbild (Gesicht ≥60% des Bildes)
 □ Custom Banner (nicht LinkedIn-Standard)
 □ Headline optimiert (>100 Zeichen)
-□ About-Sektion vollständig (>500 Zeichen)
-□ Featured Section mit ≥3 Inhalten
-□ Aktuelle Position mit Beschreibung
-□ Alle relevanten Positionen mit Beschreibungen
-□ Ausbildung eingetragen
+□ About-Sektion (>500 Zeichen, vollständig ausformuliert)
+□ Featured Section (≥3 Inhalte)
+□ Aktuelle Position (mit Beschreibung)
+□ Weitere Positionen (alle relevanten, mit Beschreibung)
+□ Ausbildung (eingetragen)
 □ Skills (≥10, mit Endorsements)
-□ Empfehlungen (≥5)
-□ Zertifikate / Lizenzen
-□ Publikationen / Projekte
-□ Sprachen
-□ Newsletter vorhanden
-□ Creator-Tools genutzt (Newsletter, LinkedIn Live oder Audio Events)
-□ Custom CTA-Button konfiguriert
+□ Empfehlungen (≥5 erhalten)
+□ Zertifikate / Lizenzen (mindestens eines)
+□ Publikationen / Projekte (mindestens eines)
+□ Sprachen (mindestens eine)
+□ Eigener Newsletter (aktiv)
+□ Creator-Tools (Newsletter, LinkedIn Live oder Audio Events)
+□ Custom CTA-Button (konfiguriert)
 □ Custom URL (/in/vorname-nachname)
-□ Kontaktdaten (E-Mail/Website)
+□ Kontaktdaten (E-Mail oder Website)
 ```
 
 ### Bewertungsstufen
