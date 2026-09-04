@@ -22,7 +22,9 @@ Ein Skill zur professionellen Analyse und Optimierung von LinkedIn-Profilen. Ent
 
 ```
 LinkedInOptimizer/
+├── README.md              # Diese Übersicht
 ├── SKILL.md               # Hauptworkflow (8 Phasen)
+├── LICENSE                # MIT-Lizenz
 ├── index.html             # Landingpage (GitHub Pages, Quelle ist der Repo-Root)
 ├── scripts/
 │   ├── create_banner.py   # Banner-Generator mit Safe-Zone-Validierung

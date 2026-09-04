@@ -251,7 +251,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 
 **Vorgehen:**
 1. Lies `scripts/generate_report.js` mit dem view-Tool
-2. Kopiere es unter dem Namen `generate_report.js` in das Arbeitsverzeichnis
+2. Kopiere es unter dem Namen `generate_report.js` in das Arbeitsverzeichnis und installiere dort das Paket `docx` mit `npm install docx`
 3. Ersetze die Platzhalter-Daten durch die erhobenen Kundendaten:
    - `scoring`-Array: Alle 10 Kategorien mit Roh-Score, Gewichtung, Begründung
    - `posts`-Array: Content-Aktivitäten aus Phase 1 (Schritt 2)
@@ -280,7 +280,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 
 7. **Profil-Audit** (1 Seite): 17-Punkte-Checkliste als Tabelle mit Status (Vorhanden/Fehlt/Teilweise) und konkreter Maßnahme je Element. Zusammenfassung: X von 17 erfüllt.
 
-8. **Roadmap** (1 Seite): Zeitlich priorisierte Maßnahmen (Woche 1–2 Quick Wins → Monat 2–3 Skalierung → Monat 4–6 Authority Building). Erwarteter Score nach 3 Monaten mit Begründung.
+8. **Roadmap** (1 Seite): Zeitlich priorisierte Maßnahmen (Woche 1–2 Quick Wins → Woche 3–4 Content-Start → Monat 2–3 Skalierung → Monat 4–6 Authority Building). Erwarteter Score nach 3 Monaten mit Begründung.
 
 9. **Methodik & Einschränkungen** (1 Seite): Wie die Daten erhoben wurden (Chrome/web_search/manuell), welche Scoring-Methodik verwendet wurde, welche Daten geschätzt oder nicht verfügbar waren. Transparenz schafft Vertrauen.
 
@@ -342,7 +342,7 @@ Prüfe vor Übergabe an den Kunden:
 
 **Scoring**: Jede Kategorie mit Begründung, gewichtete Summe korrekt berechnet, ≥3 Hebel identifiziert.
 
-**Report**: DOCX erzeugt, als ZIP lesbar (`unzip -l` listet `word/document.xml`), alle 9 Kapitel vorhanden, jede Tabelle und jedes Diagramm hat einen erklärenden Textabsatz darunter, keine Scoring-Kategorie ohne Begründung.
+**Report**: DOCX erzeugt, als ZIP lesbar (`unzip -l` listet `word/document.xml`), alle 9 Kapitel vorhanden, jede Tabelle hat einen erklärenden Textabsatz darunter, keine Scoring-Kategorie ohne Begründung.
 
 Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
@@ -362,11 +362,11 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
 **SSI nicht verfügbar**: Erfordert Zugang zu linkedin.com/sales/ssi. Schätze die 4 Säulen basierend auf beobachtbaren Profil-Signalen. Markiere als "(geschätzt)" im Report.
 
-**Wettbewerber nicht abrufbar**: Minimum 2 Wettbewerber für sinnvolle Matrix. Bei <2: Branchenbenchmarks aus der Tabelle oben verwenden.
+**Wettbewerber nicht abrufbar**: Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Sind nur 2 erreichbar, erstelle die Matrix mit 2 und vermerke die Abweichung im Report. Bei <2: Branchenbenchmarks aus der Tabelle oben verwenden.
 
 **Banner-Erstellung scheitert**: Font-Fallback (DejaVuSans) und Gradient-Fallback sind im Skript eingebaut. Wenn Buchcover nicht in Safe Zone passt: weglassen.
 
-**DOCX-Generierung scheitert**: Prüfe ob das npm-Paket `docx` installiert ist (`npm install -g docx`). Prüfe das Ergebnis mit `unzip -l <Ausgabedatei>.docx`, `word/document.xml` muss enthalten sein. Bei Syntax-Fehlern im Report-Skript: Keine typografischen Anführungszeichen (U+201E, U+201C) in JavaScript-Strings verwenden — nur ASCII-Quotes (`"` und `'`). Umlaute (ä, ö, ü, ß) und andere UTF-8-Zeichen sind dagegen problemlos möglich und sollen immer korrekt geschrieben werden — niemals als ASCII-Umschreibungen (ae, oe, ue, ss).
+**DOCX-Generierung scheitert**: Prüfe ob das npm-Paket `docx` im Arbeitsverzeichnis installiert ist (`npm install docx`). Eine globale Installation reicht nicht: `require("docx")` durchsucht nur die node_modules-Ordner oberhalb des Skripts, nicht das globale npm-Verzeichnis. Prüfe das Ergebnis mit `unzip -l <Ausgabedatei>.docx`, `word/document.xml` muss enthalten sein. Bei Syntax-Fehlern im Report-Skript: Keine typografischen Anführungszeichen (U+201E, U+201C) in JavaScript-Strings verwenden — nur ASCII-Quotes (`"` und `'`). Umlaute (ä, ö, ü, ß) und andere UTF-8-Zeichen sind dagegen problemlos möglich und sollen immer korrekt geschrieben werden — niemals als ASCII-Umschreibungen (ae, oe, ue, ss).
 
 ---
 
@@ -376,7 +376,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 |-------|------|---------|
 | 1. Discovery | Alle Profildaten vollständig | Checkliste |
 | 2. Scoring | Jeder Score mit Begründung | Sub-Kriterien aus SCORING.md |
-| 3. Wettbewerb | Min. 3 Wettbewerber | Matrix ausgefüllt |
+| 3. Wettbewerb | Min. 3 Wettbewerber, Ausnahme siehe Fehlerbehandlung | Matrix ausgefüllt |
 | 4. Profil | Headline in 60-Zeichen-Preview geprüft | Zeichenzahl-Check |
 | 5. Banner | Kein Overlap in Safe Zone | Skript-Validierung |
 | 6. Content | 3 Test-Posts auf Tonalität geprüft | Template-Check |
@@ -391,7 +391,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 v2.2.2 (2026-03-09) – Template anonymisiert
 ├── generate_report.js: Komplett neu geschrieben mit PROFILE/EXEC/HEADLINE/ABOUT/AUDIT/ROADMAP/LIMITS-Variablen
 ├── Report-Body ist jetzt 100% generisch — keine Namen, Firmen oder profilspezifischen Texte im Code
-├── Alle kundenspezifischen Daten stehen ausschließlich im KUNDENDATEN-Block (Zeile 80-150)
+├── Alle kundenspezifischen Daten stehen ausschließlich im KUNDENDATEN-Block (PROFILE bis LIMITS, Zeile 32-149)
 ├── Platzhalter-Werte ("Max Mustermann", "[Begründung]") als Vorlage für Anpassung
 └── Template von 585 auf 278 Zeilen reduziert (gleiche Report-Struktur, kompakterer Code)
 
@@ -412,7 +412,7 @@ v2.2.0 (2026-03-09) – Chrome-First + DOCX-Pflicht
 └── Verifikation: Report-Check auf DOCX-Validierung und Erklärungspflicht angepasst
 
 v2.1.0 (2026-03-09) – Anthropic Skill Standard Compliance
-├── Ordnerstruktur: references/, scripts/, assets/ nach Anthropic-Standard
+├── Ordnerstruktur: references/ und scripts/ nach Anthropic-Standard
 ├── SKILL.md auf <500 Zeilen reduziert mit klaren Verweisen auf references/
 ├── Banner-Code als eigenständiges Skript extrahiert (scripts/create_banner.py)
 ├── Font-Fallback (DejaVuSans) und Gradient-Fallback eingebaut
