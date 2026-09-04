@@ -34,7 +34,7 @@ Das Skript setzt feste Zeitstempel und eine feste Reihenfolge und speichert unko
 
 | Deliverable | Beschreibung |
 |-------------|-------------|
-| Gewichteter Profil-Score | 10-Kategorie-Bewertung (0–100) mit Industrie-Benchmarks |
+| Gewichteter Profil-Score | 10-Kategorie-Bewertung (0–100) nach dem Raster in references/SCORING.md |
 | Wettbewerbsanalyse | Positionierungsmatrix vs. 3–5 Nischen-Konkurrenten |
 | Optimierte Headline | 3 Varianten mit SEO-Score, Zeichenzahl und Begründung |
 | Optimierter About-Text | Orwell-inspiriert, strategische Hashtags, starker CTA |
@@ -85,12 +85,12 @@ Zurückgezogen, weil nicht belegbar: der genannte Plattformdurchschnitt der Enga
 
 ## Scoring
 
-Die zehn Kategorien, ihre Gewichte und die Begründung je Gewicht stehen in [references/SCORING.md](references/SCORING.md#gewichtung). Dort liegen auch die [Engagement-Rate-Benchmarks](references/SCORING.md#engagement-rate-benchmarks-2025) samt Berechnungsformel und die [Score-Interpretation](references/SCORING.md#score-interpretation), die einen Gesamtscore in einen Zeithorizont bis Top Voice übersetzt.
+Die zehn Kategorien, ihre Gewichte und die Begründung je Gewicht stehen in [references/SCORING.md](references/SCORING.md#gewichtung). Dort liegt auch das [Engagement-Rate-Bewertungsraster](references/SCORING.md#engagement-rate-bewertungsraster) samt Berechnungsformel und die [Score-Interpretation](references/SCORING.md#score-interpretation), die einen Gesamtscore in einen Zeithorizont bis Top Voice übersetzt.
 
 ## Grenzen
 
 - LinkedIn blockiert web_fetch und web_search über robots.txt. Ohne das Chrome-Plugin bleibt die manuelle Eingabe, und die Datenqualität sinkt entsprechend.
-- Impressions sind öffentlich nicht sichtbar. `scripts/generate_report.js` schätzt die Engagement-Rate deshalb aus der Follower-Zahl, während die Benchmark-Tabelle in SCORING.md Impressions als Nenner voraussetzt. Der geschätzte Wert liegt systematisch höher als der Benchmark-Wert, beide sind nicht direkt vergleichbar.
+- Impressions sind öffentlich nicht sichtbar. `scripts/generate_report.js` schätzt die Engagement-Rate deshalb aus der Follower-Zahl, während das Bewertungsraster in SCORING.md Impressions als Nenner voraussetzt. Der geschätzte Wert liegt systematisch höher, beide sind nicht direkt vergleichbar.
 - Der DOCX-Report enthält keine Diagramme. Radar-Chart und Balkendiagramm sind in SCORING.md als Darstellungsform beschrieben, das Report-Template erzeugt sie nicht.
 - Der Ausgabepfad in `scripts/generate_report.js` steht fest auf `/mnt/user-data/outputs/`, also auf die Sandbox von claude.ai. Für einen lokalen Lauf muss die letzte Zeile angepasst werden.
 - Der SSI lässt sich nur mit Zugang zu linkedin.com/sales/ssi ablesen. Ohne Zugang wird er aus Profil-Signalen geschätzt und ist im Report als geschätzt zu kennzeichnen.

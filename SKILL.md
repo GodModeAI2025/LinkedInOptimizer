@@ -20,7 +20,7 @@ Lies die jeweilige Datei, wenn du die Phase erreichst:
 
 | Datei | Inhalt | Wann lesen |
 |-------|--------|-----------|
-| `references/SCORING.md` | Gewichtete 10-Kategorien-Matrix mit Sub-Kriterien und Benchmarks | Phase 2 (Scoring) |
+| `references/SCORING.md` | Gewichtete 10-Kategorien-Matrix mit Sub-Kriterien und Bewertungsraster | Phase 2 (Scoring) |
 | `references/TEMPLATES.md` | Vorlagen für Headline, About, Content-Skill, Kommentar-Skill | Phase 4 + 6 |
 | `references/BANNER.md` | Technische Banner-Anleitung mit Safe Zones und Viewport-Matrix | Phase 5 |
 | `references/SOURCES.md` | Quellen mit Datum, zurückgezogene Zahlen, Erfahrungswerte, Prüfrhythmus | Vor jeder Zahl im Report |
@@ -108,7 +108,7 @@ Stelle dem Kunden diese 10 Fragen:
 
 ### 1.3 SSI-Score erheben
 
-Dokumentiere den Social Selling Index (4 Säulen à 25 Punkte, Gesamt 100). Benchmark: SSI >70 = effektiv, >75 = Thought-Leader-Niveau.
+Dokumentiere den Social Selling Index. LinkedIn benennt vier Säulen (Q5 in `references/SOURCES.md`); die Aufteilung in je 25 Punkte bis 100 bestätigt LinkedIn nicht und ist als Konvention zu kennzeichnen. Zielmarken dieses Skills, keine Branchenwerte: SSI über 70 gilt als effektiv, über 75 als Thought-Leader-Niveau.
 
 ---
 
@@ -277,7 +277,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 
 3. **Detailanalyse je Kategorie** (3–4 Seiten): Jede der 10 Kategorien wird in einem eigenen Unterkapitel begründet. Jede Begründung nennt konkrete Befunde aus dem Profil — keine generischen Aussagen. Bei niedriger Bewertung: konkreter Verbesserungsvorschlag.
 
-4. **Content-Aktivität** (1 Seite): Tabelle der letzten Posts mit Zeitpunkt, Reaktionen, Kommentaren, geschätzter Engagement-Rate. Darunter Erklärung der Methodik (worauf die Schätzung basiert, was nicht messbar war) und Bewertung der Kennzahlen (Median, Vergleich mit Benchmark).
+4. **Content-Aktivität** (1 Seite): Tabelle der letzten Posts mit Zeitpunkt, Reaktionen, Kommentaren, geschätzter Engagement-Rate. Darunter Erklärung der Methodik (worauf die Schätzung basiert, was nicht messbar war) und Bewertung der Kennzahlen (Median, Vergleich mit dem Bewertungsraster in `references/SCORING.md`, sofern der Nenner passt).
 
 5. **Headline-Analyse** (1 Seite): Aktuelle Headline mit Bewertung (was funktioniert, was nicht, warum), 3 Optimierungsvorschläge mit Zeichenzahl, ersten 60 Zeichen und Erklärung der jeweiligen Strategie.
 

@@ -64,6 +64,8 @@ VERBOTEN = [
      "halbjaehrliche Top-Voice-Review, LinkedIn prueft Nominierungen quartalsweise"),
     (r"bis zu 5 Tage Sichtbarkeit", "5 Tage Sichtbarkeit seit 2025, keine Quelle"),
     (r"um 20\s?% reduzieren", "Back-to-Back minus 20 %, keine Quelle"),
+    (r"Industrie-Benchmark", "Rahmung als Industrie-Benchmark, das Raster in SCORING.md ist keiner"),
+    (r"Engagement-Rate-Benchmarks", "Rahmung der Baender als Benchmark, sie sind ein internes Raster"),
 ]
 
 DATUM = re.compile(r"\d{4}-\d{2}-\d{2}")
