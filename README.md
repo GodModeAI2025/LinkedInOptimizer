@@ -4,6 +4,32 @@
 
 Ein Skill zur professionellen Analyse und Optimierung von LinkedIn-Profilen. Entwickelt für Berater, Agenturen und Freelancer, die Kunden strategisch als Thought Leader positionieren und auf das LinkedIn Top Voice Badge vorbereiten.
 
+## Installation
+
+Das Release-Artefakt heißt `linkedin-optimizer.skill` und liegt am jeweils letzten Release:
+
+```bash
+curl -LO https://github.com/GodModeAI2025/LinkedInOptimizer/releases/latest/download/linkedin-optimizer.skill
+```
+
+Die Datei entweder in Claude Chat ziehen oder lokal auspacken:
+
+```bash
+unzip linkedin-optimizer.skill -d /path/to/skills/user/linkedin-profil-optimierung/
+```
+
+Im Archiv liegen SKILL.md, `references/`, `scripts/create_banner.py`, `scripts/generate_report.js`, LICENSE und requirements.txt. Landingpage, Workflows und die Repo-Werkzeuge `check_versions.py` und `build_skill_package.py` sind nicht enthalten.
+
+Aus einem Klon lässt sich dasselbe Archiv selbst bauen, ohne Netz und ohne GitHub:
+
+```bash
+python scripts/build_skill_package.py dist/linkedin-optimizer.skill
+```
+
+Das Skript setzt feste Zeitstempel und eine feste Reihenfolge und speichert unkomprimiert. Zwei Läufe liefern dieselben Bytes, auch auf verschiedenen Rechnern.
+
+`scripts/create_banner.py` braucht Pillow ab 10.1: `pip install -r requirements.txt`. `scripts/generate_report.js` braucht das npm-Paket `docx`.
+
 ## Deliverables
 
 | Deliverable | Beschreibung |
@@ -22,20 +48,24 @@ Ein Skill zur professionellen Analyse und Optimierung von LinkedIn-Profilen. Ent
 
 ```
 LinkedInOptimizer/
-├── README.md              # Diese Übersicht
-├── SKILL.md               # Hauptworkflow (8 Phasen)
-├── LICENSE                # MIT-Lizenz
-├── index.html             # Landingpage (GitHub Pages, Quelle ist der Repo-Root)
+├── README.md                   # Diese Übersicht
+├── SKILL.md                    # Hauptworkflow (8 Phasen)
+├── VERSION                     # Quelle der Versionsnummer, alles andere ist Kopie
+├── requirements.txt            # Pillow-Untergrenze für create_banner.py
+├── LICENSE                     # MIT-Lizenz
+├── index.html                  # Landingpage (GitHub Pages, Quelle ist der Repo-Root)
 ├── scripts/
-│   ├── create_banner.py   # Banner-Generator mit Safe-Zone-Validierung
-│   ├── check_versions.py  # Vergleicht die Versionsangaben in README, SKILL.md, index.html, Report-Template
-│   └── generate_report.js # DOCX-Report-Template (Node.js, npm-Paket docx)
+│   ├── create_banner.py        # Banner-Generator mit Safe-Zone-Validierung
+│   ├── check_versions.py       # Prüft die Versionsangaben gegen VERSION
+│   ├── build_skill_package.py  # Baut linkedin-optimizer.skill, reproduzierbar und offline
+│   └── generate_report.js      # DOCX-Report-Template (Node.js, npm-Paket docx)
 ├── references/
-│   ├── SCORING.md         # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Benchmarks
-│   ├── TEMPLATES.md       # Vorlagen für Headline, About, Content, Kommentare
-│   └── BANNER.md          # Technische Banner-Anleitung mit Viewport-Matrix
+│   ├── SCORING.md              # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Benchmarks
+│   ├── TEMPLATES.md            # Vorlagen für Headline, About, Content, Kommentare
+│   └── BANNER.md               # Technische Banner-Anleitung mit Viewport-Matrix
 └── .github/workflows/
-    └── ci.yml             # Syntax-, Banner- und Versionsprüfung
+    ├── ci.yml                  # Syntax-, Banner-, Versions- und Paketprüfung
+    └── release.yml             # Hängt das Artefakt an ein Tag v*
 ```
 
 ## Datenbasis
@@ -57,18 +87,20 @@ Die zehn Kategorien, ihre Gewichte und die Begründung je Gewicht stehen in [ref
 - Der Ausgabepfad in `scripts/generate_report.js` steht fest auf `/mnt/user-data/outputs/`, also auf die Sandbox von claude.ai. Für einen lokalen Lauf muss die letzte Zeile angepasst werden.
 - Der SSI lässt sich nur mit Zugang zu linkedin.com/sales/ssi ablesen. Ohne Zugang wird er aus Profil-Signalen geschätzt und ist im Report als geschätzt zu kennzeichnen.
 - `scripts/create_banner.py` braucht Pillow ab 10.1. Ältere Versionen wenden die angeforderte Schriftgröße nicht auf den Ersatz-Font an; die Safe-Zone-Messung ist dann nicht belastbar, und `--strict` bricht ab.
-- Es gibt weder requirements.txt noch package.json. Pillow und das npm-Paket docx sind nicht gepinnt.
+- requirements.txt nennt für Pillow nur eine Untergrenze, keinen Pin. Für das npm-Paket `docx` gibt es weiterhin keine package.json, seine Version ist damit offen.
 
 ## Roadmap
 
 Offene Punkte, ohne Termin:
 
-- requirements.txt und package.json mit gepinnten Versionen für Pillow und docx.
+- package.json für `docx`, dazu gepinnte Versionen statt der Untergrenze in requirements.txt.
 - Ausgabepfad des Report-Templates konfigurierbar machen, statt ihn auf die claude.ai-Sandbox zu verdrahten.
 - Quellenangaben für die Engagement-Benchmarks in SCORING.md, dazu die Klärung, welcher Nenner gilt.
 - Fehlerfälle Rate Limit beziehungsweise LinkedIn-Checkpoint und geänderte DOM-Struktur in der Fehlerbehandlung ergänzen.
 - Testfälle für das Scoring mit erwarteten Score-Bändern.
 
 ## Version
+
+Die Versionsnummer steht in der Datei `VERSION`. README, SKILL.md, Landingpage und Report-Template führen sie als Kopie; `scripts/check_versions.py` vergleicht sie bei jedem Push gegen `VERSION` und schlägt bei Abweichung fehl. Der Release-Workflow prüft zusätzlich, dass der Tagname zu `VERSION` passt.
 
 Aktuelle Version: v2.3.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
