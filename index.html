@@ -841,9 +841,9 @@ footer .footer-right a:hover { color: var(--text); }
 <section id="demo">
   <div class="chat-section">
     <div>
-      <div class="section-label">Live Demo</div>
+      <div class="section-label">Beispiel-Dialog</div>
       <div class="section-title">Sag einfach, was du brauchst.</div>
-      <p class="section-sub">Der Skill erkennt automatisch, welche Analyse du brauchst, und liefert strukturierte Ergebnisse mit konkreten Handlungsempfehlungen.</p>
+      <p class="section-sub">Der Skill erkennt automatisch, welche Analyse du brauchst, und liefert strukturierte Ergebnisse mit konkreten Handlungsempfehlungen. Der Dialog rechts ist nachgestellt. Die Zahlen darin sind das Rechenbeispiel aus references/SCORING.md, hinterlegt als tests/fixtures/profile_mid.json, kein gemessenes Profil.</p>
     </div>
     <div class="chat-window">
       <div class="chat-bar">
@@ -857,7 +857,7 @@ footer .footer-right a:hover { color: var(--text); }
         <div class="chat-msg user">Optimiere meine Headline.</div>
         <div class="chat-msg ai">Hier sind 3 Varianten mit SEO-Score, Zeichenzahl und Begründung…</div>
       </div>
-      <div class="chat-status">✓ Skill activated · 10 categories · weighted scoring</div>
+      <div class="chat-status">Nachgestellter Dialog &middot; Werte aus tests/fixtures/profile_mid.json</div>
     </div>
   </div>
 </section>
@@ -921,7 +921,8 @@ footer .footer-right a:hover { color: var(--text); }
 <section id="scoring">
   <div class="section-label">Scoring Engine</div>
   <div class="section-title">10 Kategorien. Gewichtet. Nachrechenbar.</div>
-  <p class="section-sub">Kategorien und Gewichte stehen in <a href="https://github.com/GodModeAI2025/LinkedInOptimizer/blob/main/references/SCORING.md#gewichtung">references/SCORING.md</a>. Die Werte unten sind die dort durchgerechnete Beispielbewertung: Rohscores von 0 bis 10, gewichtet ergeben sie 70,0 von 100.</p>
+  <p class="section-sub">Kategorien und Gewichte stehen in <a href="https://github.com/GodModeAI2025/LinkedInOptimizer/blob/main/references/SCORING.md#gewichtung">references/SCORING.md</a>. Die Werte unten sind die dort durchgerechnete Beispielbewertung: Rohscores von 0 bis 10, gewichtet ergeben sie 70,0 von 100. Sie liegen als <a href="https://github.com/GodModeAI2025/LinkedInOptimizer/blob/main/tests/fixtures/profile_mid.json">tests/fixtures/profile_mid.json</a> im Repo, und <code>tests/run_eval.py</code> prüft bei jedem CI-Lauf, dass die Balken auf dieser Seite denselben Wert zeigen.</p>
+  <p class="section-sub">Was hier bewusst fehlt: ein Vorher-Nachher. Dafür braucht es zwei datierte Messungen desselben Profils im Abstand von 60 bis 90 Tagen. Solange die nicht vorliegen, steht hier ein nachrechenbares Beispiel und keine Erfolgszahl.</p>
 
   <div class="score-preview">
     <div class="score-categories">

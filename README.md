@@ -114,6 +114,7 @@ python tests/run_eval.py --fixture profile_mid --result lauf.json
 
 ## Grenzen
 
+- Es gibt kein Vorher-Nachher. Das Rechenbeispiel auf der Landingpage und in `references/SCORING.md` ist ein erfundenes Profil aus `tests/fixtures/`, keine Messung. Ein belastbares Vorher-Nachher braucht zwei datierte Messungen desselben Profils im Abstand von 60 bis 90 Tagen.
 - LinkedIn blockiert web_fetch und web_search über robots.txt. Ohne das Chrome-Plugin bleibt die manuelle Eingabe, und die Datenqualität sinkt entsprechend.
 - Impressions sind öffentlich nicht sichtbar. `scripts/generate_report.js` schätzt die Engagement-Rate deshalb aus der Follower-Zahl, während das Bewertungsraster in SCORING.md Impressions als Nenner voraussetzt. Der geschätzte Wert liegt systematisch höher, beide sind nicht direkt vergleichbar.
 - Der DOCX-Report enthält keine Diagramme. Radar-Chart und Balkendiagramm sind in SCORING.md als Darstellungsform beschrieben, das Report-Template erzeugt sie nicht.

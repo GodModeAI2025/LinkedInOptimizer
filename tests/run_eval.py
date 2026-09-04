@@ -418,6 +418,32 @@ def pruefe_landing(fehler, seite):
             f"{referenz['gesamt']}."
         )
 
+    # Der nachgestellte Dialog nennt dieselben Zahlen noch einmal. Auch die
+    # muessen aus dem Fixture stammen, sonst steht auf der Seite wieder ein
+    # zweites, nicht nachrechenbares Zahlenbild.
+    dialog = re.search(r'Profil-Score: <strong>(\d+)/100</strong>(.*?)</div>', seite, re.S)
+    if not dialog:
+        fehler.append("index.html: der Beispiel-Dialog ist nicht lesbar.")
+    else:
+        if int(dialog.group(1)) != round(referenz["gesamt"]):
+            fehler.append(
+                f"index.html: der Beispiel-Dialog nennt {dialog.group(1)}/100, profile_mid "
+                f"ergibt {referenz['gesamt']}."
+            )
+        for name, wert in re.findall(r"([A-ZÄÖÜ][\wÄÖÜäöüß&; -]*?) (\d+)/10", dialog.group(2)):
+            name = html.unescape(name).strip()
+            soll = referenz["kategorien"].get(name)
+            if soll is None:
+                fehler.append(
+                    f"index.html: der Beispiel-Dialog nennt die Kategorie {name!r}, die es im "
+                    "Gewichtsmodell nicht gibt."
+                )
+            elif int(wert) != soll:
+                fehler.append(
+                    f"index.html: der Beispiel-Dialog nennt {name} mit {wert}/10, "
+                    f"profile_mid nennt {soll}."
+                )
+
 
 def pruefe_deliverables(fehler, readme):
     vorhanden = deliverables_aus_readme(readme)
