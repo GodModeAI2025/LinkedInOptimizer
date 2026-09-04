@@ -10,7 +10,7 @@ description: >
   oder wenn jemand seinen LinkedIn-Auftritt professionalisieren möchte.
 ---
 
-# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.2
+# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.2.2
 
 Ein evidenzbasierter 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Basiert auf LinkedIn-Algorithmus-Daten 2025/2026, Engagement-Benchmarks und den offiziellen Top Voice Kriterien.
 

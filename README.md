@@ -1,4 +1,6 @@
-# linkedin-profil-optimierung v2.1
+# linkedin-profil-optimierung v2.2.2
+
+[![CI](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml)
 
 Ein Skill zur professionellen Analyse und Optimierung von LinkedIn-Profilen. Entwickelt für Berater, Agenturen und Freelancer, die Kunden strategisch als Thought Leader positionieren und auf das LinkedIn Top Voice Badge vorbereiten.
 
@@ -19,16 +21,19 @@ Ein Skill zur professionellen Analyse und Optimierung von LinkedIn-Profilen. Ent
 ## Ordnerstruktur
 
 ```
-linkedin-profil-skill-2/
-├── SKILL.md              # Hauptworkflow (8 Phasen, <500 Zeilen)
+LinkedInOptimizer/
+├── SKILL.md               # Hauptworkflow (8 Phasen)
+├── index.html             # Landingpage (GitHub Pages, Quelle ist der Repo-Root)
 ├── scripts/
-│   ├── create_banner.py  # Banner-Generator mit Safe-Zone-Validierung
-│   └── generate_report.js # DOCX-Report-Template (Node.js/docx-js)
+│   ├── create_banner.py   # Banner-Generator mit Safe-Zone-Validierung
+│   ├── check_versions.py  # Vergleicht die Versionsangaben in README, SKILL.md, index.html, Report-Template
+│   └── generate_report.js # DOCX-Report-Template (Node.js, npm-Paket docx)
 ├── references/
-│   ├── SCORING.md        # Gewichtete Bewertungsmatrix mit Sub-Kriterien
-│   ├── TEMPLATES.md      # Vorlagen für Headline, About, Content, Kommentare
-│   └── BANNER.md         # Technische Banner-Anleitung mit Viewport-Matrix
-└── assets/               # (Platzhalter für Kundenassets wie Logos, Covers)
+│   ├── SCORING.md         # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Benchmarks
+│   ├── TEMPLATES.md       # Vorlagen für Headline, About, Content, Kommentare
+│   └── BANNER.md          # Technische Banner-Anleitung mit Viewport-Matrix
+└── .github/workflows/
+    └── ci.yml             # Syntax-, Banner- und Versionsprüfung
 ```
 
 ## Datenbasis
@@ -40,4 +45,4 @@ linkedin-profil-skill-2/
 
 ## Version
 
-v2.2.0 – Chrome-First Datenerhebung, DOCX als Pflicht-Deliverable, Report-Template in scripts/.
+Aktuelle Version: v2.2.2. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
