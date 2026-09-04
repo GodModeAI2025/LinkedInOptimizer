@@ -24,7 +24,7 @@ Lies die jeweilige Datei, wenn du die Phase erreichst:
 | `references/TEMPLATES.md` | Vorlagen für Headline, About, Content-Skill, Kommentar-Skill | Phase 4 + 6 |
 | `references/BANNER.md` | Technische Banner-Anleitung mit Safe Zones und Viewport-Matrix | Phase 5 |
 | `scripts/create_banner.py` | Ausführbares Banner-Skript mit Font-Fallback und Validierung | Phase 5 (ausführen) |
-| `scripts/generate_report.js` | DOCX-Report-Template (Node.js/docx-js) — als Strukturvorlage nutzen und mit den erhobenen Daten befüllen | Phase 8 (anpassen + ausführen) |
+| `scripts/generate_report.js` | DOCX-Report-Template (Node.js, npm-Paket `docx`), als Strukturvorlage nutzen und mit den erhobenen Daten befüllen | Phase 8 (anpassen + ausführen) |
 
 ---
 
@@ -251,7 +251,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 
 **Vorgehen:**
 1. Lies `scripts/generate_report.js` mit dem view-Tool
-2. Kopiere das Skript in das Arbeitsverzeichnis
+2. Kopiere es unter dem Namen `generate_report.js` in das Arbeitsverzeichnis
 3. Ersetze die Platzhalter-Daten durch die erhobenen Kundendaten:
    - `scoring`-Array: Alle 10 Kategorien mit Roh-Score, Gewichtung, Begründung
    - `posts`-Array: Content-Aktivitäten aus Phase 1 (Schritt 2)
@@ -260,8 +260,9 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
    - About-Analyse: Verbotene Wörter, CTA-Bewertung, Hashtag-Status
    - Profil-Audit: 17-Punkte-Checkliste mit Status je Element
    - Roadmap: Kundenspezifisch priorisierte Maßnahmen
-4. Führe das Skript aus: `node report.js`
-5. Validiere das Ergebnis: `python scripts/office/validate.py output.docx`
+4. Passe die letzte Zeile an: der Ausgabepfad steht fest auf `/mnt/user-data/outputs/`. Außerhalb der claude.ai-Sandbox muss dort ein existierendes Verzeichnis stehen.
+5. Führe das Skript aus: `node generate_report.js`. Es schreibt den Pfad der erzeugten Datei als `Done: …` nach stdout.
+6. Prüfe das Ergebnis: `unzip -l <Ausgabedatei>.docx` muss `word/document.xml` listen, danach die Datei öffnen und die 9 Kapitel durchgehen.
 
 **Report-Struktur (9 Kapitel, alle mit erklärenden Textpassagen):**
 
@@ -341,7 +342,7 @@ Prüfe vor Übergabe an den Kunden:
 
 **Scoring**: Jede Kategorie mit Begründung, gewichtete Summe korrekt berechnet, ≥3 Hebel identifiziert.
 
-**Report**: DOCX generiert und validiert (validate.py bestanden), alle 9 Kapitel vorhanden, jede Tabelle und jedes Diagramm hat einen erklärenden Textabsatz darunter, keine Scoring-Kategorie ohne Begründung.
+**Report**: DOCX erzeugt, als ZIP lesbar (`unzip -l` listet `word/document.xml`), alle 9 Kapitel vorhanden, jede Tabelle und jedes Diagramm hat einen erklärenden Textabsatz darunter, keine Scoring-Kategorie ohne Begründung.
 
 Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
@@ -365,7 +366,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
 **Banner-Erstellung scheitert**: Font-Fallback (DejaVuSans) und Gradient-Fallback sind im Skript eingebaut. Wenn Buchcover nicht in Safe Zone passt: weglassen.
 
-**DOCX-Generierung scheitert**: Prüfe ob `docx` npm-Paket installiert ist (`npm install -g docx`). Validiere das Ergebnis mit `python scripts/office/validate.py`. Bei Syntax-Fehlern im Report-Skript: Keine typografischen Anführungszeichen (U+201E, U+201C) in JavaScript-Strings verwenden — nur ASCII-Quotes (`"` und `'`). Umlaute (ä, ö, ü, ß) und andere UTF-8-Zeichen sind dagegen problemlos möglich und sollen immer korrekt geschrieben werden — niemals als ASCII-Umschreibungen (ae, oe, ue, ss).
+**DOCX-Generierung scheitert**: Prüfe ob das npm-Paket `docx` installiert ist (`npm install -g docx`). Prüfe das Ergebnis mit `unzip -l <Ausgabedatei>.docx`, `word/document.xml` muss enthalten sein. Bei Syntax-Fehlern im Report-Skript: Keine typografischen Anführungszeichen (U+201E, U+201C) in JavaScript-Strings verwenden — nur ASCII-Quotes (`"` und `'`). Umlaute (ä, ö, ü, ß) und andere UTF-8-Zeichen sind dagegen problemlos möglich und sollen immer korrekt geschrieben werden — niemals als ASCII-Umschreibungen (ae, oe, ue, ss).
 
 ---
 
