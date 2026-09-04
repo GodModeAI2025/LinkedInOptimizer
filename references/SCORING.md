@@ -40,11 +40,11 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 
 | Score | Beschreibung | Beispiel |
 |-------|-------------|---------|
-| 0–2 | Nur Jobtitel, keine Keywords, keine Positionierung | „Head of Mobile Development" |
-| 3–4 | Jobtitel + Unternehmen, aber Nische nicht erkennbar | „Head of CoE Mobile at EnBW" |
-| 5–6 | Nische erkennbar, aber zu breit oder generisch | „Digital Innovation & KI @ EnBW" |
-| 7–8 | Klare Nische + Position + 2–3 Keywords + Rolle | „KI im Enterprise \| Head of CoE Mobile @ EnBW \| GenAI, Agents \| Autor" |
-| 9–10 | Perfekt: Nische + Position + Keywords + Rolle + merkbar | „Künstliche Intelligenz in der Energiewende \| Head of CoE Mobile @ EnBW \| GenAI, Agents, Enterprise AI \| Podcast-Host" |
+| 0–2 | Nur Jobtitel, keine Keywords, keine Positionierung | „Head of Digital Platforms" |
+| 3–4 | Jobtitel + Unternehmen, aber Nische nicht erkennbar | „Head of Digital Platforms at Musterwerke AG" |
+| 5–6 | Nische erkennbar, aber zu breit oder generisch | „Digital Innovation & KI @ Musterwerke AG" |
+| 7–8 | Klare Nische + Position + 2–3 Keywords + Rolle | „KI im Enterprise \| Head of Digital Platforms @ Musterwerke AG \| GenAI, Agents \| Autor" |
+| 9–10 | Perfekt: Nische + Position + Keywords + Rolle + merkbar | „Künstliche Intelligenz in der Logistik \| Head of Digital Platforms @ Musterwerke AG \| GenAI, Agents, Enterprise AI \| Podcast-Host" |
 
 ---
 
