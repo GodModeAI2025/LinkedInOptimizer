@@ -52,11 +52,11 @@ const scoring = [
   { cat: "Banner",           raw: 5, w: 0.6, weighted: 3.0,  max: 6,  pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "Content-Qualität", raw: 5, w: 1.5, weighted: 7.5,  max: 15, pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "Posting-Frequenz", raw: 5, w: 1.0, weighted: 5.0,  max: 10, pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Engagement",       raw: 5, w: 1.5, weighted: 7.5,  max: 15, pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Engagement & Kommentare", raw: 5, w: 1.5, weighted: 7.5,  max: 15, pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "Social Proof",     raw: 5, w: 1.0, weighted: 5.0,  max: 10, pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Netzwerk",         raw: 5, w: 0.8, weighted: 4.0,  max: 8,  pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Vollständigkeit",  raw: 5, w: 0.7, weighted: 3.5,  max: 7,  pct: 50, color: YELLOW, reason: "[Begründung]" },
-  { cat: "Top Voice Ready",  raw: 5, w: 0.5, weighted: 2.5,  max: 5,  pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Netzwerk & Follower", raw: 5, w: 0.8, weighted: 4.0,  max: 8,  pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Profil-Vollständigkeit", raw: 5, w: 0.7, weighted: 3.5,  max: 7,  pct: 50, color: YELLOW, reason: "[Begründung]" },
+  { cat: "Top Voice Readiness", raw: 5, w: 0.5, weighted: 2.5,  max: 5,  pct: 50, color: YELLOW, reason: "[Begründung]" },
 ];
 const totalScore = scoring.reduce((s, d) => s + d.weighted, 0);
 
@@ -111,26 +111,31 @@ const ABOUT = {
 };
 
 // [Nr, Element, Status, Maßnahme, Farbe]
+// Die Elementnamen und ihre Reihenfolge stammen aus der Checkliste in
+// references/SCORING.md Abschnitt 9. tests/run_eval.py vergleicht sie bei jedem
+// CI-Lauf mit dieser Tabelle und mit der Aufzaehlung in SKILL.md Phase 4.3.
+// Wer hier etwas aendert, ohne SCORING.md mitzuziehen, faellt im Eval-Lauf auf.
 const AUDIT = [
-  ["1",  "Professionelles Profilbild",  "[Status]", "[Maßnahme]", GREEN],
-  ["2",  "Custom Banner",               "[Status]", "[Maßnahme]", YELLOW],
-  ["3",  "Headline optimiert",          "[Status]", "[Maßnahme]", YELLOW],
-  ["4",  "About-Sektion",               "[Status]", "[Maßnahme]", YELLOW],
-  ["5",  "Featured Section",            "[Status]", "[Maßnahme]", RED],
-  ["6",  "Creator Mode",                "[Status]", "[Maßnahme]", YELLOW],
-  ["7",  "Custom CTA-Button",           "[Status]", "[Maßnahme]", YELLOW],
-  ["8",  "Custom URL",                  "[Status]", "[Maßnahme]", GREEN],
-  ["9",  "Eigener Newsletter",          "[Status]", "[Maßnahme]", RED],
-  ["10", "Empfehlungen >= 5",           "[Status]", "[Maßnahme]", RED],
-  ["11", "Skills",                      "[Status]", "[Maßnahme]", GREEN],
-  ["12", "Positionen beschrieben",      "[Status]", "[Maßnahme]", GREEN],
-  ["13", "Zertifikate/Publikationen",   "[Status]", "[Maßnahme]", RED],
-  ["14", "Collaborative Articles",      "[Status]", "[Maßnahme]", RED],
-  ["15", "Video-Content",               "[Status]", "[Maßnahme]", RED],
-  ["16", "Ausbildung",                  "[Status]", "[Maßnahme]", GREEN],
-  ["17", "Sprachen",                    "[Status]", "[Maßnahme]", GREEN],
+  ["1",  "Professionelles Profilbild", "[Status]", "[Maßnahme]", GREEN],
+  ["2",  "Custom Banner",              "[Status]", "[Maßnahme]", YELLOW],
+  ["3",  "Headline optimiert",         "[Status]", "[Maßnahme]", YELLOW],
+  ["4",  "About-Sektion",              "[Status]", "[Maßnahme]", YELLOW],
+  ["5",  "Featured Section",           "[Status]", "[Maßnahme]", RED],
+  ["6",  "Aktuelle Position",          "[Status]", "[Maßnahme]", GREEN],
+  ["7",  "Weitere Positionen",         "[Status]", "[Maßnahme]", GREEN],
+  ["8",  "Ausbildung",                 "[Status]", "[Maßnahme]", GREEN],
+  ["9",  "Skills",                     "[Status]", "[Maßnahme]", GREEN],
+  ["10", "Empfehlungen",               "[Status]", "[Maßnahme]", RED],
+  ["11", "Zertifikate / Lizenzen",     "[Status]", "[Maßnahme]", RED],
+  ["12", "Publikationen / Projekte",   "[Status]", "[Maßnahme]", RED],
+  ["13", "Sprachen",                   "[Status]", "[Maßnahme]", GREEN],
+  ["14", "Eigener Newsletter",         "[Status]", "[Maßnahme]", RED],
+  ["15", "Creator-Tools",              "[Status]", "[Maßnahme]", YELLOW],
+  ["16", "Custom CTA-Button",          "[Status]", "[Maßnahme]", YELLOW],
+  ["17", "Custom URL",                 "[Status]", "[Maßnahme]", GREEN],
+  ["18", "Kontaktdaten",               "[Status]", "[Maßnahme]", YELLOW],
 ];
-const AUDIT_SUMMARY = "[X von 17 Elementen — Zusammenfassung]";
+const AUDIT_SUMMARY = "[X von 18 Elementen, Zusammenfassung]";
 
 const ROADMAP = {
   week12: ["[Maßnahme]"],
@@ -168,7 +173,7 @@ const doc = new Document({
     { reference: "numbers", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 720, hanging: 360 } } } }] },
   ]},
   sections: [{ properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
-    headers: { default: new Header({ children: [new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: BLUE, space: 6 } }, children: [ new TextRun({ text: "LinkedIn Profil-Analyse", size: 16, font: "Arial", color: GRAY }), new TextRun({ text: "\t" }), new TextRun({ text: "linkedin-profil-optimierung v2.3.0", size: 16, font: "Arial", color: GRAY }) ], tabStops: [{ type: TabStopType.RIGHT, position: TabStopPosition.MAX }] })] }) },
+    headers: { default: new Header({ children: [new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: BLUE, space: 6 } }, children: [ new TextRun({ text: "LinkedIn Profil-Analyse", size: 16, font: "Arial", color: GRAY }), new TextRun({ text: "\t" }), new TextRun({ text: "linkedin-profil-optimierung v2.4.0", size: 16, font: "Arial", color: GRAY }) ], tabStops: [{ type: TabStopType.RIGHT, position: TabStopPosition.MAX }] })] }) },
     footers: { default: new Footer({ children: [new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "CCCCCC", space: 6 } }, alignment: AlignmentType.CENTER, children: [ new TextRun({ text: "Seite ", size: 16, font: "Arial", color: GRAY }), new TextRun({ children: [PageNumber.CURRENT], size: 16, font: "Arial", color: GRAY }) ] })] }) },
     children: [
       // ═══ TITELSEITE ═══
@@ -196,7 +201,7 @@ const doc = new Document({
 
       // ═══ 2. SCORING ═══
       pageBreak(), h1("2. Scoring-Details"),
-      p("Das Scoring basiert auf einem gewichteten 10-Kategorien-System. Content-Qualität und Engagement erhalten mit je 15% die höchste Gewichtung, weil der LinkedIn-Algorithmus 2025/2026 Dwell Time und Comment Quality als zentrale Ranking-Signale nutzt."),
+      p("Das Scoring basiert auf einem gewichteten 10-Kategorien-System. Content-Qualität und Engagement & Kommentare erhalten mit je 15% die höchste Gewichtung. Belegt ist davon, dass LinkedIn Dwell Time als Ranking-Signal nutzt (LinkedIn Engineering Blog, 12.05.2020). Die Höhe der Gewichte ist eine Setzung dieses Skills, keine gemessene Größe. Die Beleglage je Aussage steht in references/SOURCES.md."),
       emptyLine(),
       new Table({ width: { size: TABLE_W, type: WidthType.DXA }, columnWidths: [2600, 800, 900, 1100, 800, 800, 2360], rows: [
         new TableRow({ children: [hCell("Kategorie", 2600), hCell("Roh", 800), hCell("Gew.", 900), hCell("Punkte", 1100), hCell("Max", 800), hCell("%", 800), hCell("Bewertung", 2360)] }),
@@ -227,7 +232,7 @@ const doc = new Document({
           dCell(String(post.comments), 1500, { align: AlignmentType.CENTER }), dCell(`~${er}%`, 2160, { align: AlignmentType.CENTER, color: parseFloat(er) > 5 ? GREEN : YELLOW }),
         ] }); }),
       ] }),
-      emptyLine(), p(`Engagement-Rate geschätzt als (Reaktionen + Kommentare) / ${PROFILE.followers.toLocaleString("de-DE")} Follower. Plattform-Durchschnitt: 3,4%.`, { color: GRAY }),
+      emptyLine(), p(`Engagement-Rate geschätzt als (Reaktionen + Kommentare) / ${PROFILE.followers.toLocaleString("de-DE")} Follower. Der Wert ist follower-basiert und liegt systematisch höher als eine impressions-basierte Rate. Er ist nicht mit dem Bewertungsraster in SCORING.md vergleichbar, nur mit früheren Werten desselben Profils. Ein belegbarer Plattform-Durchschnitt liegt nicht vor, siehe references/SOURCES.md.`, { color: GRAY }),
 
       // ═══ 5. HEADLINE ═══
       pageBreak(), h1("5. Headline-Analyse & Vorschläge"),
@@ -248,7 +253,7 @@ const doc = new Document({
 
       // ═══ 7. AUDIT ═══
       pageBreak(), h1("7. Profil-Audit"),
-      p("17 Elemente geprüft. Fehlende Elemente sind die schnellsten Hebel zur Score-Verbesserung."),
+      p("18 Elemente geprüft. Fehlende Elemente sind die schnellsten Hebel zur Score-Verbesserung."),
       emptyLine(),
       new Table({ width: { size: TABLE_W, type: WidthType.DXA }, columnWidths: [500, 3200, 1200, 4460], rows: [
         new TableRow({ children: [hCell("#", 500), hCell("Element", 3200), hCell("Status", 1200), hCell("Maßnahme", 4460)] }),

@@ -63,6 +63,29 @@ jobs:
       - name: Versionsangaben pruefen
         run: python scripts/check_versions.py
 
+      # Prueft references/SOURCES.md und haelt zugleich fest, dass keine der
+      # dort als unbelegt entfernten Aussagen ueber eine spaetere Aenderung
+      # zurueck in den Skill wandert. Die Sperren erzeugt das Skript aus der
+      # Spalte "Sperrmuster" der Tabelle "Zurückgezogen", und es prueft die
+      # Tabelle gegen sich selbst: eine Zeile ohne Sperrmuster faellt hier auf,
+      # und eine Zeile, die ihre Sperre abschalten will, ebenfalls. Dazu kommt
+      # eine Belegpflicht fuer die eine Behauptung, die sich nicht ueber eine
+      # Schreibweise sperren laesst. Die Grenze steht im Docstring des Skripts:
+      # geprueft werden Schreibweisen, keine Aussagen.
+      - name: Beleglage pruefen
+        run: python scripts/check_sources.py
+
+      # Prueft die Scoring-Matrix gegen drei erfundene Profil-Fixtures und
+      # haelt zugleich drei Listen zusammen: die zehn Kategorien heissen in
+      # SCORING.md, SKILL.md, index.html und generate_report.js wortgleich, die
+      # 18 Profil-Elemente aus der Checkliste in SCORING.md stehen in derselben
+      # Reihenfolge in SKILL.md Phase 4.3 und in der Audit-Tabelle des
+      # Report-Generators, die Stueckzahl stimmt zusaetzlich in der
+      # Deliverables-Beschreibung von SKILL.md, und die Landingpage weist ihren Dialog als Beispiel
+      # aus und nennt die Fixture, aus der seine Zahlen stammen.
+      - name: Eval-Set fahren
+        run: python tests/run_eval.py
+
       # Ein kaputtes Paket soll auffallen, bevor jemand ein Tag setzt. Der
       # Schritt ruft dasselbe Skript auf wie release.yml und prueft danach das
       # Ergebnis, unabhaengig davon, was das Skript selbst zusichert.
@@ -98,6 +121,7 @@ jobs:
             SKILL.md \
             references/BANNER.md \
             references/SCORING.md \
+            references/SOURCES.md \
             references/TEMPLATES.md \
             requirements.txt \
             scripts/create_banner.py \
@@ -115,7 +139,7 @@ jobs:
 
           # Dieselbe Regel noch einmal als Verbot, damit sichtbar bleibt, was
           # nie ins Paket gehoert: Repo-Innereien, Landingpage, Schluesseldateien.
-          if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|build_skill_package[.]py'; then
+          if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|check_sources[.]py|build_skill_package[.]py'; then
             echo "FEHLER: Das Paket enthaelt Dateien, die nicht ausgeliefert werden duerfen." >&2
             exit 1
           fi

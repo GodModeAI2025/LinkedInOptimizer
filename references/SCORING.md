@@ -10,8 +10,8 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 
 | Kategorie | Gewicht | Begründung |
 |-----------|---------|------------|
-| Content-Qualität | 15% | LinkedIn-Algorithmus 2025/2026: Dwell Time + Comment Quality = Top-Ranking-Signale |
-| Engagement & Kommentare | 15% | Strategisches Kommentieren: +55% Profilaufrufe, +20% eigene Reichweite |
+| Content-Qualität | 15% | Dwell Time ist ein belegtes Ranking-Signal (Q1 in SOURCES.md), Kommentarqualität ein Erfahrungswert |
+| Engagement & Kommentare | 15% | Kommentare erzeugen Sichtbarkeit im Netzwerk des Kommentierten (Erfahrungswert, siehe SOURCES.md) |
 | Headline | 12% | Wichtigstes SEO-Element, sichtbar überall (Suche, Kommentare, Feed) |
 | About-Sektion | 12% | Konversions-Element: Profilbesuch → Follower/Connection |
 | Social Proof | 10% | Externes Vertrauen: Bücher, Awards, Presse → Top Voice-Verstärker |
@@ -111,7 +111,12 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 | Save-Würdigkeit | 0–1 | Sind Posts so nützlich, dass man sie speichert? Listen, Frameworks, How-To? |
 | Storytelling | 0–1 | Persönliche Geschichten, Praxisbeispiele, Lektionen? |
 
-### Engagement-Rate-Benchmarks (2025)
+### Engagement-Rate-Bewertungsraster
+
+Das folgende Raster ist ein internes Bewertungsraster dieses Skills, kein Industriestandard und
+keine erhobene Benchmark. Es dient dazu, Profile untereinander und über die Zeit vergleichbar zu
+machen. Die frühere Überschrift „Benchmarks (2025)" ist zurückgezogen, weil sich für die Bänder
+keine Quelle mit Nenner und Erhebungszeitraum finden ließ (siehe `SOURCES.md`).
 
 | Bewertung | Personal Profile | Company Page (Referenz) |
 |-----------|-----------------|------------------------|
@@ -122,6 +127,13 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 | Exzellent | >7% | >5% |
 
 **Berechnung**: Engagement-Rate = (Likes + Kommentare + Reposts) / Impressions × 100
+
+**Welcher Nenner gilt.** Das Raster oben gilt ausschließlich für den impressions-basierten Wert.
+Impressions sind für fremde Profile nicht öffentlich sichtbar. `scripts/generate_report.js`
+schätzt die Rate deshalb aus der Follower-Zahl. Dieser geschätzte Wert liegt systematisch höher
+und darf nicht gegen die Bänder oben gehalten werden. Er ist im Report als geschätzt zu
+kennzeichnen und nur im Zeitverlauf desselben Profils zu vergleichen. Die ausführliche Fassung
+dieser Grenze steht in `SOURCES.md`.
 
 ### Bewertungsstufen
 
@@ -155,7 +167,7 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 | 7–8 | 2–3×/Woche | Konsistenter Rhythmus, keine Pausen >7 Tage |
 | 9–10 | 3–5×/Woche | Fester Rhythmus seit ≥3 Monaten, nie Back-to-Back gleiche Formate |
 
-**Algorithmus-Kontext**: Posts behalten seit 2025 bis zu 5 Tage Sichtbarkeit bei anhaltendem Engagement. Back-to-Back-Posts im selben Format können Performance um 20% reduzieren.
+**Algorithmus-Kontext**: Ein Beitrag bleibt über die Erstverteilung hinaus sichtbar, solange er Engagement erzeugt. Formate abwechseln statt zweimal hintereinander dasselbe Format zu posten. Die früher hier genannten Zahlen zur Sichtbarkeitsdauer und zum Back-to-Back-Effekt sind zurückgezogen, weil sich dafür keine Quelle finden ließ. Sie stehen mit Begründung in der Tabelle „Zurückgezogen" in `SOURCES.md` und werden dort auch gegen eine Rückkehr gesperrt.
 
 ---
 
@@ -166,7 +178,7 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 | Sub-Kriterium | Punkte | Beschreibung |
 |---------------|--------|-------------|
 | Kommentar-Aktivität bei anderen | 0–3 | ≥5 substanzielle Kommentare/Tag? |
-| Kommentar-Qualität | 0–2 | >15 Wörter, eigene Perspektive, Fragen, Ergänzungen? |
+| Kommentar-Qualität | 0–2 | >15 Wörter, eigene Perspektive, Fragen, Ergänzungen? (Längenschwelle ist ein Erfahrungswert) |
 | Reaktion auf eigene Kommentare | 0–2 | Beantwortet alle Kommentare unter eigenen Posts? (<2h) |
 | Ziel-Account-Strategie | 0–2 | Kommentiert regelmäßig bei 10–20 strategischen Accounts? |
 | Engagement-Bait-Freiheit | 0–1 | Kein „What do you think?" / „Agree?" / „Tag someone" |
@@ -237,25 +249,32 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 
 ### Checkliste (jeder Punkt = 0 oder 1)
 
+Diese Liste ist die Quelle der Wahrheit für die geprüften Profil-Elemente. Jede Zeile hat die
+Form `Kurzname (Kriterium)`. Der Kurzname vor der Klammer ist der Name, unter dem das Element
+in SKILL.md Phase 4.3 und in der Audit-Tabelle von `scripts/generate_report.js` auftaucht.
+`tests/run_eval.py` vergleicht die drei Listen bei jedem CI-Lauf Zeile für Zeile. Wer hier ein
+Element ergänzt, streicht oder umbenennt, muss die beiden anderen Stellen mitziehen, sonst
+schlägt der Lauf fehl.
+
 ```
 □ Professionelles Profilbild (Gesicht ≥60% des Bildes)
 □ Custom Banner (nicht LinkedIn-Standard)
 □ Headline optimiert (>100 Zeichen)
-□ About-Sektion vollständig (>500 Zeichen)
-□ Featured Section mit ≥3 Inhalten
-□ Aktuelle Position mit Beschreibung
-□ Alle relevanten Positionen mit Beschreibungen
-□ Ausbildung eingetragen
+□ About-Sektion (>500 Zeichen, vollständig ausformuliert)
+□ Featured Section (≥3 Inhalte)
+□ Aktuelle Position (mit Beschreibung)
+□ Weitere Positionen (alle relevanten, mit Beschreibung)
+□ Ausbildung (eingetragen)
 □ Skills (≥10, mit Endorsements)
-□ Empfehlungen (≥5)
-□ Zertifikate / Lizenzen
-□ Publikationen / Projekte
-□ Sprachen
-□ Newsletter vorhanden
-□ Creator Mode aktiv
-□ Custom CTA-Button konfiguriert
+□ Empfehlungen (≥5 erhalten)
+□ Zertifikate / Lizenzen (mindestens eines)
+□ Publikationen / Projekte (mindestens eines)
+□ Sprachen (mindestens eine)
+□ Eigener Newsletter (aktiv)
+□ Creator-Tools (Newsletter, LinkedIn Live oder Audio Events)
+□ Custom CTA-Button (konfiguriert)
 □ Custom URL (/in/vorname-nachname)
-□ Kontaktdaten (E-Mail/Website)
+□ Kontaktdaten (E-Mail oder Website)
 ```
 
 ### Bewertungsstufen
@@ -274,16 +293,24 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 
 Diese Kategorie aggregiert die Gesamtbereitschaft für das LinkedIn Top Voice Badge.
 
-### Sub-Kriterien (basierend auf LinkedIn-Kriterien 2025)
+### Sub-Kriterien
 
-| Sub-Kriterium | Punkte | LinkedIn-Kriterium |
-|---------------|--------|-------------------|
+LinkedIn veröffentlicht keinen Kriterienkatalog für das Top-Voices-Badge. Das Badge wird auf
+Einladung vergeben, Nominierungen prüft LinkedIn quartalsweise (Q4 in `SOURCES.md`). Die
+folgende Tabelle übersetzt die öffentlich genannten Anforderungen in beobachtbare Größen. Sie
+ist ein Arbeitsraster dieses Skills, kein LinkedIn-Kriterienkatalog.
+
+| Sub-Kriterium | Punkte | Beobachtbar an |
+|---------------|--------|----------------|
 | Platform Presence | 0–2 | Konsistente Content-Erstellung + Community-Engagement seit ≥6 Monaten |
 | Quality & Originality | 0–2 | Eigene Stimme, eigene Frameworks, kein Recycling |
 | Subject Matter Expertise | 0–2 | ≥80% Posts in 1–2 Fokusthemen, Fachtiefe erkennbar |
 | Prominence | 0–2 | Externe Validierung: Bücher, Presse, Awards, Speaker |
-| Collaborative Articles | 0–1 | Regelmäßige Beiträge zu LinkedIn Collaborative Articles |
-| Momentum | 0–1 | Wachsendes Engagement + Follower-Trend steigend |
+| Momentum | 0–2 | Wachsendes Engagement + Follower-Trend steigend |
+
+Das frühere Sub-Kriterium „Collaborative Articles“ (0–1) ist entfallen. Das goldene
+Community-Top-Voice-Badge, auf das es einzahlte, ist seit dem 08.10.2024 zurückgezogen (Q3 in
+`SOURCES.md`). Der Punkt liegt jetzt bei „Momentum“, die Kategorie bleibt bei maximal 10.
 
 ### Bewertungsstufen
 
@@ -292,7 +319,7 @@ Diese Kategorie aggregiert die Gesamtbereitschaft für das LinkedIn Top Voice Ba
 | 0–2 | Keine der Voraussetzungen erfüllt |
 | 3–4 | Grundlagen vorhanden, aber Nische oder Frequenz fehlen |
 | 5–6 | Nische klar, Content vorhanden, aber Engagement/Frequenz zu niedrig für Badge-Consideration |
-| 7–8 | Starke Basis: Nische + Frequenz + Engagement + Social Proof + Collaborative Articles |
+| 7–8 | Starke Basis: Nische + Frequenz + Engagement + Social Proof + erkennbares Momentum |
 | 9–10 | Badge-ready: Alle LinkedIn-Kriterien erfüllt, wachsendes Momentum, externe Validierung |
 
 ---
@@ -304,20 +331,40 @@ Diese Kategorie aggregiert die Gesamtbereitschaft für das LinkedIn Top Voice Ba
 ```
 Gewichteter Score = Σ (Kategorie_Score × Gewicht × 10)
 
-Beispiel:
-Headline:       8/10 × 1.2 =  9.6
-About:          7/10 × 1.2 =  8.4
-Banner:         9/10 × 0.6 =  5.4
-Content:        6/10 × 1.5 =  9.0
-Frequenz:       5/10 × 1.0 =  5.0
-Engagement:     7/10 × 1.5 = 10.5
-Social Proof:   9/10 × 1.0 =  9.0
-Netzwerk:       8/10 × 0.8 =  6.4
-Vollständigkeit:6/10 × 0.7 =  4.2
-Top Voice:      5/10 × 0.5 =  2.5
-──────────────────────────────────
-GESAMT:                       70.0/100
+Beispiel (dieselben Werte zeigt die Landingpage, und tests/fixtures/profile_mid.json
+hält sie als prüfbares Fixture):
+Headline:                8/10 × 1.2 =  9.6
+About-Sektion:           7/10 × 1.2 =  8.4
+Banner:                  9/10 × 0.6 =  5.4
+Content-Qualität:        6/10 × 1.5 =  9.0
+Posting-Frequenz:        5/10 × 1.0 =  5.0
+Engagement & Kommentare: 7/10 × 1.5 = 10.5
+Social Proof:            9/10 × 1.0 =  9.0
+Netzwerk & Follower:     8/10 × 0.8 =  6.4
+Profil-Vollständigkeit:  6/10 × 0.7 =  4.2
+Top Voice Readiness:     5/10 × 0.5 =  2.5
+────────────────────────────────────────
+GESAMT:                             70.0/100
 ```
+
+Die zehn Namen oben sind verbindlich. Dieselbe Schreibweise gilt in SKILL.md, in
+`scripts/generate_report.js`, auf der Landingpage und im Report. `tests/run_eval.py` im Repo
+vergleicht die vier Stellen bei jedem CI-Lauf und fällt bei Abweichung aus.
+
+### Eval-Set
+
+Das Eval-Set liegt im Repo unter `tests/` und ist nicht Teil des ausgelieferten Skill-Pakets.
+`tests/run_eval.py` prüft dieses Dokument bei jedem CI-Lauf gegen drei erfundene Profile in
+`tests/fixtures/`. Geprüft werden die Gewichtssumme, die Schreibweise der zehn Kategorien in
+SKILL.md, auf der Landingpage und im Report-Template, die Nachrechnung des Gesamtscores und die
+erwarteten Bänder je Kategorie in `tests/expected/`.
+
+Für Posting-Frequenz, Netzwerk & Follower und Profil-Vollständigkeit rechnet der Runner den
+Score aus den Profildaten nach, statt ihn zu glauben. Wer eine der drei Bewertungstabellen
+ändert, bekommt vom Runner eine Meldung, welche Umrechnung nachzuziehen ist.
+
+Gewichte darf man ändern. Die Bänder in `tests/expected/` brechen dann, und das ist so
+gewollt: sie müssen im selben Schritt mitgeändert werden, sonst fällt die CI aus.
 
 ### Score-Interpretation
 
@@ -336,30 +383,30 @@ Immer als **Radar-Chart** (10 Achsen) UND als **Balkendiagramm** (gewichtet) dar
 
 ```
 UNGEWICHTET (Rohscores):
-Headline:        ████████░░ 8/10
-About:           ███████░░░ 7/10
-Banner:          █████████░ 9/10
-Content:         ██████░░░░ 6/10
-Frequenz:        █████░░░░░ 5/10
-Engagement:      ███████░░░ 7/10
-Social Proof:    █████████░ 9/10
-Netzwerk:        ████████░░ 8/10
-Vollständigkeit: ██████░░░░ 6/10
-Top Voice Ready: █████░░░░░ 5/10
+Headline:                ████████░░ 8/10
+About-Sektion:           ███████░░░ 7/10
+Banner:                  █████████░ 9/10
+Content-Qualität:        ██████░░░░ 6/10
+Posting-Frequenz:        █████░░░░░ 5/10
+Engagement & Kommentare: ███████░░░ 7/10
+Social Proof:            █████████░ 9/10
+Netzwerk & Follower:     ████████░░ 8/10
+Profil-Vollständigkeit:  ██████░░░░ 6/10
+Top Voice Readiness:     █████░░░░░ 5/10
 
 GEWICHTET (Beitrag zum Gesamtscore):
-Content (15%):   █████████░ 9.0
-Engagement(15%): ██████████ 10.5
-Headline (12%):  █████████░ 9.6
-About    (12%):  ████████░░ 8.4
-Soc.Proof(10%):  █████████░ 9.0
-Frequenz (10%):  █████░░░░░ 5.0  ← GRÖSSTER HEBEL
-Netzwerk  (8%):  ██████░░░░ 6.4
-Vollst.   (7%):  ████░░░░░░ 4.2  ← QUICK WIN
-Banner    (6%):  █████░░░░░ 5.4
-TopVoice  (5%):  ██░░░░░░░░ 2.5
-──────────────────────────────────
-GESAMT:          70.0/100 [Gut]
+Content-Qualität (15%):        █████████░ 9.0
+Engagement & Kommentare (15%): ██████████ 10.5
+Headline (12%):                █████████░ 9.6
+About-Sektion (12%):           ████████░░ 8.4
+Social Proof (10%):            █████████░ 9.0
+Posting-Frequenz (10%):        █████░░░░░ 5.0  ← GRÖSSTER HEBEL
+Netzwerk & Follower (8%):      ██████░░░░ 6.4
+Profil-Vollständigkeit (7%):   ████░░░░░░ 4.2  ← QUICK WIN
+Banner (6%):                   █████░░░░░ 5.4
+Top Voice Readiness (5%):      ██░░░░░░░░ 2.5
+────────────────────────────────────────────
+GESAMT:                        70.0/100 [Gut]
 ```
 
 Die **gewichtete** Darstellung zeigt auf einen Blick, wo der größte Hebel liegt (niedrigster gewichteter Beitrag relativ zum maximal möglichen Beitrag).

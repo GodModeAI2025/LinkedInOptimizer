@@ -1,0 +1,118 @@
+{
+  "id": "profile_mid",
+  "herkunft": "frei erfunden. Keine reale Person, keine reale Firma, keine anonymisierten Echtdaten.",
+  "beschreibung": "Durchschnittsprofil mit starkem Social Proof und schwacher Posting-Frequenz. Die Rohscores sind dieselben wie im Rechenbeispiel in references/SCORING.md und in der Scoring-Engine auf der Landingpage.",
+  "profil": {
+    "name": "Beispielprofil B",
+    "headline": {
+      "text": "KI im Mittelstand | Head of Data @ Beispiel GmbH | GenAI, MLOps | Autor",
+      "zeichen": 71,
+      "keywords": 3,
+      "emojis": 0,
+      "rollen_genannt": [
+        "Autor"
+      ]
+    },
+    "about": {
+      "zeichen": 1180,
+      "hook_zeilen": 3,
+      "zwischenueberschriften": true,
+      "cta": true,
+      "keywords": 4
+    },
+    "banner": {
+      "vorhanden": true,
+      "aufloesung": "1584x396",
+      "safe_zone_geprueft": true
+    },
+    "content": {
+      "posts_letzte_90_tage": 13,
+      "eigene_posts_anteil": 0.85,
+      "fokusthemen_anteil": 0.62,
+      "formate": [
+        "Text",
+        "Text+Bild"
+      ],
+      "hook_typen": 3,
+      "reposts": 2
+    },
+    "posting": {
+      "posts_pro_woche": 1.0,
+      "laengste_pause_tage": 9,
+      "rhythmus_seit_monaten": 5,
+      "back_to_back_gleiches_format": true
+    },
+    "engagement": {
+      "eigene_kommentare_pro_tag": 3,
+      "median_kommentarlaenge_woerter": 22,
+      "antwortet_auf_kommentare": true,
+      "ziel_accounts": 8,
+      "engagement_bait": false
+    },
+    "social_proof": {
+      "buecher": 4,
+      "awards": 2,
+      "presse": 3,
+      "vortraege": 5,
+      "podcasts": 1,
+      "linkedin_empfehlungen": 12
+    },
+    "netzwerk": {
+      "follower": 6200,
+      "connections": 2900,
+      "wachstum_pro_monat": 95
+    },
+    "vollstaendigkeit": {
+      "Professionelles Profilbild (Gesicht ≥60% des Bildes)": true,
+      "Custom Banner (nicht LinkedIn-Standard)": true,
+      "Headline optimiert (>100 Zeichen)": true,
+      "About-Sektion (>500 Zeichen, vollständig ausformuliert)": true,
+      "Featured Section (≥3 Inhalte)": true,
+      "Aktuelle Position (mit Beschreibung)": true,
+      "Weitere Positionen (alle relevanten, mit Beschreibung)": true,
+      "Ausbildung (eingetragen)": true,
+      "Skills (≥10, mit Endorsements)": true,
+      "Empfehlungen (≥5 erhalten)": true,
+      "Zertifikate / Lizenzen (mindestens eines)": true,
+      "Publikationen / Projekte (mindestens eines)": false,
+      "Sprachen (mindestens eine)": false,
+      "Eigener Newsletter (aktiv)": false,
+      "Creator-Tools (Newsletter, LinkedIn Live oder Audio Events)": false,
+      "Custom CTA-Button (konfiguriert)": false,
+      "Custom URL (/in/vorname-nachname)": false,
+      "Kontaktdaten (E-Mail oder Website)": false
+    },
+    "top_voice": {
+      "monate_konsistent": 5,
+      "eigene_frameworks": true,
+      "fokusthemen_anteil": 0.62,
+      "externe_validierung": true,
+      "momentum": "stabil"
+    },
+    "kennzahlen": {
+      "impressions": null,
+      "followers": 6200,
+      "reaktionen_median": 168,
+      "kommentare_median": 17,
+      "engagement_rate_follower_basis": 3.0,
+      "hinweis": "Impressions sind für fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
+    }
+  },
+  "referenzlauf": {
+    "datum": "2026-09-04",
+    "quelle": "Rechenbeispiel aus references/SCORING.md, Abschnitt Score-Berechnung.",
+    "kategorien": {
+      "Headline": 8,
+      "About-Sektion": 7,
+      "Banner": 9,
+      "Content-Qualität": 6,
+      "Posting-Frequenz": 5,
+      "Engagement & Kommentare": 7,
+      "Social Proof": 9,
+      "Netzwerk & Follower": 8,
+      "Profil-Vollständigkeit": 6,
+      "Top Voice Readiness": 5
+    },
+    "gesamt": 70.0
+  }
+}

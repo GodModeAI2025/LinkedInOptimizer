@@ -8,11 +8,48 @@ description: >
   "LinkedIn Headline optimieren", "About-Sektion schreiben", "LinkedIn Banner erstellen",
   "Content-Strategie LinkedIn", "SSI verbessern", "Top Voice werden", "LinkedIn Wettbewerbsanalyse",
   oder wenn jemand seinen LinkedIn-Auftritt professionalisieren möchte.
+  Abgrenzung: Dieser Skill macht die einmalige Ist-Analyse und liefert die Profil-Artefakte.
+  Geht es um den laufenden Betrieb, also Wochenroutine, Content-Kalender, Community-Aufbau,
+  Analytics-Auswertung oder Monetarisierung, ist linkedin-community-builder zuständig.
 ---
 
-# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.3.0
+# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.4.0
 
-Ein evidenzbasierter 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Basiert auf LinkedIn-Algorithmus-Daten 2025/2026, Engagement-Benchmarks und den offiziellen Top Voice Kriterien.
+Ein 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Was daran belegt ist und was nicht, steht in `references/SOURCES.md`: belegte Quellen mit URL und Datum, zurückgezogene Zahlen und die Angaben, die ausdrücklich Erfahrungswerte aus der Beratungspraxis sind. Bewerte kein Kundenprofil gegen eine Zahl, die dort nicht steht.
+
+## Abgrenzung zum Schwester-Skill
+
+Es gibt einen zweiten LinkedIn-Skill derselben Herkunft: `linkedin-community-builder`
+(Repo [LinkedIn-Orchestrator](https://github.com/GodModeAI2025/LinkedIn-Orchestrator)). Beide
+reagieren auf dieselben Formulierungen, unter anderem „Profil optimieren", „Profil verbessern",
+„Personal Branding", „Content-Strategie" und „Top Voice". Ohne Regel muss das Modell raten. Die
+Regel steht hier.
+
+| | linkedin-profil-optimierung (dieser Skill) | linkedin-community-builder |
+|--|--|--|
+| Aufgabe | Einmalige Ist-Analyse und Profil-Artefakte | Laufender Betrieb über Wochen und Monate |
+| Ergebnis | Score, Headline, About, Banner, Wettbewerbsmatrix, SSI-Plan, DOCX-Report | Wochensystem, Content-Kalender, Community-Aufbau, Analytics, Monetarisierung |
+| Zeitform | Bestandsaufnahme mit Übergabe am Ende | Zustandsgesteuert, läuft weiter |
+| Werkzeuge | Chrome-Plugin, Banner-Skript, Report-Template | Rein konversationell |
+
+Entscheidungsregel bei überlappenden Anfragen:
+
+1. Geht es darum, wie das Profil dasteht, was es wert ist, wie Headline, About, Banner oder
+   Report aussehen sollen: dieser Skill.
+2. Geht es darum, was diese Woche gepostet wird, warum die Reichweite nicht wächst, wie eine
+   Community oder ein Newsletter aufgebaut wird oder wie sich das monetarisieren lässt:
+   `linkedin-community-builder`. Verweise darauf und arbeite die Frage nicht selbst ab.
+3. Kommt beides in einer Anfrage vor, beginne hier. Eine Content-Strategie ohne Ist-Analyse
+   optimiert auf ein Profil, das sich gleich ändert. Nach der Übergabe in Phase 8 verweise
+   ausdrücklich auf den Schwester-Skill für den Betrieb.
+4. „Top Voice" kommt in beiden vor und meint zweierlei: hier die Messung der Reife und der
+   Maßnahmenplan, dort die wöchentliche Umsetzung. Kläre im Zweifel mit einer Rückfrage, welche
+   der beiden Seiten gemeint ist.
+
+Der Content-Skill und der Kommentar-Skill aus Phase 6 sind Vorlagen, die einmal erstellt und
+übergeben werden. Sie ersetzen nicht die laufende Redaktionsarbeit.
+
+---
 
 ## Ressourcen-Übersicht
 
@@ -20,9 +57,10 @@ Lies die jeweilige Datei, wenn du die Phase erreichst:
 
 | Datei | Inhalt | Wann lesen |
 |-------|--------|-----------|
-| `references/SCORING.md` | Gewichtete 10-Kategorien-Matrix mit Sub-Kriterien und Benchmarks | Phase 2 (Scoring) |
+| `references/SCORING.md` | Gewichtete 10-Kategorien-Matrix mit Sub-Kriterien und Bewertungsraster | Phase 2 (Scoring) |
 | `references/TEMPLATES.md` | Vorlagen für Headline, About, Content-Skill, Kommentar-Skill | Phase 4 + 6 |
 | `references/BANNER.md` | Technische Banner-Anleitung mit Safe Zones und Viewport-Matrix | Phase 5 |
+| `references/SOURCES.md` | Quellen mit Datum, zurückgezogene Zahlen, Erfahrungswerte, Prüfrhythmus | Vor jeder Zahl im Report |
 | `scripts/create_banner.py` | Ausführbares Banner-Skript mit Font-Fallback und Validierung | Phase 5 (ausführen) |
 | `scripts/generate_report.js` | DOCX-Report-Template (Node.js, npm-Paket `docx`), als Strukturvorlage nutzen und mit den erhobenen Daten befüllen | Phase 8 (anpassen + ausführen) |
 
@@ -56,7 +94,7 @@ const spans = aboutSection?.querySelectorAll('span[aria-hidden="true"]');
 // Laengsten Span nehmen = vollstaendiger Text
 // Wenn abgeschnitten: zweite Haelfte mit .substring(800) nachladen
 
-// Featured Section, Creator Mode, Empfehlungen
+// Featured Section, Creator-Tools, Empfehlungen
 const hasFeatured = !!document.getElementById('featured');
 ```
 
@@ -107,7 +145,7 @@ Stelle dem Kunden diese 10 Fragen:
 
 ### 1.3 SSI-Score erheben
 
-Dokumentiere den Social Selling Index (4 Säulen à 25 Punkte, Gesamt 100). Benchmark: SSI >70 = effektiv, >75 = Thought-Leader-Niveau.
+Dokumentiere den Social Selling Index. LinkedIn benennt vier Säulen (Q5 in `references/SOURCES.md`); die Aufteilung in je 25 Punkte bis 100 bestätigt LinkedIn nicht und ist als Konvention zu kennzeichnen. Zielmarken dieses Skills, keine Branchenwerte: SSI über 70 gilt als effektiv, über 75 als Thought-Leader-Niveau.
 
 ---
 
@@ -173,7 +211,7 @@ Die ersten 270 Zeichen (vor „…mehr") entscheiden über Weiterlesen. Orwell-P
 
 ### 4.3 Quick-Win-Checkliste
 
-Prüfe 15 Profil-Elemente (Profilbild, Banner, Headline, About, Featured, Creator Mode, CTA, URL, Newsletter, Empfehlungen, Skills, Positionen, Publikationen, Collaborative Articles, Video-Content) und erstelle einen Maßnahmenplan.
+Prüfe die 18 Profil-Elemente aus der Checkliste in `references/SCORING.md` Abschnitt 9 (Professionelles Profilbild, Custom Banner, Headline optimiert, About-Sektion, Featured Section, Aktuelle Position, Weitere Positionen, Ausbildung, Skills, Empfehlungen, Zertifikate / Lizenzen, Publikationen / Projekte, Sprachen, Eigener Newsletter, Creator-Tools, Custom CTA-Button, Custom URL, Kontaktdaten) und erstelle einen Maßnahmenplan. Dieselbe Liste in derselben Reihenfolge steht in der Audit-Tabelle von `scripts/generate_report.js`; `tests/run_eval.py` hält die drei Stellen gegeneinander.
 
 ---
 
@@ -213,18 +251,18 @@ Lies `references/TEMPLATES.md` Abschnitte 3 + 4 für Content-Skill und Kommentar
 
 ### 6.1 Content-Skill erstellen
 
-LinkedIn-Algorithmus 2025/2026 beachten:
+Algorithmische Leitplanken, mit Beleglage in `references/SOURCES.md`:
 - Dwell Time = zentrales Signal → Texte 300–400 Wörter, Story-Struktur
 - Comment Quality > Like-Volumen → CTAs die inhaltliche Antworten provozieren
 - Save Rate = Qualitätssignal → Frameworks, Listen, Checklisten
 - Topische Konsistenz → ≥80% Posts in max. 2 Fokusthemen
 - Engagement Bait wird bestraft → Kein „What do you think?", „Agree?"
 
-Top-performende Formate: Multi-Image 6,6%, PDF-Karussells 6,1%, Video (<60s) 5,6%, Umfragen ~5%.
+Formate nach Wirkung, als Reihenfolge und ohne Prozentwerte: Dokument- und Multi-Image-Beiträge vor Video, Video vor reinem Text und Link-Beiträgen. Das ist ein Erfahrungswert (`references/SOURCES.md`). Die früher hier genannten Prozentwerte je Format sind zurückgezogen, weil sich keine prüfbare Quelle dafür findet. Nenne im Report keine Format-Prozentwerte.
 
 ### 6.2 Kommentar-Strategie
 
-Strategisches Kommentieren (5–10/Tag) steigert Profilaufrufe um 55% und eigene Content-Reichweite um 20%. Kommentare >15 Wörter haben 2,5× mehr algorithmisches Gewicht. Identifiziere 15–20 Ziel-Accounts (Top Voices, C-Level, Journalisten, Peers).
+Strategisches Kommentieren (5–10/Tag) auf fremden Beiträgen zahlt auf Sichtbarkeit und Profilaufrufe ein. Kommentare über 15 Wörter mit eigener Perspektive wirken besser als kurze Zustimmung. Beides ist Erfahrungswert. Die früher hier genannten Prozentfaktoren sind zurückgezogen, die Liste steht in `references/SOURCES.md`. Identifiziere 15–20 Ziel-Accounts (Top Voices, C-Level, Journalisten, Peers).
 
 ### 6.3 Posting-Frequenz und Timing
 
@@ -234,11 +272,13 @@ Strategisches Kommentieren (5–10/Tag) steigert Profilaufrufe um 55% und eigene
 
 ## Phase 7: SSI-Optimierung
 
-Maßnahmen pro SSI-Säule (je max. 25 Punkte):
+LinkedIn benennt vier SSI-Säulen (Q5 in `references/SOURCES.md`). Die verbreitete Aufteilung in je 25 Punkte bestätigt LinkedIn dort nicht; behandle sie als Konvention, nicht als Tatsache.
+
+Maßnahmen pro SSI-Säule:
 
 1. **Professional Brand**: Profil vollständig, regelmäßig Content, Multimedia, strategische Endorsements
-2. **Find the Right People**: 5–10 strategische Connections/Woche, persönliche Requests (+40% Akzeptanz)
-3. **Engage with Insights**: Täglich kommentieren, Collaborative Articles beitragen, eigene Standpunkte
+2. **Find the Right People**: 5–10 strategische Connections/Woche, Kontaktanfragen immer mit persönlicher Nachricht (Erfahrungswert, die frühere Prozentangabe zur Annahmequote ist zurückgezogen)
+3. **Engage with Insights**: Täglich kommentieren, eigene Standpunkte. Beiträge zu Collaborative Articles zahlen nicht mehr auf ein Badge ein (Q3), sie bleiben nur als Sichtbarkeitskanal sinnvoll.
 4. **Build Relationships**: Inbox pflegen, Kommentare <2h beantworten, Follow-ups, Empfehlungen schreiben
 
 Ziel-SSI nach 90 Tagen: ≥75
@@ -260,7 +300,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
    - Profil-Metadaten: Name, Position, Unternehmen, Standort, Follower, Connections
    - Headline-Varianten: Aus Phase 4.1
    - About-Analyse: Verbotene Wörter, CTA-Bewertung, Hashtag-Status
-   - Profil-Audit: 17-Punkte-Checkliste mit Status je Element
+   - Profil-Audit: 18-Punkte-Checkliste mit Status je Element
    - Roadmap: Kundenspezifisch priorisierte Maßnahmen
 4. Passe die letzte Zeile an: der Ausgabepfad steht fest auf `/mnt/user-data/outputs/`. Außerhalb der claude.ai-Sandbox muss dort ein existierendes Verzeichnis stehen.
 5. Führe das Skript aus: `node generate_report.js`. Es schreibt den Pfad der erzeugten Datei als `Done: …` nach stdout.
@@ -274,13 +314,13 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 
 3. **Detailanalyse je Kategorie** (3–4 Seiten): Jede der 10 Kategorien wird in einem eigenen Unterkapitel begründet. Jede Begründung nennt konkrete Befunde aus dem Profil — keine generischen Aussagen. Bei niedriger Bewertung: konkreter Verbesserungsvorschlag.
 
-4. **Content-Aktivität** (1 Seite): Tabelle der letzten Posts mit Zeitpunkt, Reaktionen, Kommentaren, geschätzter Engagement-Rate. Darunter Erklärung der Methodik (worauf die Schätzung basiert, was nicht messbar war) und Bewertung der Kennzahlen (Median, Vergleich mit Benchmark).
+4. **Content-Aktivität** (1 Seite): Tabelle der letzten Posts mit Zeitpunkt, Reaktionen, Kommentaren, geschätzter Engagement-Rate. Darunter Erklärung der Methodik (worauf die Schätzung basiert, was nicht messbar war) und Bewertung der Kennzahlen (Median, Vergleich mit dem Bewertungsraster in `references/SCORING.md`, sofern der Nenner passt).
 
 5. **Headline-Analyse** (1 Seite): Aktuelle Headline mit Bewertung (was funktioniert, was nicht, warum), 3 Optimierungsvorschläge mit Zeichenzahl, ersten 60 Zeichen und Erklärung der jeweiligen Strategie.
 
 6. **About-Sektion-Analyse** (1 Seite): Hook-Bewertung der ersten 270 Zeichen, gefundene verbotene Wörter mit konkreten Ersetzungsvorschlägen und Begründung, CTA-Bewertung mit Alternativvorschlag, fehlende Elemente (Hashtags, Zeichenauslastung).
 
-7. **Profil-Audit** (1 Seite): 17-Punkte-Checkliste als Tabelle mit Status (Vorhanden/Fehlt/Teilweise) und konkreter Maßnahme je Element. Zusammenfassung: X von 17 erfüllt.
+7. **Profil-Audit** (1 Seite): 18-Punkte-Checkliste als Tabelle mit Status (Vorhanden/Fehlt/Teilweise) und konkreter Maßnahme je Element. Zusammenfassung: X von 18 erfüllt.
 
 8. **Roadmap** (1 Seite): Zeitlich priorisierte Maßnahmen (Woche 1–2 Quick Wins → Woche 3–4 Content-Start → Monat 2–3 Skalierung → Monat 4–6 Authority Building). Erwarteter Score nach 3 Monaten mit Begründung.
 
@@ -299,13 +339,17 @@ Pro Quartal testen: Headline (Nische-First vs Mission), Hook-Typ, Posting-Zeit, 
 
 ### 8.3 KPI-Dashboard
 
-Monatlich tracken: Follower, Profilaufrufe, Engagement-Rate (Ziel >5%), Kommentare/Post (>15), Impressions/Post (>5.000), Save-Rate (>2%), SSI (≥75), Posting-Frequenz (≥3/Woche), Newsletter-Abos.
+Monatlich tracken: Follower, Profilaufrufe, Engagement-Rate, Kommentare/Post, Impressions/Post, Save-Rate, SSI, Posting-Frequenz, Newsletter-Abos.
+
+Die Zielwerte dazu (Engagement-Rate >5 %, Kommentare/Post >15, Impressions/Post >5.000, Save-Rate >2 %, SSI ≥75, Posting-Frequenz ≥3/Woche) sind selbst gesetzte Ziele, keine Branchenwerte. Kennzeichne sie im Report so und vergleiche sie nur mit dem Vormonat desselben Profils.
 
 ---
 
 ## Top Voice Badge – Anforderungen
 
-Einladungsbasiert durch LinkedIn-Redaktion, halbjährliche Überprüfung seit Januar 2025.
+Das blaue Top-Voices-Badge vergibt LinkedIn nur auf Einladung. Nominierungen (auch Selbstnominierungen) prüft LinkedIn quartalsweise (Q4 in `references/SOURCES.md`). Das goldene Community-Top-Voice-Badge über Collaborative Articles ist seit dem 08.10.2024 zurückgezogen und lässt sich nicht mehr verdienen (Q3).
+
+Die folgende Tabelle ist kein Kriterienkatalog von LinkedIn, sondern die Übersetzung der öffentlich genannten Anforderungen in beobachtbare Größen. Behandle sie als Arbeitsraster.
 
 | Kriterium | Messbar machen |
 |-----------|---------------|
@@ -321,9 +365,10 @@ Verstärker: Newsletter, Video-Content, LinkedIn Live, hohe Save-Rate, externe P
 
 ## Branchenspezifische Anpassungen
 
+Die folgenden Zeilen sind Erfahrungswerte, keine erhobenen Branchenkennzahlen. Die früher hier geführte Zeile mit branchenspezifischen Engagement-Benchmarks ist zurückgezogen, weil sich weder Nenner noch Erhebung belegen ließen (`references/SOURCES.md`).
+
 | Parameter | Tech/KI | Energie | Finance | Consulting | Healthcare |
 |-----------|---------|---------|---------|------------|------------|
-| Engagement-Benchmark | 3,6% | 3,3% | 3,2% | 3,2% | 3,3% |
 | Tone of Voice | Pragmatisch | Zukunftsorientiert | Reguliert | Framework-orientiert | Evidenzbasiert |
 | Top-Format | Karussell + Code | Text+Bild, Video | Analyse, Charts | Frameworks, Listen | Case Studies |
 | Posting-Frequenz | 4–5×/Woche | 3–4×/Woche | 2–3×/Woche | 3–4×/Woche | 2–3×/Woche |
@@ -390,6 +435,26 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 ## Changelog
 
 ```
+v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
+├── references/SOURCES.md: sieben Quellen mit URL, Veröffentlichungs- und Abrufdatum, dazu je Quelle, was sie nicht belegt
+├── Elf unbelegte Zahlen ohne Ersatz entfernt, darunter der Plattformdurchschnitt der Engagement-Rate und die Werte je Postformat
+├── Sachfehler korrigiert: das goldene Community-Top-Voice-Badge ist seit dem 08.10.2024 zurückgezogen (Q3), Nominierungen prüft LinkedIn quartalsweise (Q4)
+├── Sub-Kriterium Collaborative Articles entfällt, der Punkt liegt bei Momentum; der laut Q7 entfallene Schalter ist durch die Creator-Tools ersetzt
+├── SCORING.md: Nenner der Engagement-Rate geklärt, das Raster gilt für den impressions-basierten Wert
+├── Die zehn Kategorien heißen an allen vier Stellen gleich, generate_report.js zog vier Kurznamen nach
+├── tests/: drei frei erfundene Profil-Fixtures, erwartete Score-Bänder und tests/run_eval.py
+├── scripts/check_sources.py hält zurückgezogene Aussagen aus dem Skill heraus; die Sperren entstehen aus der Sperrmuster-Spalte in SOURCES.md, nicht aus einer Handliste daneben
+├── Quellen-IDs werden in jeder Schreibweise geprüft, nicht nur in runden Klammern
+├── Die Checkliste in SCORING.md Abschnitt 9 ist die Quelle der 18 Profil-Elemente; SKILL.md Phase 4.3 nannte 15, die Deliverables-Beschreibung 17, die Audit-Tabelle im Report 17
+├── Audit-Tabelle im Report: 18 Elemente statt 17, Video-Content gehört zur Content-Aktivität und nicht zur Profil-Vollständigkeit
+├── Landingpage: aus "Live Demo" wird "Beispiel-Dialog", jede Zahl stammt aus tests/fixtures/profile_mid.json, und run_eval.py bindet diesen Wortlaut
+├── Abgrenzung zu linkedin-community-builder in SKILL.md, README und auf der Landingpage, inklusive Trigger-Regel
+├── Sperrmuster fangen jetzt auch die Bindestrich-Schreibweise, die ae-Umschrift von Umlauten und ein Kontextwort mit Abstand zur Zahl
+├── Die Ausnahme, mit der sich eine Sperre über die Tabellenzelle „keine:" abschalten ließ, ist wieder entfernt; die Zeile zu Collaborative Articles trägt die Schreibweisen aus v2.3.0
+├── Jedes Sperrmuster muss den eigenen Wortlaut in der Spalte „Frühere Aussage" treffen, sonst fällt die Zeile im CI-Lauf auf
+├── Neue Belegpflicht in check_sources.py: ein Absatz, der Collaborative Articles und ein Badge in einem Zug nennt, muss Q3 zitieren
+└── CI fährt Beleglage und Eval-Set mit
+
 v2.3.0 (2026-09-04) – Erstes Release, Banner-Skript repariert
 ├── create_banner.py: --background ist optional, ohne Hintergrundbild entsteht ein Gradient
 ├── create_banner.py: die angeforderte Schriftgröße wirkt jetzt auch auf den PIL-Ersatz-Font

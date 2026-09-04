@@ -1,0 +1,61 @@
+{
+  "fixture": "profile_low",
+  "hinweis": "Bänder von plus/minus 2 Punkten je Kategorie. Ein LLM-Scoring ist nicht deterministisch, engere Bänder erzeugen rote Läufe ohne Erkenntnisgewinn. Ändern sich die Gewichte in SCORING.md, müssen die Bänder hier mitgeändert werden.",
+  "baender": {
+    "Headline": [
+      0,
+      4
+    ],
+    "About-Sektion": [
+      1,
+      5
+    ],
+    "Banner": [
+      0,
+      3
+    ],
+    "Content-Qualität": [
+      0,
+      4
+    ],
+    "Posting-Frequenz": [
+      1,
+      5
+    ],
+    "Engagement & Kommentare": [
+      0,
+      4
+    ],
+    "Social Proof": [
+      0,
+      3
+    ],
+    "Netzwerk & Follower": [
+      1,
+      5
+    ],
+    "Profil-Vollständigkeit": [
+      1,
+      5
+    ],
+    "Top Voice Readiness": [
+      0,
+      3
+    ]
+  },
+  "gesamt": [
+    14,
+    30
+  ],
+  "pflicht_deliverables": [
+    "Gewichteter Profil-Score",
+    "Wettbewerbsanalyse",
+    "Optimierte Headline",
+    "Optimierter About-Text",
+    "Banner",
+    "Content Skill",
+    "Kommentar Skill",
+    "SSI-Aktionsplan",
+    "DOCX-Report"
+  ]
+}

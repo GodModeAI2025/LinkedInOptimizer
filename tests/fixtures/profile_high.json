@@ -1,0 +1,121 @@
+{
+  "id": "profile_high",
+  "herkunft": "frei erfunden. Keine reale Person, keine reale Firma, keine anonymisierten Echtdaten.",
+  "beschreibung": "Starkes Profil kurz vor Top-Voice-Reife. Konsistente Frequenz, klare Nische, viel externe Validierung.",
+  "profil": {
+    "name": "Beispielprofil C",
+    "headline": {
+      "text": "Industrielle Bildverarbeitung | Principal Engineer @ Beispiel AG | Edge AI, Robotik | Podcast-Host",
+      "zeichen": 98,
+      "keywords": 4,
+      "emojis": 0,
+      "rollen_genannt": [
+        "Podcast-Host"
+      ]
+    },
+    "about": {
+      "zeichen": 1840,
+      "hook_zeilen": 3,
+      "zwischenueberschriften": true,
+      "cta": true,
+      "keywords": 6
+    },
+    "banner": {
+      "vorhanden": true,
+      "aufloesung": "1584x396",
+      "safe_zone_geprueft": true
+    },
+    "content": {
+      "posts_letzte_90_tage": 52,
+      "eigene_posts_anteil": 1.0,
+      "fokusthemen_anteil": 0.88,
+      "formate": [
+        "Text",
+        "Text+Bild",
+        "Dokument",
+        "Video",
+        "Umfrage"
+      ],
+      "hook_typen": 8,
+      "reposts": 0
+    },
+    "posting": {
+      "posts_pro_woche": 4.0,
+      "laengste_pause_tage": 4,
+      "rhythmus_seit_monaten": 14,
+      "back_to_back_gleiches_format": false
+    },
+    "engagement": {
+      "eigene_kommentare_pro_tag": 7,
+      "median_kommentarlaenge_woerter": 34,
+      "antwortet_auf_kommentare": true,
+      "ziel_accounts": 18,
+      "engagement_bait": false
+    },
+    "social_proof": {
+      "buecher": 6,
+      "awards": 3,
+      "presse": 9,
+      "vortraege": 14,
+      "podcasts": 2,
+      "linkedin_empfehlungen": 21
+    },
+    "netzwerk": {
+      "follower": 21000,
+      "connections": 4600,
+      "wachstum_pro_monat": 640
+    },
+    "vollstaendigkeit": {
+      "Professionelles Profilbild (Gesicht ≥60% des Bildes)": true,
+      "Custom Banner (nicht LinkedIn-Standard)": true,
+      "Headline optimiert (>100 Zeichen)": true,
+      "About-Sektion (>500 Zeichen, vollständig ausformuliert)": true,
+      "Featured Section (≥3 Inhalte)": true,
+      "Aktuelle Position (mit Beschreibung)": true,
+      "Weitere Positionen (alle relevanten, mit Beschreibung)": true,
+      "Ausbildung (eingetragen)": true,
+      "Skills (≥10, mit Endorsements)": true,
+      "Empfehlungen (≥5 erhalten)": true,
+      "Zertifikate / Lizenzen (mindestens eines)": true,
+      "Publikationen / Projekte (mindestens eines)": true,
+      "Sprachen (mindestens eine)": true,
+      "Eigener Newsletter (aktiv)": true,
+      "Creator-Tools (Newsletter, LinkedIn Live oder Audio Events)": true,
+      "Custom CTA-Button (konfiguriert)": true,
+      "Custom URL (/in/vorname-nachname)": true,
+      "Kontaktdaten (E-Mail oder Website)": false
+    },
+    "top_voice": {
+      "monate_konsistent": 14,
+      "eigene_frameworks": true,
+      "fokusthemen_anteil": 0.88,
+      "externe_validierung": true,
+      "momentum": "steigend"
+    },
+    "kennzahlen": {
+      "impressions": null,
+      "followers": 21000,
+      "reaktionen_median": 610,
+      "kommentare_median": 58,
+      "engagement_rate_follower_basis": 3.2,
+      "hinweis": "Impressions sind für fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
+    }
+  },
+  "referenzlauf": {
+    "datum": "2026-09-04",
+    "quelle": "Von Hand aus dem Raster in references/SCORING.md abgeleitet, kein Modelllauf.",
+    "kategorien": {
+      "Headline": 9,
+      "About-Sektion": 9,
+      "Banner": 8,
+      "Content-Qualität": 9,
+      "Posting-Frequenz": 9,
+      "Engagement & Kommentare": 8,
+      "Social Proof": 10,
+      "Netzwerk & Follower": 9,
+      "Profil-Vollständigkeit": 9,
+      "Top Voice Readiness": 8
+    },
+    "gesamt": 88.4
+  }
+}

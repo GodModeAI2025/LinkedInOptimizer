@@ -1,0 +1,115 @@
+{
+  "id": "profile_low",
+  "herkunft": "frei erfunden. Keine reale Person, keine reale Firma, keine anonymisierten Echtdaten.",
+  "beschreibung": "Schwaches Profil. Jobtitel als Headline, kaum eigener Content, kein Social Proof.",
+  "profil": {
+    "name": "Beispielprofil A",
+    "headline": {
+      "text": "Projektmanager",
+      "zeichen": 14,
+      "keywords": 0,
+      "emojis": 0,
+      "rollen_genannt": []
+    },
+    "about": {
+      "zeichen": 240,
+      "hook_zeilen": 1,
+      "zwischenueberschriften": false,
+      "cta": false,
+      "keywords": 1
+    },
+    "banner": {
+      "vorhanden": false,
+      "aufloesung": null,
+      "safe_zone_geprueft": false
+    },
+    "content": {
+      "posts_letzte_90_tage": 3,
+      "eigene_posts_anteil": 0.33,
+      "fokusthemen_anteil": 0.3,
+      "formate": [
+        "Text"
+      ],
+      "hook_typen": 1,
+      "reposts": 2
+    },
+    "posting": {
+      "posts_pro_woche": 0.35,
+      "laengste_pause_tage": 41,
+      "rhythmus_seit_monaten": 0,
+      "back_to_back_gleiches_format": true
+    },
+    "engagement": {
+      "eigene_kommentare_pro_tag": 0.5,
+      "median_kommentarlaenge_woerter": 6,
+      "antwortet_auf_kommentare": false,
+      "ziel_accounts": 0,
+      "engagement_bait": true
+    },
+    "social_proof": {
+      "buecher": 0,
+      "awards": 0,
+      "presse": 0,
+      "vortraege": 0,
+      "podcasts": 0,
+      "linkedin_empfehlungen": 1
+    },
+    "netzwerk": {
+      "follower": 900,
+      "connections": 810,
+      "wachstum_pro_monat": 8
+    },
+    "vollstaendigkeit": {
+      "Professionelles Profilbild (Gesicht ≥60% des Bildes)": true,
+      "Custom Banner (nicht LinkedIn-Standard)": true,
+      "Headline optimiert (>100 Zeichen)": true,
+      "About-Sektion (>500 Zeichen, vollständig ausformuliert)": true,
+      "Featured Section (≥3 Inhalte)": true,
+      "Aktuelle Position (mit Beschreibung)": true,
+      "Weitere Positionen (alle relevanten, mit Beschreibung)": true,
+      "Ausbildung (eingetragen)": false,
+      "Skills (≥10, mit Endorsements)": false,
+      "Empfehlungen (≥5 erhalten)": false,
+      "Zertifikate / Lizenzen (mindestens eines)": false,
+      "Publikationen / Projekte (mindestens eines)": false,
+      "Sprachen (mindestens eine)": false,
+      "Eigener Newsletter (aktiv)": false,
+      "Creator-Tools (Newsletter, LinkedIn Live oder Audio Events)": false,
+      "Custom CTA-Button (konfiguriert)": false,
+      "Custom URL (/in/vorname-nachname)": false,
+      "Kontaktdaten (E-Mail oder Website)": false
+    },
+    "top_voice": {
+      "monate_konsistent": 0,
+      "eigene_frameworks": false,
+      "fokusthemen_anteil": 0.3,
+      "externe_validierung": false,
+      "momentum": "fallend"
+    },
+    "kennzahlen": {
+      "impressions": null,
+      "followers": 900,
+      "reaktionen_median": 9,
+      "kommentare_median": 1,
+      "engagement_rate_follower_basis": 1.1,
+      "hinweis": "Impressions sind für fremde Profile nicht sichtbar. Der Wert ist follower-basiert und darf nicht gegen das Bewertungsraster in SCORING.md gehalten werden."
+    }
+  },
+  "referenzlauf": {
+    "datum": "2026-09-04",
+    "quelle": "Von Hand aus dem Raster in references/SCORING.md abgeleitet, kein Modelllauf.",
+    "kategorien": {
+      "Headline": 2,
+      "About-Sektion": 3,
+      "Banner": 1,
+      "Content-Qualität": 2,
+      "Posting-Frequenz": 3,
+      "Engagement & Kommentare": 2,
+      "Social Proof": 1,
+      "Netzwerk & Follower": 3,
+      "Profil-Vollständigkeit": 3,
+      "Top Voice Readiness": 1
+    },
+    "gesamt": 21.6
+  }
+}
