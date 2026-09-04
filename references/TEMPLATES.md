@@ -20,9 +20,9 @@ Dieses Dokument enthält Templates für alle Deliverables des Optimierungs-Workf
 
 **Beispiel**:
 ```
-Künstliche Intelligenz in der Energiewende | Head of CoE Mobile @ EnBW | GenAI, Agents, Enterprise AI | Podcast-Host
+Künstliche Intelligenz in der Logistik | Head of Digital Platforms @ Musterwerke AG | GenAI, Agents, Enterprise AI | Podcast-Host
 ```
-Zeichenzahl: 119 | Erste 60 Zeichen: „Künstliche Intelligenz in der Energiewende | Head o…"
+Zeichenzahl: 129 | Erste 60 Zeichen: „Künstliche Intelligenz in der Logistik | Head of Digital Pla…"
 
 ### 1.2 Template B: Position-First (für Corporate-Fokus)
 
@@ -32,7 +32,7 @@ Zeichenzahl: 119 | Erste 60 Zeichen: „Künstliche Intelligenz in der Energiewe
 
 **Beispiel**:
 ```
-Head of CoE Mobile @ EnBW | KI-Agenten im Enterprise | GenAI, AI Strategy | Autor von 14+ Fachbüchern
+Head of Digital Platforms @ Musterwerke AG | KI-Agenten im Enterprise | GenAI, AI Strategy | Autor von 6 Fachbüchern
 ```
 
 ### 1.3 Template C: Mission-Statement (für starke persönliche Marke)
@@ -43,7 +43,7 @@ Head of CoE Mobile @ EnBW | KI-Agenten im Enterprise | GenAI, AI Strategy | Auto
 
 **Beispiel**:
 ```
-Ich baue Brücken zwischen KI-Hype und Enterprise-Realität | Head of CoE Mobile @ EnBW | Autor & Podcast-Host
+Ich baue Brücken zwischen KI-Hype und Enterprise-Realität | Head of Digital Platforms @ Musterwerke AG | Autor & Podcast-Host
 ```
 
 ### 1.4 Template D: Autor/Speaker-First (für Personen mit starkem Social Proof)
@@ -54,7 +54,7 @@ Ich baue Brücken zwischen KI-Hype und Enterprise-Realität | Head of CoE Mobile
 
 **Beispiel**:
 ```
-Autor von 14+ KI-Büchern | Head of CoE Mobile @ EnBW | GenAI, Agents, Enterprise AI | heise-Fachautor
+Autor von 6 KI-Büchern | Head of Digital Platforms @ Musterwerke AG | GenAI, Agents, Enterprise AI | Fachmedien-Autor
 ```
 
 ### Headline-Checkliste
@@ -281,7 +281,7 @@ Beachte bei JEDEM Post:
 - Absätze: Max. 3 Zeilen pro Absatz (mobil-optimiert, größerer Bildschirmanteil)
 - Zeilenumbrüche: Großzügig einsetzen (Whitespace = Lesbarkeit = Dwell Time)
 - Hashtags: [3–5 strategische] am Ende des Posts
-- Pflicht-Hashtag: [z.B. #WIRsindEnBW]
+- Pflicht-Hashtag: [z.B. #WIRsindMusterwerke]
 - Emojis: Max. 3, nur als Aufzählungszeichen oder Akzente
 
 ## HOOK-TYPEN (10 Varianten)

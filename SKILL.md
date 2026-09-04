@@ -191,15 +191,17 @@ Kritische Regeln im Überblick:
 Banner erstellen:
 ```bash
 python scripts/create_banner.py \
-  --background hintergrund.png \
   --output banner.png \
   --title1 "Zeile 1" --title2 "Zeile 2" \
   --subtitle "Untertitel" \
   --role "Position @ Unternehmen" \
-  --tags "#GenAI  #EnterpriseAI"
+  --tags "#GenAI  #EnterpriseAI" \
+  --strict
 ```
 
-Das Skript hat Font-Fallback (DejaVuSans wenn NotoSans fehlt) und Gradient-Fallback (wenn kein Hintergrund-Bild vorhanden).
+`--strict` gehört in jeden Aufruf: Ohne die Option meldet das Skript Safe-Zone-Verletzungen nur als Warnung und endet trotzdem mit Exitcode 0, mit der Option endet es mit 1. Ein eigenes Hintergrund-Bild kommt optional über `--background <bild.png>` dazu; fehlt die Option oder der Pfad, entsteht ein Gradient-Hintergrund.
+
+Fehlt NotoSans, greift das Skript auf DejaVuSans zurück. Findet es gar keinen Font mit anwendbarer Größenangabe, sind die gemessenen Textbreiten wertlos; dieser Fall zählt selbst als Verletzung und beendet `--strict` mit 1, statt ein ungeprüftes Banner durchzulassen.
 
 ---
 
