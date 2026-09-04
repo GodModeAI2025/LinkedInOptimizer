@@ -105,6 +105,14 @@ jobs:
           tatsaechlich="$(unzip -Z1 "$paket" | sort)"
           diff <(echo "$erwartet") <(echo "$tatsaechlich")
 
+          # Wer nur das Paket hat, findet requirements.txt darin, aber ohne
+          # diese Zeile nirgends den Weg dorthin. Der dokumentierte Aufruf
+          # endet dann mit ModuleNotFoundError: No module named 'PIL'.
+          if ! unzip -p "$paket" SKILL.md | grep -qF "pip install -r requirements.txt"; then
+            echo "FEHLER: SKILL.md im Paket nennt pip install -r requirements.txt nicht." >&2
+            exit 1
+          fi
+
           # Dieselbe Regel noch einmal als Verbot, damit sichtbar bleibt, was
           # nie ins Paket gehoert: Repo-Innereien, Landingpage, Schluesseldateien.
           if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|build_skill_package[.]py'; then
