@@ -3,15 +3,17 @@
 
 Verwendung:
     python scripts/create_banner.py \
-        --background background.png \
         --output banner.png \
         --title1 "Zeile 1" \
         --title2 "Zeile 2" \
         --subtitle "Untertitel" \
         --role "Position @ Unternehmen" \
         --tags "#GenAI  #EnterpriseAI" \
+        [--background background.png] \
         [--book cover.png] \
         [--accent 0,200,255]
+
+Ohne --background wird ein Gradient-Hintergrund erzeugt.
 """
 
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -66,7 +68,7 @@ def create_linkedin_banner(
     Erstellt ein professionelles LinkedIn-Banner mit Safe-Zone-Validierung.
 
     Args:
-        background_path: Pfad zum Hintergrund-Bild
+        background_path: Pfad zum Hintergrund-Bild (None oder nicht vorhanden: Gradient-Fallback)
         output_path: Ausgabepfad für das Banner
         title_line1: Erste Titelzeile (max. ~22 Zeichen bei 52px)
         title_line2: Zweite Titelzeile (optional)
@@ -231,7 +233,8 @@ def create_linkedin_banner(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="LinkedIn Banner Generator v2.0")
-    parser.add_argument("--background", required=True, help="Pfad zum Hintergrund-Bild")
+    parser.add_argument("--background", default=None,
+                        help="Pfad zum Hintergrund-Bild (optional, sonst Gradient-Fallback)")
     parser.add_argument("--output", required=True, help="Ausgabepfad")
     parser.add_argument("--title1", required=True, help="Erste Titelzeile")
     parser.add_argument("--title2", default="", help="Zweite Titelzeile")
