@@ -285,6 +285,14 @@ Arbeitsregeln dieses Skills. Belegt ist davon Punkt 1 (Dwell Time als Ranking-Si
 - Emojis: Max. 3, nur als Aufzählungszeichen oder Akzente
 
 ## HOOK-TYPEN (10 Varianten)
+
+Diese zehn Typen stehen in zwei Repos. Kanonisch sind sie im Schwester-Repo
+[LinkedIn-Orchestrator](https://github.com/GodModeAI2025/LinkedIn-Orchestrator) unter
+`references/HOOKS.md`; hier stehen sie als Kopie, weil das Skill-Paket offline vollständig sein
+muss und keine Datei aus dem anderen Repo lesen kann. Bindende Fläche sind die zehn Namen und ihre
+Reihenfolge, `scripts/check_hooks.py` prüft sie. Wer hier einen Typ ändert, zieht ihn dort nach;
+diese Kopplung sieht kein Skript.
+
 Jeder Post beginnt mit einem Hook in den ersten 2 Zeilen. Variiere systematisch:
 
 ### 1. PROVOKANTE THESE
@@ -298,6 +306,7 @@ Jeder Post beginnt mit einem Hook in den ersten 2 Zeilen. Variiere systematisch:
 ### 3. ZAHLEN-HOOK
 „[Konkrete Zahl]% der [Zielgruppe] machen bei [Thema] denselben Fehler."
 → Funktioniert für: Daten-getriebene Posts, Benchmarks
+→ Nur mit einer Zahl, die du belegen kannst. Siehe `references/SOURCES.md`.
 
 ### 4. GEGEN-DEN-STROM
 „Unpopuläre Meinung: [Mainstream-Position] schadet mehr als sie nützt."
@@ -317,7 +326,7 @@ Jeder Post beginnt mit einem Hook in den ersten 2 Zeilen. Variiere systematisch:
 
 ### 8. FRAMEWORK / LISTE
 „[Zahl] Prinzipien für [Thema], die ich in [X] Jahren gelernt habe:"
-→ Funktioniert für: Save-optimierte Posts (höchste Save-Rate)
+→ Funktioniert für: Content, der gespeichert wird
 
 ### 9. BEOBACHTUNG
 „Mir fällt ein Muster auf: [Trend/Beobachtung]. Und kaum jemand spricht darüber."

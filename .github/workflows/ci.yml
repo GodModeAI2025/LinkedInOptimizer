@@ -71,6 +71,13 @@ jobs:
       - name: Trigger-Beschreibung pruefen
         run: python scripts/check_descriptions.py
 
+      # Die zehn Hook-Typen stehen in beiden LinkedIn-Repos. Hier wird geprueft,
+      # dass die Kopie in references/TEMPLATES.md die kanonischen Namen in der
+      # kanonischen Reihenfolge fuehrt. Ob das andere Repo nachgezogen wurde,
+      # sieht dieser Lauf nicht; das steht so in beiden Dateien.
+      - name: Hook-Katalog pruefen
+        run: python scripts/check_hooks.py
+
       # Prueft references/SOURCES.md und haelt zugleich fest, dass keine der
       # dort als unbelegt entfernten Aussagen ueber eine spaetere Aenderung
       # zurueck in den Skill wandert. Die Sperren erzeugt das Skript aus der
