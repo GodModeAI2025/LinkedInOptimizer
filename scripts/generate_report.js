@@ -137,12 +137,14 @@ const AUDIT = [
 ];
 const AUDIT_SUMMARY = "[X von 18 Elementen, Zusammenfassung]";
 
+// Drei Fenster, dasselbe Raster wie der SSI-Plan in SKILL.md Phase 7.
+// Nach Tag 90 endet die Roadmap dieses Skills.
 const ROADMAP = {
-  week12: ["[Maßnahme]"],
-  week34: ["[Maßnahme]"],
-  month23: ["[Maßnahme]"],
-  month46: ["[Maßnahme]"],
-  expectedScore: "[Score-Prognose + Begründung]",
+  tag30: ["[Maßnahme]"],
+  tag60: ["[Maßnahme]"],
+  tag90: ["[Maßnahme]"],
+  expectedScore: "[Score-Prognose nach 90 Tagen + Begründung]",
+  handover: "[Übergang in den laufenden Betrieb: was ab Tag 91 weiterläuft und wer es übernimmt]",
 };
 
 const LIMITS = [
@@ -263,12 +265,12 @@ const doc = new Document({
 
       // ═══ 8. ROADMAP ═══
       pageBreak(), h1("8. Empfohlene Roadmap"),
-      p("Maßnahmen priorisiert: Quick Wins zuerst, dann Skalierung, dann Authority Building."),
-      h2("Woche 1-2: Quick Wins"), ...ROADMAP.week12.map(m => bullet(m)),
-      h2("Woche 3-4: Content-Start"), ...ROADMAP.week34.map(m => bullet(m)),
-      h2("Monat 2-3: Skalierung"), ...ROADMAP.month23.map(m => bullet(m)),
-      h2("Monat 4-6: Authority Building"), ...ROADMAP.month46.map(m => bullet(m)),
-      h2("Erwarteter Score nach 3 Monaten"), p(ROADMAP.expectedScore),
+      p("Drei Fenster ueber 90 Tage, dasselbe Raster wie der SSI-Plan in Kapitel 7 der Analyse: Quick Wins zuerst, dann der Content-Rhythmus, dann Sichtbarkeit. Nach Tag 90 endet diese Roadmap."),
+      h2("Tag 1-30: Quick Wins"), ...ROADMAP.tag30.map(m => bullet(m)),
+      h2("Tag 31-60: Content-Rhythmus"), ...ROADMAP.tag60.map(m => bullet(m)),
+      h2("Tag 61-90: Sichtbarkeit"), ...ROADMAP.tag90.map(m => bullet(m)),
+      h2("Erwarteter Score nach 90 Tagen"), p(ROADMAP.expectedScore),
+      h2("Danach"), p(ROADMAP.handover),
 
       // ═══ 9. METHODIK ═══
       pageBreak(), h1("9. Methodik & Einschränkungen"),

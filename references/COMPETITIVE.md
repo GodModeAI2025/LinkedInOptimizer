@@ -88,12 +88,22 @@ Zahl der einbezogenen Wettbewerber.
 
 ## Wenn die Mindestzahl nicht erreicht wird
 
-Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Bis v2.4.0 stand daneben in der
-Fehlerbehandlung ein zweiter Wert: „Minimum 2 Wettbewerber für sinnvolle Matrix", dazu der
-Hinweis, bei weniger als 2 auf die Tabelle der branchenspezifischen Anpassungen auszuweichen.
-Das war kein Gate, sondern zwei Zahlen und ein Ausweg. Der Ausweg war zusätzlich falsch adressiert:
-jene Tabelle enthält Erfahrungswerte zu Tonalität, Format und Frequenz je Branche, sie enthält
-keine Wettbewerber und kann eine Wettbewerbsanalyse nicht ersetzen.
+Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Bis v2.4.0 hob der eigene Fehlerpfad es
+wieder auf. Der abgelöste Wortlaut, als Zitat:
+
+> Quality Gate: Min. 3 Wettbewerber, Ausnahme siehe Fehlerbehandlung
+> Fehlerbehandlung: Sind nur 2 erreichbar, erstelle die Matrix mit 2 und vermerke die Abweichung
+> im Report. Bei <2: Branchenbenchmarks aus der Tabelle oben verwenden.
+> Fassung, die dem Audit vorlag: Minimum 2 Wettbewerber für sinnvolle Matrix.
+
+Ein Gate, das der eigene Fehlerpfad unterläuft, ist kein Gate. Der Ausweg war zusätzlich falsch
+adressiert: die Tabelle der branchenspezifischen Anpassungen enthält Erfahrungswerte zu
+Tonalität, Format und Frequenz je Branche, sie enthält keine Wettbewerber und kann eine
+Wettbewerbsanalyse nicht ersetzen.
+
+Diese vier Zeilen sind die einzige Stelle im Repo, an der der abgelöste Wortlaut noch stehen
+darf. `tests/run_eval.py` nimmt in dieser Datei Zeilen aus, die als Zitat mit `>` beginnen, und
+sonst nichts.
 
 Es gilt eine Zahl: 3. Werden weniger erreicht, dann gilt:
 

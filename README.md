@@ -41,8 +41,8 @@ Das Skript setzt feste Zeitstempel und eine feste Reihenfolge und speichert unko
 | Banner | 1584×396px mit Safe-Zone-Validierung |
 | Content Skill | Personalisierter Posting-Skill mit 10 Hook-Typen |
 | Kommentar Skill | 5 Kommentar-Typen, 15–20 Ziel-Accounts |
-| SSI-Aktionsplan | Social Selling Index Optimierung (4 Säulen) |
-| DOCX-Report | Word-Dokument mit 9 Kapiteln, Scoring-Tabellen und Roadmap bis Monat 6 |
+| SSI-Aktionsplan | Social Selling Index Optimierung über 4 Säulen, aufgeteilt auf Tag 1–30, 31–60 und 61–90, je mit Hypothese und Messweg |
+| DOCX-Report | Word-Dokument mit 9 Kapiteln, Scoring-Tabellen und 30/60/90-Tage-Roadmap |
 
 ## Ordnerstruktur
 

@@ -63,6 +63,10 @@ Was geprueft wird:
    und in SKILL.md Phase 3.1 in derselben Reihenfolge, und die Mindestzahl der
    Wettbewerber lautet an allen drei Stellen gleich. Der frueher daneben
    stehende zweite Wert darf nicht zurueckkommen.
+12. Der Massnahmenplan laeuft an allen vier Stellen ueber dieselben drei
+   Zeitfenster, und keiner der drei abgeloesten Horizonte steht mehr daneben.
+   Der Changelog in SKILL.md ist davon ausgenommen, dort werden die alten
+   Wortlaute genannt.
 
 Die Fixtures sind frei erfunden. Es sind keine anonymisierten Echtprofile: ein
 Echtprofil zu erheben und danach zu verfremden waere genau die Datenverarbeitung,
@@ -713,6 +717,12 @@ MINIMUM_VERBOTEN = [
     "Minimum 2 Wettbewerber",
     "Min. 2 Wettbewerber",
     "mindestens 2 Wettbewerber",
+    # Die Fassung, die bis v2.4.0 im Repo stand. Sie nannte keine zweite Zahl
+    # als Regel, hob das Gate aber genauso auf.
+    "Sind nur 2 erreichbar",
+    "erstelle die Matrix mit 2",
+    "Bei <2:",
+    "Ausnahme siehe Fehlerbehandlung",
 ]
 
 
@@ -749,18 +759,20 @@ def pruefe_wettbewerb(fehler, skill, competitive):
     Profile die Auswahlregel erfuellen; das steht in COMPETITIVE.md unter "Was
     diese Vorlage nicht leistet".
     """
+    # Die Achsen und die Mindestzahl haengen nicht voneinander ab. Ein Fehler in
+    # der einen Haelfte darf die andere nicht verdecken, sonst meldet ein Lauf
+    # nur den ersten von mehreren Befunden.
     try:
         aus_datei = achsen_aus_competitive(competitive)
         aus_skill = achsen_aus_skill(skill)
+        if aus_datei != aus_skill:
+            fehler.append(
+                "Die zehn Achsen stehen in references/COMPETITIVE.md und SKILL.md Phase 3.1 "
+                "nicht in derselben Reihenfolge."
+                f"\n      COMPETITIVE.md: {aus_datei}\n      SKILL.md:       {aus_skill}"
+            )
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
-        return
-
-    if aus_datei != aus_skill:
-        fehler.append(
-            "Die zehn Achsen stehen in references/COMPETITIVE.md und SKILL.md Phase 3.1 nicht "
-            f"in derselben Reihenfolge.\n      COMPETITIVE.md: {aus_datei}\n      SKILL.md:       {aus_skill}"
-        )
 
     for rel_pfad, marker, was, vorlage in MINIMUM_FUNDSTELLEN:
         text = lies(ROOT / rel_pfad)
@@ -784,15 +796,88 @@ def pruefe_wettbewerb(fehler, skill, competitive):
             for nummer, zeile in enumerate(text.splitlines(), 1):
                 if verboten not in zeile:
                     continue
-                # In COMPETITIVE.md steht der alte Wortlaut einmal als Zitat in
-                # der Begruendung. Ein Zitat in Anfuehrungszeichen bleibt erlaubt,
-                # eine Regel nicht.
-                if rel_pfad == "references/COMPETITIVE.md" and "„" + verboten in zeile:
+                # In COMPETITIVE.md steht der abgeloeste Wortlaut einmal als
+                # Blockzitat, damit nachvollziehbar bleibt, was sich geaendert
+                # hat. Zitatzeilen sind ausgenommen, Regeln nicht. Die Ausnahme
+                # gilt nur fuer diese Datei und nur fuer Zeilen, die mit '>'
+                # beginnen; steht der Wortlaut daneben als Anweisung, faellt er
+                # auf.
+                if rel_pfad == "references/COMPETITIVE.md" and zeile.lstrip().startswith(">"):
                     continue
                 fehler.append(
                     f"{rel_pfad}:{nummer}: {verboten!r} steht wieder im Skill. Es gilt eine "
                     f"Mindestzahl, und die ist {WETTBEWERBER_MINIMUM}."
                 )
+
+
+# Die drei Zeitfenster des Massnahmenplans. Das Repo fuehrte bis v2.4.0 drei
+# unvereinbare Horizonte nebeneinander: SKILL.md Phase 7 endete nach 90 Tagen,
+# Kapitel 8 des Reports lief bis Monat 6, und README wie Landingpage
+# beschrieben das Deliverable als "Roadmap bis Monat 6". Wer den einen Plan
+# umsetzte, arbeitete gegen den anderen. Es gibt jetzt ein Raster.
+#
+# Die positive Haelfte: jede Stelle muss die drei Fenster nennen. Die negative
+# Haelfte weiter unten ist die, die die Vereinheitlichung misst; ohne sie liesse
+# sich ein alter Horizont danebenstellen, ohne dass etwas anschlaegt.
+ZEITFENSTER = [
+    ("SKILL.md", ["Tag 1–30", "Tag 31–60", "Tag 61–90"]),
+    ("scripts/generate_report.js", ["Tag 1-30", "Tag 31-60", "Tag 61-90"]),
+    ("README.md", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60 und 61–90"]),
+    ("index.html", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60, 61–90"]),
+]
+
+# Die abgeloesten Horizonte, in den Schreibweisen, in denen sie im Repo standen.
+# Der Bindestrich steht in generate_report.js, der Halbgeviertstrich in den
+# Markdown-Dateien und auf der Landingpage.
+ALTE_HORIZONTE = [
+    "Roadmap bis Monat 6",
+    "12-Monats",
+    "Woche 1-2", "Woche 1–2",
+    "Woche 3-4", "Woche 3–4",
+    "Monat 2-3", "Monat 2–3",
+    "Monat 4-6", "Monat 4–6",
+    "nach 3 Monaten",
+]
+
+# Dateien, in denen kein abgeloester Horizont mehr stehen darf. SKILL.md traegt
+# den Changelog und darf die alten Wortlaute dort nennen; die Ausnahme ist auf
+# den Changelog begrenzt und nicht auf die Datei.
+HORIZONT_DATEIEN = ["SKILL.md", "README.md", "index.html", "scripts/generate_report.js"]
+
+
+def ohne_changelog(rel_pfad: str, text: str) -> str:
+    """SKILL.md ohne den Changelog. Dort stehen die alten Wortlaute mit Absicht."""
+    if rel_pfad != "SKILL.md":
+        return text
+    schnitt = text.find("\n## Changelog")
+    return text if schnitt == -1 else text[:schnitt]
+
+
+def pruefe_zeitfenster(fehler):
+    """Bindet die drei Zeitfenster und weist die abgeloesten Horizonte zurueck.
+
+    Geprueft werden Beschriftungen. Nicht geprueft wird, ob die Massnahmen in
+    einem Fenster in dieses Fenster gehoeren, ob die Hypothesen aus Phase 7.2
+    jemals gemessen wurden und ob ein Kunde den Plan durchhaelt.
+    """
+    for rel_pfad, erwartet in ZEITFENSTER:
+        text = lies(ROOT / rel_pfad)
+        for wortlaut in erwartet:
+            if wortlaut not in text:
+                fehler.append(
+                    f"{rel_pfad}: das Zeitfenster {wortlaut!r} fehlt. Der Massnahmenplan laeuft "
+                    "an allen vier Stellen ueber Tag 1-30, 31-60 und 61-90."
+                )
+
+    for rel_pfad in HORIZONT_DATEIEN:
+        text = ohne_changelog(rel_pfad, lies(ROOT / rel_pfad))
+        for nummer, zeile in enumerate(text.splitlines(), 1):
+            for alt in ALTE_HORIZONTE:
+                if alt in zeile:
+                    fehler.append(
+                        f"{rel_pfad}:{nummer}: der abgeloeste Horizont {alt!r} steht wieder im "
+                        "Skill. Es gibt ein Raster: Tag 1-30, 31-60, 61-90."
+                    )
 
 
 def pruefe_deliverables(fehler, readme):
@@ -854,6 +939,7 @@ def main() -> int:
             pruefe_deliverables(fehler, readme)
             pruefe_ethik(fehler, ethik)
             pruefe_wettbewerb(fehler, skill, competitive)
+            pruefe_zeitfenster(fehler)
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
 
@@ -863,7 +949,7 @@ def main() -> int:
             print(f"  - {eintrag}", file=sys.stderr)
         return 1
 
-    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    alle Fixtures im Band.")
+    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    ein Zeitraster statt drei,\n    alle Fixtures im Band.")
     return 0
 
 

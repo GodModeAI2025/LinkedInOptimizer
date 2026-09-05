@@ -131,6 +131,9 @@ nicht als Benchmark gegen ein Kundenprofil gehalten werden:
   Branchenwerte.
 - Die Punktebänder in `references/SCORING.md`. Sie sind ein internes Bewertungsraster, mit dem
   sich Profile untereinander vergleichen lassen, und kein Industriestandard.
+- Die Spalte „Erwarteter Zeithorizont bis Top Voice" in der Score-Interpretation von
+  `references/SCORING.md`. Eine Prognose aus der Beratungspraxis, keine Messung und nicht der
+  Maßnahmenplan des Skills; der läuft über 30, 60 und 90 Tage.
 
 ---
 
