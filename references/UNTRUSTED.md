@@ -56,7 +56,7 @@ genau das entfernt die Anführungszeichen um eine eingeschleuste Anweisung.
 
 Sie ist eine Regel an das Modell, kein Riegel im Code. Es gibt keinen Filter, der eingeschleusten
 Text erkennt, kein Protokoll darüber, welcher Text erhoben wurde, und keine Trennung zwischen
-Skill-Anweisung und Seiteninhalt auf Ebene der Werkzeuge. `tests/run_eval.py` prüft nur, dass diese
+Skill-Anweisung und Seiteninhalt auf Ebene der Werkzeuge. `LinkedInOptimizer/tests/run_eval.py` prüft nur, dass diese
 Datei existiert und dass Phase 1.1 und Phase 3.1 auf sie verweisen. Ob die Regel in einem konkreten
 Gespräch eingehalten wurde, sieht kein Skript.
 

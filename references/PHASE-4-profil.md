@@ -15,6 +15,6 @@ Die ersten 270 Zeichen (vor „…mehr") entscheiden über Weiterlesen. Orwell-P
 
 ### 4.3 Quick-Win-Checkliste
 
-Prüfe die 18 Profil-Elemente aus der Checkliste in `references/SCORING.md` Abschnitt 9 (Professionelles Profilbild, Custom Banner, Headline optimiert, About-Sektion, Featured Section, Aktuelle Position, Weitere Positionen, Ausbildung, Skills, Empfehlungen, Zertifikate / Lizenzen, Publikationen / Projekte, Sprachen, Eigener Newsletter, Creator-Tools, Custom CTA-Button, Custom URL, Kontaktdaten) und erstelle einen Maßnahmenplan. Dieselbe Liste in derselben Reihenfolge steht in der Audit-Tabelle von `scripts/generate_report.js`; `tests/run_eval.py` hält die drei Stellen gegeneinander.
+Prüfe die 18 Profil-Elemente aus der Checkliste in `references/SCORING.md` Abschnitt 9 (Professionelles Profilbild, Custom Banner, Headline optimiert, About-Sektion, Featured Section, Aktuelle Position, Weitere Positionen, Ausbildung, Skills, Empfehlungen, Zertifikate / Lizenzen, Publikationen / Projekte, Sprachen, Eigener Newsletter, Creator-Tools, Custom CTA-Button, Custom URL, Kontaktdaten) und erstelle einen Maßnahmenplan. Dieselbe Liste in derselben Reihenfolge steht in der Audit-Tabelle von `scripts/generate_report.js`; `LinkedInOptimizer/tests/run_eval.py` hält die drei Stellen gegeneinander.
 
 ---

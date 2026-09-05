@@ -38,7 +38,7 @@ um dieselbe Sichtbarkeit konkurriert.
 ## Die zehn Achsen
 
 Für jeden Wettbewerber wird auf diesen zehn Achsen erhoben, in dieser Reihenfolge. Die
-Reihenfolge steht auch in SKILL.md Phase 3.1; `tests/run_eval.py` hält beide Listen gegeneinander.
+Reihenfolge steht auch in SKILL.md Phase 3.1; `LinkedInOptimizer/tests/run_eval.py` hält beide Listen gegeneinander.
 
 | Achse | Woher | Was sie zeigt | Grenze |
 |-------|-------|---------------|--------|
@@ -102,7 +102,7 @@ Tonalität, Format und Frequenz je Branche, sie enthält keine Wettbewerber und 
 Wettbewerbsanalyse nicht ersetzen.
 
 Diese vier Zeilen sind die einzige Stelle im Repo, an der der abgelöste Wortlaut noch stehen
-darf. `tests/run_eval.py` nimmt in dieser Datei Zeilen aus, die als Zitat mit `>` beginnen, und
+darf. `LinkedInOptimizer/tests/run_eval.py` nimmt in dieser Datei Zeilen aus, die als Zitat mit `>` beginnen, und
 sonst nichts.
 
 Es gilt eine Zahl: 3. Werden weniger erreicht, dann gilt:
@@ -120,7 +120,7 @@ Der häufigste Grund für weniger als 3 ist kein technischer, sondern der: Der K
 
 ## Was diese Vorlage nicht leistet
 
-`tests/run_eval.py` prüft, dass die zehn Achsen hier und in SKILL.md Phase 3.1 in derselben
+`LinkedInOptimizer/tests/run_eval.py` prüft, dass die zehn Achsen hier und in SKILL.md Phase 3.1 in derselben
 Reihenfolge stehen, dass die Mindestzahl 3 in SKILL.md an beiden Stellen und hier gleich lautet,
 und dass die alte zweite Zahl nirgends zurückkommt. Das sind Listen und Zahlen im Text.
 

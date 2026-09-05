@@ -93,7 +93,7 @@ Neben diesem Skill gibt es [LinkedIn-Orchestrator](https://github.com/GodModeAI2
 
 Beide reagieren heute auf dieselben Formulierungen: „Profil optimieren", „Profil verbessern", „Personal Branding", „Content-Strategie", „Top Voice". Das ist kein Schönheitsfehler, sondern führt dazu, dass Claude bei solchen Sätzen zwischen zwei Skills wählen muss. Die Auflösung steht im Abschnitt [Abgrenzung zum Schwester-Skill](SKILL.md#abgrenzung-zum-schwester-skill) in SKILL.md: Ist-Analyse und Artefakte hier, laufender Betrieb dort, bei beidem zuerst hier und danach Übergabe.
 
-Der Orchestrator führt dieselbe Regel inzwischen in der Gegenrichtung, im Abschnitt „Abgrenzung zum Schwester-Skill" seiner `skills/linkedin-community-builder/SKILL.md`. Beide Beschreibungen im Frontmatter nennen den jeweils anderen Skill beim Namen und bleiben unter 400 Zeichen; `scripts/check_descriptions.py` prüft Länge, Strichzeichen und das Vorhandensein des Abgrenzungssatzes bei jedem Push. Was das Skript nicht sieht: ob die Abgrenzung inhaltlich stimmt.
+Der Orchestrator führt dieselbe Regel inzwischen in der Gegenrichtung, im Abschnitt „Abgrenzung zum Schwester-Skill" seiner `LinkedIn-Orchestrator/skills/linkedin-community-builder/SKILL.md`. Beide Beschreibungen im Frontmatter nennen den jeweils anderen Skill beim Namen und bleiben unter 400 Zeichen; `scripts/check_descriptions.py` prüft Länge, Strichzeichen und das Vorhandensein des Abgrenzungssatzes bei jedem Push. Was das Skript nicht sieht: ob die Abgrenzung inhaltlich stimmt.
 
 ## Was dieser Skill nicht tut
 
