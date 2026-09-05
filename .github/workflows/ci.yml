@@ -171,7 +171,7 @@ jobs:
 
           # Dieselbe Regel noch einmal als Verbot, damit sichtbar bleibt, was
           # nie ins Paket gehoert: Repo-Innereien, Landingpage, Schluesseldateien.
-          if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|check_sources[.]py|check_descriptions[.]py|build_skill_package[.]py'; then
+          if unzip -Z1 "$paket" | grep -nE '(^|/)[.]git(/|$)|(^|/)[.]github(/|$)|(^|/)[.]claude-plugin(/|$)|(^|/)index[.]html$|(^|/)course[.]html$|__pycache__|[.]ruff_cache|[.]DS_Store|[.](pem|key|p12|env)$|id_rsa|check_versions[.]py|check_sources[.]py|check_descriptions[.]py|build_skill_package[.]py'; then
             echo "FEHLER: Das Paket enthaelt Dateien, die nicht ausgeliefert werden duerfen." >&2
             exit 1
           fi

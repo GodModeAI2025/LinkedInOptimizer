@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "linkedin-profil-optimierung",
+  "displayName": "LinkedIn Profil-Optimierung",
+  "version": "2.6.0",
+  "description": "Einmalige LinkedIn-Profilanalyse mit gewichtetem Score, Headline, About-Text, Banner, Wettbewerbsmatrix, SSI-Plan und DOCX-Report. Acht Phasen, belegte Datenbasis, Ethik-Abgleich vor der Uebergabe.",
+  "author": {
+    "name": "Mark Zimmermann",
+    "url": "https://github.com/GodModeAI2025"
+  },
+  "homepage": "https://godmodeai2025.github.io/LinkedInOptimizer/",
+  "repository": "https://github.com/GodModeAI2025/LinkedInOptimizer",
+  "license": "MIT",
+  "keywords": [
+    "linkedin",
+    "profil",
+    "personal-branding",
+    "thought-leadership",
+    "scoring",
+    "claude-skills",
+    "deutsch"
+  ],
+  "skills": ["."]
+}

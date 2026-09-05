@@ -5,11 +5,12 @@ Die Quelle ist die Datei VERSION im Repo-Wurzelverzeichnis. Sie enthaelt eine
 Zeile mit der Versionsnummer ohne fuehrendes v. Alles andere ist eine Kopie,
 die hier gegen die Quelle geprueft wird.
 
-Geprueft werden sechs Fundstellen: die Ueberschrift und der Versions-Abschnitt
-der README, die Ueberschrift von SKILL.md, der oberste Eintrag in CHANGELOG.md, das
+Geprueft werden acht Fundstellen: die Ueberschrift und der Versions-Abschnitt
+der README, die Ueberschrift von SKILL.md, der oberste Eintrag in CHANGELOG.md, die beiden
+Plugin-Manifeste unter .claude-plugin/, das
 Hero-Badge der Landingpage und der DOCX-Kopfzeilen-String im Report-Template.
 
-Exitcode 0, wenn alle sechs die Version aus VERSION nennen. Exitcode 1, wenn
+Exitcode 0, wenn alle acht die Version aus VERSION nennen. Exitcode 1, wenn
 eine davon abweicht oder wenn eine Fundstelle gar nicht mehr gefunden wird. Der
 zweite Fall ist Absicht: eine geloeschte oder umformulierte Versionszeile darf
 nicht stillschweigend durchgehen.
@@ -53,6 +54,16 @@ CHECKS = [
         "CHANGELOG.md",
         "oberster Eintrag",
         re.compile(r"# Changelog\b.*?\n```\s*\nv" + VERSION + r" \(", re.S),
+    ),
+    (
+        ".claude-plugin/plugin.json",
+        "Plugin-Manifest",
+        re.compile(r'"version":\s*"' + VERSION + r'"'),
+    ),
+    (
+        ".claude-plugin/marketplace.json",
+        "Marketplace-Eintrag",
+        re.compile(r'"version":\s*"' + VERSION + r'"'),
     ),
     (
         "index.html",
