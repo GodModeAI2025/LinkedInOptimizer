@@ -186,4 +186,4 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 ## Changelog
 
 Die Versionsgeschichte steht in [CHANGELOG.md](CHANGELOG.md). Die aktuelle Version nennt die
-Überschrift dieser Datei; `scripts/check_versions.py` prüft beide gegen `VERSION`.
+Überschrift dieser Datei; `LinkedInOptimizer/scripts/check_versions.py` prüft beide gegen `VERSION`.

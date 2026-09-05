@@ -178,6 +178,7 @@ LinkedInOptimizer/
 │   ├── check_sources.py        # Prüft SOURCES.md und sperrt zurückgezogene Aussagen
 │   ├── check_descriptions.py   # Länge, Strichzeichen und Abgrenzungssatz im Frontmatter
 │   ├── check_hooks.py          # Zehn Hook-Namen in kanonischer Reihenfolge
+│   ├── check_links.py          # Verweise im Skill, in der Doku und im Archiv
 │   ├── build_skill_package.py  # Baut linkedin-optimizer.skill, reproduzierbar und offline
 │   └── generate_report.js      # DOCX-Report-Template (Node.js, npm-Paket docx)
 ├── references/

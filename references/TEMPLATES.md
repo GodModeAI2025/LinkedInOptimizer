@@ -288,9 +288,9 @@ Arbeitsregeln dieses Skills. Belegt ist davon Punkt 1 (Dwell Time als Ranking-Si
 
 Diese zehn Typen stehen in zwei Repos. Kanonisch sind sie im Schwester-Repo
 [LinkedIn-Orchestrator](https://github.com/GodModeAI2025/LinkedIn-Orchestrator) unter
-`LinkedIn-Orchestrator/references/HOOKS.md`; hier stehen sie als Kopie, weil das Skill-Paket offline vollständig sein
+`LinkedIn-Orchestrator/skills/linkedin-community-builder/references/HOOKS.md`; hier stehen sie als Kopie, weil das Skill-Paket offline vollständig sein
 muss und keine Datei aus dem anderen Repo lesen kann. Bindende Fläche sind die zehn Namen und ihre
-Reihenfolge, `scripts/check_hooks.py` prüft sie. Wer hier einen Typ ändert, zieht ihn dort nach;
+Reihenfolge, `LinkedInOptimizer/scripts/check_hooks.py` prüft sie. Wer hier einen Typ ändert, zieht ihn dort nach;
 diese Kopplung sieht kein Skript.
 
 Jeder Post beginnt mit einem Hook in den ersten 2 Zeilen. Variiere systematisch:

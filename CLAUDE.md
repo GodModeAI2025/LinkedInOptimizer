@@ -12,6 +12,7 @@ python scripts/check_versions.py
 python scripts/check_descriptions.py
 python scripts/check_sources.py
 python scripts/check_hooks.py
+python scripts/check_links.py
 python tests/run_eval.py
 python scripts/build_skill_package.py /tmp/probe.skill && unzip -Z1 /tmp/probe.skill
 ```
@@ -48,6 +49,11 @@ Wettbewerbsmatrix, die drei Zeitfenster, die Untrusted-Verankerung. Wer eine die
 **Erhobener Text.** `references/UNTRUSTED.md` ist die kanonische Regel für alles, was aus einer
 LinkedIn-Seite kommt. Neue Schritte, die fremden Text lesen, verweisen darauf, bevor sie ihn lesen.
 
+**Verweise.** Ein Backtick-Pfad im Skill-Text muss im `.skill`-Archiv liegen. Wer nur das Archiv
+hat, hat kein `scripts/` und kein `.github/`; ein Verweis dorthin ist für ihn tot. Repo-Werkzeuge
+werden deshalb mit dem Repo-Namen davor genannt, etwa
+`LinkedInOptimizer/scripts/check_sources.py`. `scripts/check_links.py` prüft das.
+
 **Paket.** `scripts/build_skill_package.py` führt eine ausdrückliche Liste. Eine neue Datei, die in
 das `.skill`-Archiv gehört, wird dort und in der Paketliste der CI ergänzt. Repo-Werkzeuge,
 `.github/`, `.claude-plugin/` und die Landingpage gehören nicht ins Archiv.
@@ -63,7 +69,7 @@ verfremden wäre genau die Verarbeitung, die SECURITY.md einschränkt.
 
 1. Die Abgrenzungstabelle und die vier Entscheidungsregeln stehen in beiden SKILL.md-Dateien,
    spiegelbildlich. Wer eine Regel ändert, ändert beide.
-2. Der Hook-Katalog. Kanonisch dort in `references/HOOKS.md`, hier als Kopie in
+2. Der Hook-Katalog. Kanonisch dort in `LinkedIn-Orchestrator/skills/linkedin-community-builder/references/HOOKS.md`, hier als Kopie in
    `references/TEMPLATES.md`, weil das Paket offline vollständig sein muss.
    `scripts/check_hooks.py` prüft je Repo die eigene Kopie, nicht den Abgleich.
 
