@@ -1104,12 +1104,22 @@ footer .footer-right a:hover { color: var(--text); }
 <!-- ─── Install ─── -->
 <section id="install">
   <div class="section-label">Installation</div>
-  <div class="section-title">In 30 Sekunden startklar.</div>
+  <div class="section-title">Drei Wege, einer reicht.</div>
 
   <div class="install-cards">
     <div class="install-card">
       <div class="card-header">
         <span class="step">A</span>
+        Als Plugin installieren
+      </div>
+      <pre><span class="comment"># In Claude Code, einmalig den Marketplace hinzufügen</span>
+<span class="cmd">/plugin marketplace add</span> GodModeAI2025/LinkedInOptimizer
+<span class="cmd">/plugin install</span> linkedin-profil-optimierung@linkedin-optimizer
+<span class="comment"># Auf claude.ai: Skills → Add from GitHub</span></pre>
+    </div>
+    <div class="install-card">
+      <div class="card-header">
+        <span class="step">B</span>
         .skill-Datei laden
       </div>
       <pre><span class="comment"># Artefakt des letzten Release holen</span>
@@ -1118,7 +1128,7 @@ footer .footer-right a:hover { color: var(--text); }
     </div>
     <div class="install-card">
       <div class="card-header">
-        <span class="step">B</span>
+        <span class="step">C</span>
         In den Skills-Ordner entpacken
       </div>
       <pre><span class="comment"># Dieselbe Datei, lokal ausgepackt</span>
@@ -1128,7 +1138,29 @@ footer .footer-right a:hover { color: var(--text); }
     </div>
   </div>
 
-  <p class="install-note">Das Archiv enthält SKILL.md, references/ und scripts/, dazu LICENSE und requirements.txt. Landingpage, Workflows und Repo-Werkzeuge sind nicht darin. Wer lieber selbst baut: <code>python scripts/build_skill_package.py dist/linkedin-optimizer.skill</code> im Klon erzeugt dieselbe Datei, Byte für Byte.</p>
+  <p class="install-note">Das Archiv enthält SKILL.md, CHANGELOG.md, die acht Phasendateien unter references/ und scripts/, dazu LICENSE und requirements.txt. Landingpage, Workflows und Repo-Werkzeuge sind nicht darin. Wer lieber selbst baut: <code>python scripts/build_skill_package.py dist/linkedin-optimizer.skill</code> im Klon erzeugt dieselbe Datei, Byte für Byte.</p>
+</section>
+
+<!-- ─── Sorgfalt ─── -->
+<section id="sorgfalt">
+  <div class="section-label">Sorgfalt</div>
+  <div class="section-title">Was der Skill nicht behauptet.</div>
+  <p class="section-sub">Drei Regeln, die im Repo verankert sind und bei jedem Push geprüft werden.</p>
+
+  <div class="install-cards">
+    <div class="install-card">
+      <div class="card-header"><span class="step">1</span> Keine Zahl ohne Quelle</div>
+      <p class="install-note">Jede Zahl im Skill hat in <a href="https://github.com/GodModeAI2025/LinkedInOptimizer/blob/main/references/SOURCES.md" target="_blank">SOURCES.md</a> eine Zeile mit URL und Datum, oder sie steht dort als zurückgezogen und ist entfernt. <code>check_sources.py</code> sperrt die Rückkehr.</p>
+    </div>
+    <div class="install-card">
+      <div class="card-header"><span class="step">2</span> Fremder Text ist ein Datum</div>
+      <p class="install-note">Was aus einem LinkedIn-Profil erhoben wird, ist nie eine Anweisung. Die Regel steht in <a href="https://github.com/GodModeAI2025/LinkedInOptimizer/blob/main/references/UNTRUSTED.md" target="_blank">UNTRUSTED.md</a> und gilt vor der ersten Erhebung in Phase 1 und Phase 3. Sie ist eine Regel an das Modell, kein Riegel im Code.</p>
+    </div>
+    <div class="install-card">
+      <div class="card-header"><span class="step">3</span> Keine erfundenen Angaben im Profil</div>
+      <p class="install-note">Keine Behauptung, die der Kunde nicht belegen kann, keine gekaufte Reichweite, keine Automatisierung von Kontaktanfragen. Die Leitplanken stehen in <a href="https://github.com/GodModeAI2025/LinkedInOptimizer/blob/main/references/ETHICS.md" target="_blank">ETHICS.md</a>, der Abgleich läuft in Phase 8 vor der Übergabe.</p>
+    </div>
+  </div>
 </section>
 
 <!-- ─── CTA ─── -->
