@@ -184,6 +184,11 @@ python tests/run_eval.py --fixture profile_mid --result lauf.json
 
 Offene Punkte, ohne Termin:
 
+- GitHub Actions auf Commit-SHAs pinnen statt auf Tags. `actions/checkout@v4` und
+  `actions/setup-python@v5` stehen auf verschiebbaren Tags; wer die Action übernimmt, übernimmt
+  damit den CI-Lauf. `.github/dependabot.yml` hält sie monatlich aktuell, ersetzt das Pinnen aber
+  nicht.
+
 - package.json für `docx`, dazu gepinnte Versionen statt der Untergrenze in requirements.txt.
 - Ausgabepfad des Report-Templates konfigurierbar machen, statt ihn auf die claude.ai-Sandbox zu verdrahten.
 - Fehlerfälle Rate Limit beziehungsweise LinkedIn-Checkpoint und geänderte DOM-Struktur in der Fehlerbehandlung ergänzen.

@@ -15,6 +15,9 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
+      # Die Actions stehen auf Tags, nicht auf Commit-SHAs. Ein Tag laesst sich
+      # verschieben; wer die Action uebernimmt, uebernimmt damit diesen Lauf.
+      # Das Pinnen auf SHAs steht als offener Punkt in der README.
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
