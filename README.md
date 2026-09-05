@@ -66,6 +66,7 @@ LinkedInOptimizer/
 │   ├── ETHICS.md               # Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich
 │   ├── COMPETITIVE.md          # Erhebungsrahmen der Wettbewerbsanalyse: Auswahlregel, zehn Achsen, Ausgabe
 │   ├── TEMPLATES.md            # Vorlagen für Headline, About, Content, Kommentare
+│   ├── UNTRUSTED.md            # Erhobener Seitentext ist Daten, nie Anweisung
 │   └── BANNER.md               # Technische Banner-Anleitung mit Viewport-Matrix
 ├── tests/
 │   ├── fixtures/               # Drei frei erfundene Profile als JSON

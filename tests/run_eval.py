@@ -892,6 +892,44 @@ def pruefe_deliverables(fehler, readme):
                 )
 
 
+def pruefe_untrusted(fehler, skill):
+    """Bindet die Regel "erhobener Seitentext ist Daten" an ihre Fundstellen.
+
+    Geprueft wird dreierlei: die Datei references/UNTRUSTED.md existiert, sie
+    fuehrt die fuenf nummerierten Regeln, und SKILL.md verweist an beiden
+    Stellen darauf, an denen fremder Text hereinkommt, also in Phase 1.1 und in
+    Phase 3.1. Faellt einer der beiden Verweise bei einer Ueberarbeitung weg,
+    steht die Regel zwar noch in der Referenz, aber nicht mehr im Weg.
+
+    Nicht geprueft wird, ob die Regel im Gespraech eingehalten wird. Das steht
+    so in UNTRUSTED.md unter "Was diese Seite nicht leistet".
+    """
+    pfad = ROOT / "references" / "UNTRUSTED.md"
+    if not pfad.exists():
+        fehler.append("references/UNTRUSTED.md fehlt")
+        return
+    regel = lies(pfad)
+
+    for nummer in range(1, 6):
+        if f"{nummer}. **" not in regel:
+            fehler.append(f"references/UNTRUSTED.md fuehrt Regel {nummer} nicht")
+
+    for phase, ueberschrift in (
+        ("1.1", "### 1.1 Profildaten via Chrome extrahieren"),
+        ("3.1", "### 3.1 Nischen-Konkurrenten analysieren"),
+    ):
+        if ueberschrift not in skill:
+            fehler.append(f"SKILL.md hat keine Ueberschrift fuer Phase {phase} mehr")
+            continue
+        start = skill.index(ueberschrift)
+        ende = skill.find("\n### ", start + len(ueberschrift))
+        abschnitt = skill[start:ende if ende != -1 else len(skill)]
+        if "references/UNTRUSTED.md" not in abschnitt:
+            fehler.append(
+                f"SKILL.md Phase {phase} verweist nicht auf references/UNTRUSTED.md"
+            )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Prueft die Scoring-Matrix gegen die Fixtures.")
     parser.add_argument("--fixture", help="Nur dieses Fixture pruefen.")
@@ -940,6 +978,7 @@ def main() -> int:
             pruefe_ethik(fehler, ethik)
             pruefe_wettbewerb(fehler, skill, competitive)
             pruefe_zeitfenster(fehler)
+            pruefe_untrusted(fehler, skill)
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
 
@@ -949,7 +988,7 @@ def main() -> int:
             print(f"  - {eintrag}", file=sys.stderr)
         return 1
 
-    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    ein Zeitraster statt drei,\n    alle Fixtures im Band.")
+    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    ein Zeitraster statt drei,\n    Untrusted-Regel an beiden Erhebungsstellen verankert,\n    alle Fixtures im Band.")
     return 0
 
 

@@ -49,6 +49,7 @@ CONTENTS = [
     "references/SCORING.md",
     "references/SOURCES.md",
     "references/TEMPLATES.md",
+    "references/UNTRUSTED.md",
     "scripts/create_banner.py",
     "scripts/generate_report.js",
 ]
