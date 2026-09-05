@@ -101,6 +101,8 @@ GEPRUEFTE_DATEIEN = [
     "references/SCORING.md",
     "references/TEMPLATES.md",
     "references/BANNER.md",
+    "references/COMPETITIVE.md",
+    "references/ETHICS.md",
     "scripts/generate_report.js",
     "scripts/create_banner.py",
 ]

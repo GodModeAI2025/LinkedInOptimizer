@@ -181,7 +181,7 @@ dieser Grenze steht in `SOURCES.md`.
 | Kommentar-Qualität | 0–2 | >15 Wörter, eigene Perspektive, Fragen, Ergänzungen? (Längenschwelle ist ein Erfahrungswert) |
 | Reaktion auf eigene Kommentare | 0–2 | Beantwortet alle Kommentare unter eigenen Posts? (<2h) |
 | Ziel-Account-Strategie | 0–2 | Kommentiert regelmäßig bei 10–20 strategischen Accounts? |
-| Engagement-Bait-Freiheit | 0–1 | Kein „What do you think?" / „Agree?" / „Tag someone" |
+| Engagement-Bait-Freiheit | 0–1 | Kein „What do you think?" / „Agree?" / „Thoughts?" / „Tag someone" (Liste: `ETHICS.md`) |
 
 ### Bewertungsstufen
 
@@ -376,6 +376,11 @@ gewollt: sie müssen im selben Schritt mitgeändert werden, sonst fällt die CI 
 | 61–75 | Gut | Solides Profil. Feinschliff + Konsistenz = nächste Stufe | 3–6 Monate |
 | 76–90 | Sehr gut | Top 10% der LinkedIn-Profile. Fokus: Momentum halten | 1–3 Monate (bei Konsistenz) |
 | 91–100 | Exzellent | Top Voice-Kandidat. Sichtbar für LinkedIn-Redaktion | Aktuell qualifiziert |
+
+Die letzte Spalte ist eine Prognose und keine Roadmap. Der Maßnahmenplan dieses Skills läuft
+über 30, 60 und 90 Tage (SKILL.md Phase 7 und Kapitel 8 des Reports); die Zeithorizonte hier
+sagen nur, wie lange es aus dem jeweiligen Score heraus voraussichtlich bis zu einem
+Top-Voice-Profil dauert. Sie sind ein Erfahrungswert und stehen als solcher in `SOURCES.md`.
 
 ### Score-Visualisierung im Report
 

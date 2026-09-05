@@ -53,6 +53,20 @@ Was geprueft wird:
 9. Die Landingpage bezeichnet den Dialog als Beispiel und nennt die Fixture, aus
    der seine Zahlen stammen. pruefe_landing bindet die Zahlen, diese Pruefung
    bindet die Aussage, dass sie nicht gemessen sind.
+10. Die gesperrten CTA-Formulierungen aus references/ETHICS.md stehen
+   vollstaendig an allen vier Stellen, die dieselbe Liste noch einmal fuehren,
+   und SKILL.md verankert den Ethik-Abgleich in der Ressourcen-Uebersicht, in
+   Phase 8, in der Verifikation und in den Quality Gates. Das prueft
+   Schreibweisen und Verweise; was es nicht sieht, steht in ETHICS.md unter
+   "Was diese Seite nicht leistet".
+11. Die zehn Achsen der Wettbewerbsmatrix stehen in references/COMPETITIVE.md
+   und in SKILL.md Phase 3.1 in derselben Reihenfolge, und die Mindestzahl der
+   Wettbewerber lautet an allen drei Stellen gleich. Der frueher daneben
+   stehende zweite Wert darf nicht zurueckkommen.
+12. Der Massnahmenplan laeuft an allen vier Stellen ueber dieselben drei
+   Zeitfenster, und keiner der drei abgeloesten Horizonte steht mehr daneben.
+   Der Changelog in SKILL.md ist davon ausgenommen, dort werden die alten
+   Wortlaute genannt.
 
 Die Fixtures sind frei erfunden. Es sind keine anonymisierten Echtprofile: ein
 Echtprofil zu erheben und danach zu verfremden waere genau die Datenverarbeitung,
@@ -594,6 +608,278 @@ def pruefe_landing_ehrlichkeit(fehler, seite):
             fehler.append(f"index.html: {grund} Erwartet wird der Wortlaut {satz!r}.")
 
 
+# Fundstellen der gesperrten CTA-Formulierungen. Die Quelle ist die Tabelle
+# "Gesperrte CTA-Formulierungen" in references/ETHICS.md; hier steht, wo dieselbe
+# Liste noch einmal auftaucht und deshalb vollstaendig sein muss. Jeder Eintrag
+# nennt die Datei und einen Marker, der genau eine Zeile trifft. In dieser Zeile
+# muessen alle Formulierungen der Tabelle stehen.
+#
+# Das war der Befund: dieselbe Liste lief unter vier verschiedenen Laengen.
+# SKILL.md Phase 6.1 kannte zwei Formulierungen, die Algorithmus-Regeln in
+# TEMPLATES.md und das Sub-Kriterium in SCORING.md je drei, die Liste der
+# verbotenen Woerter in TEMPLATES.md eine vierte Zusammenstellung. Wer sich an
+# eine der kurzen Listen hielt, lieferte einen CTA aus, den eine andere Stelle
+# im selben Skill verbietet.
+CTA_FUNDSTELLEN = [
+    ("SKILL.md", "- Kein Engagement-Bait:"),
+    ("references/TEMPLATES.md", "7. Kein Engagement-Bait →"),
+    ("references/TEMPLATES.md", "gesperrte CTA-Formulierungen, vollständige Liste"),
+    ("references/SCORING.md", "| Engagement-Bait-Freiheit |"),
+]
+
+# Verweise, ohne die references/ETHICS.md eine Seite waere, die niemand liest.
+# Der Ethik-Abgleich ist der einzige Schritt, der die Regeln vor der Uebergabe
+# anwendet; faellt der Abschnitt aus SKILL.md, laeuft die Datei leer mit.
+ETHIK_VERANKERUNG = [
+    ("SKILL.md", "| `references/ETHICS.md` |",
+     "Die Ressourcen-Uebersicht muss references/ETHICS.md fuehren."),
+    ("SKILL.md", "### 8.0 Ethik-Abgleich",
+     "Phase 8 muss mit dem Ethik-Abgleich beginnen."),
+    ("SKILL.md", "**Ethik**:",
+     "Der Verifikations-Abschnitt muss eine Ethik-Zeile fuehren."),
+    ("SKILL.md", "| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte |",
+     "Die Quality Gates muessen den Ethik-Abgleich als Gate fuehren."),
+]
+
+
+def cta_formulierungen(ethik: str):
+    """Die gesperrten CTA-Formulierungen aus references/ETHICS.md."""
+    zeilen = tabelle(ethik, "## Gesperrte CTA-Formulierungen", 2)
+    formulierungen = [zeile[0] for zeile in zeilen]
+    if len(formulierungen) < 2:
+        raise Fehler(
+            "references/ETHICS.md: die Tabelle 'Gesperrte CTA-Formulierungen' hat weniger als "
+            "zwei Zeilen. Eine Liste, die auf eine Zeile schrumpft, bindet nichts mehr."
+        )
+    return formulierungen
+
+
+def pruefe_ethik(fehler, ethik):
+    """Bindet die gesperrten CTA-Formulierungen und die Verweise auf ETHICS.md.
+
+    Geprueft werden Schreibweisen und Verweise, nicht Verhalten. Was diese
+    Pruefung nicht sieht, steht in references/ETHICS.md im Abschnitt "Was diese
+    Seite nicht leistet": eine neu erfundene Bait-Formulierung, eine unbelegte
+    Angabe im Profil, ein uebergangener Abgleich im Gespraech.
+    """
+    formulierungen = cta_formulierungen(ethik)
+
+    for rel_pfad, marker in CTA_FUNDSTELLEN:
+        text = lies(ROOT / rel_pfad)
+        treffer = [z for z in text.splitlines() if marker in z]
+        if len(treffer) != 1:
+            fehler.append(
+                f"{rel_pfad}: der Marker {marker!r} trifft {len(treffer)} Zeilen, erwartet wird "
+                "genau eine. Ohne ihn laesst sich nicht pruefen, ob die Liste vollstaendig ist."
+            )
+            continue
+        for formulierung in formulierungen:
+            if formulierung not in treffer[0]:
+                fehler.append(
+                    f"{rel_pfad}: die Zeile zu {marker!r} nennt die gesperrte Formulierung "
+                    f"{formulierung!r} nicht. references/ETHICS.md fuehrt sie."
+                )
+
+    for rel_pfad, satz, grund in ETHIK_VERANKERUNG:
+        if satz not in lies(ROOT / rel_pfad):
+            fehler.append(f"{rel_pfad}: {grund} Erwartet wird der Wortlaut {satz!r}.")
+
+
+# Die Mindestzahl der Wettbewerber. Sie stand im Repo an zwei Stellen mit zwei
+# verschiedenen Werten: das Quality Gate verlangte 3, die Fehlerbehandlung nannte
+# daneben "Minimum 2 Wettbewerber fuer sinnvolle Matrix". Ein Gate, das der
+# eigene Fehlerpfad unterlaeuft, ist kein Gate. Es gilt eine Zahl, und die muss
+# an allen drei Stellen gleich lauten.
+WETTBEWERBER_MINIMUM = "3"
+
+# Wortlaute, die die Mindestzahl tragen. Jeder Eintrag nennt eine Datei, einen
+# Marker, der genau eine Zeile trifft, eine Beschreibung und die Zeichenkette,
+# die in dieser Zeile stehen muss. Die Zeichenkette traegt die Zahl im Kontext:
+# ein blosses "3" waere in der Gate-Zeile schon durch die Phasennummer erfuellt.
+MINIMUM_FUNDSTELLEN = [
+    ("SKILL.md", "| 3. Wettbewerb |",
+     "Quality Gate fuer Phase 3",
+     "Min. {} Wettbewerber"),
+    ("SKILL.md", "**Wettbewerber nicht abrufbar**:",
+     "Fehlerbehandlung fuer Phase 3",
+     "verlangt {} Wettbewerber"),
+    ("references/COMPETITIVE.md", "Es gilt eine Zahl:",
+     "Der Abschnitt zur nicht erreichten Mindestzahl",
+     "Es gilt eine Zahl: {}."),
+    ("references/COMPETITIVE.md", "Nimm 3 bis 5.",
+     "Die Auswahlregel",
+     "Nimm {} bis 5."),
+]
+
+# Die zweite Zahl darf nicht zurueckkommen, auch nicht in einer der
+# Schreibweisen, in denen sie im Repo stand.
+MINIMUM_VERBOTEN = [
+    "Minimum 2 Wettbewerber",
+    "Min. 2 Wettbewerber",
+    "mindestens 2 Wettbewerber",
+    # Die Fassung, die bis v2.4.0 im Repo stand. Sie nannte keine zweite Zahl
+    # als Regel, hob das Gate aber genauso auf.
+    "Sind nur 2 erreichbar",
+    "erstelle die Matrix mit 2",
+    "Bei <2:",
+    "Ausnahme siehe Fehlerbehandlung",
+]
+
+
+def achsen_aus_competitive(competitive: str):
+    """Die zehn Achsen der Wettbewerbsmatrix, in der Reihenfolge der Tabelle."""
+    zeilen = tabelle(competitive, "## Die zehn Achsen", 4)
+    achsen = [zeile[0] for zeile in zeilen]
+    if len(achsen) != 10:
+        raise Fehler(
+            f"references/COMPETITIVE.md: die Achsen-Tabelle hat {len(achsen)} Zeilen, "
+            "die Ueberschrift verspricht zehn."
+        )
+    return achsen
+
+
+def achsen_aus_skill(skill: str):
+    """Die Achsenliste aus SKILL.md Phase 3.1."""
+    marker = "Erhebe auf diesen zehn Achsen, in dieser Reihenfolge:"
+    treffer = [z for z in skill.splitlines() if marker in z]
+    if len(treffer) != 1:
+        raise Fehler(
+            f"SKILL.md: der Marker {marker!r} trifft {len(treffer)} Zeilen, erwartet wird genau "
+            "eine. Ohne ihn laesst sich die Achsenliste nicht gegen COMPETITIVE.md halten."
+        )
+    rest = treffer[0].split(marker, 1)[1].strip().rstrip(".")
+    return [teil.strip() for teil in rest.split(",")]
+
+
+def pruefe_wettbewerb(fehler, skill, competitive):
+    """Bindet Achsen und Mindestzahl der Wettbewerbsanalyse.
+
+    Geprueft werden eine Liste und eine Zahl im Text. Nicht geprueft wird, ob
+    eine Erhebung stattgefunden hat, ob ihre Werte stimmen und ob die erhobenen
+    Profile die Auswahlregel erfuellen; das steht in COMPETITIVE.md unter "Was
+    diese Vorlage nicht leistet".
+    """
+    # Die Achsen und die Mindestzahl haengen nicht voneinander ab. Ein Fehler in
+    # der einen Haelfte darf die andere nicht verdecken, sonst meldet ein Lauf
+    # nur den ersten von mehreren Befunden.
+    try:
+        aus_datei = achsen_aus_competitive(competitive)
+        aus_skill = achsen_aus_skill(skill)
+        if aus_datei != aus_skill:
+            fehler.append(
+                "Die zehn Achsen stehen in references/COMPETITIVE.md und SKILL.md Phase 3.1 "
+                "nicht in derselben Reihenfolge."
+                f"\n      COMPETITIVE.md: {aus_datei}\n      SKILL.md:       {aus_skill}"
+            )
+    except Fehler as ausnahme:
+        fehler.append(str(ausnahme))
+
+    for rel_pfad, marker, was, vorlage in MINIMUM_FUNDSTELLEN:
+        text = lies(ROOT / rel_pfad)
+        treffer = [z for z in text.splitlines() if marker in z]
+        if len(treffer) != 1:
+            fehler.append(
+                f"{rel_pfad}: der Marker {marker!r} ({was}) trifft {len(treffer)} Zeilen, "
+                "erwartet wird genau eine."
+            )
+            continue
+        wortlaut = vorlage.format(WETTBEWERBER_MINIMUM)
+        if wortlaut not in treffer[0]:
+            fehler.append(
+                f"{rel_pfad}: {was} nennt die Mindestzahl nicht im erwarteten Wortlaut "
+                f"{wortlaut!r}."
+            )
+
+    for rel_pfad in ("SKILL.md", "README.md", "references/COMPETITIVE.md"):
+        text = lies(ROOT / rel_pfad)
+        for verboten in MINIMUM_VERBOTEN:
+            for nummer, zeile in enumerate(text.splitlines(), 1):
+                if verboten not in zeile:
+                    continue
+                # In COMPETITIVE.md steht der abgeloeste Wortlaut einmal als
+                # Blockzitat, damit nachvollziehbar bleibt, was sich geaendert
+                # hat. Zitatzeilen sind ausgenommen, Regeln nicht. Die Ausnahme
+                # gilt nur fuer diese Datei und nur fuer Zeilen, die mit '>'
+                # beginnen; steht der Wortlaut daneben als Anweisung, faellt er
+                # auf.
+                if rel_pfad == "references/COMPETITIVE.md" and zeile.lstrip().startswith(">"):
+                    continue
+                fehler.append(
+                    f"{rel_pfad}:{nummer}: {verboten!r} steht wieder im Skill. Es gilt eine "
+                    f"Mindestzahl, und die ist {WETTBEWERBER_MINIMUM}."
+                )
+
+
+# Die drei Zeitfenster des Massnahmenplans. Das Repo fuehrte bis v2.4.0 drei
+# unvereinbare Horizonte nebeneinander: SKILL.md Phase 7 endete nach 90 Tagen,
+# Kapitel 8 des Reports lief bis Monat 6, und README wie Landingpage
+# beschrieben das Deliverable als "Roadmap bis Monat 6". Wer den einen Plan
+# umsetzte, arbeitete gegen den anderen. Es gibt jetzt ein Raster.
+#
+# Die positive Haelfte: jede Stelle muss die drei Fenster nennen. Die negative
+# Haelfte weiter unten ist die, die die Vereinheitlichung misst; ohne sie liesse
+# sich ein alter Horizont danebenstellen, ohne dass etwas anschlaegt.
+ZEITFENSTER = [
+    ("SKILL.md", ["Tag 1–30", "Tag 31–60", "Tag 61–90"]),
+    ("scripts/generate_report.js", ["Tag 1-30", "Tag 31-60", "Tag 61-90"]),
+    ("README.md", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60 und 61–90"]),
+    ("index.html", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60, 61–90"]),
+]
+
+# Die abgeloesten Horizonte, in den Schreibweisen, in denen sie im Repo standen.
+# Der Bindestrich steht in generate_report.js, der Halbgeviertstrich in den
+# Markdown-Dateien und auf der Landingpage.
+ALTE_HORIZONTE = [
+    "Roadmap bis Monat 6",
+    "12-Monats",
+    "Woche 1-2", "Woche 1–2",
+    "Woche 3-4", "Woche 3–4",
+    "Monat 2-3", "Monat 2–3",
+    "Monat 4-6", "Monat 4–6",
+    "nach 3 Monaten",
+]
+
+# Dateien, in denen kein abgeloester Horizont mehr stehen darf. SKILL.md traegt
+# den Changelog und darf die alten Wortlaute dort nennen; die Ausnahme ist auf
+# den Changelog begrenzt und nicht auf die Datei.
+HORIZONT_DATEIEN = ["SKILL.md", "README.md", "index.html", "scripts/generate_report.js"]
+
+
+def ohne_changelog(rel_pfad: str, text: str) -> str:
+    """SKILL.md ohne den Changelog. Dort stehen die alten Wortlaute mit Absicht."""
+    if rel_pfad != "SKILL.md":
+        return text
+    schnitt = text.find("\n## Changelog")
+    return text if schnitt == -1 else text[:schnitt]
+
+
+def pruefe_zeitfenster(fehler):
+    """Bindet die drei Zeitfenster und weist die abgeloesten Horizonte zurueck.
+
+    Geprueft werden Beschriftungen. Nicht geprueft wird, ob die Massnahmen in
+    einem Fenster in dieses Fenster gehoeren, ob die Hypothesen aus Phase 7.2
+    jemals gemessen wurden und ob ein Kunde den Plan durchhaelt.
+    """
+    for rel_pfad, erwartet in ZEITFENSTER:
+        text = lies(ROOT / rel_pfad)
+        for wortlaut in erwartet:
+            if wortlaut not in text:
+                fehler.append(
+                    f"{rel_pfad}: das Zeitfenster {wortlaut!r} fehlt. Der Massnahmenplan laeuft "
+                    "an allen vier Stellen ueber Tag 1-30, 31-60 und 61-90."
+                )
+
+    for rel_pfad in HORIZONT_DATEIEN:
+        text = ohne_changelog(rel_pfad, lies(ROOT / rel_pfad))
+        for nummer, zeile in enumerate(text.splitlines(), 1):
+            for alt in ALTE_HORIZONTE:
+                if alt in zeile:
+                    fehler.append(
+                        f"{rel_pfad}:{nummer}: der abgeloeste Horizont {alt!r} steht wieder im "
+                        "Skill. Es gibt ein Raster: Tag 1-30, 31-60, 61-90."
+                    )
+
+
 def pruefe_deliverables(fehler, readme):
     vorhanden = deliverables_aus_readme(readme)
     for name in sorted(EXPECTED.glob("*.json")):
@@ -621,6 +907,8 @@ def main() -> int:
     seite = lies(ROOT / "index.html")
     js = lies(ROOT / "scripts" / "generate_report.js")
     readme = lies(ROOT / "README.md")
+    ethik = lies(ROOT / "references" / "ETHICS.md")
+    competitive = lies(ROOT / "references" / "COMPETITIVE.md")
 
     try:
         modell = gewichte_aus_scoring(scoring)
@@ -649,6 +937,9 @@ def main() -> int:
             pruefe_landing(fehler, seite)
             pruefe_landing_ehrlichkeit(fehler, seite)
             pruefe_deliverables(fehler, readme)
+            pruefe_ethik(fehler, ethik)
+            pruefe_wettbewerb(fehler, skill, competitive)
+            pruefe_zeitfenster(fehler)
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
 
@@ -658,7 +949,7 @@ def main() -> int:
             print(f"  - {eintrag}", file=sys.stderr)
         return 1
 
-    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, alle Fixtures im Band.")
+    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    ein Zeitraster statt drei,\n    alle Fixtures im Band.")
     return 0
 
 

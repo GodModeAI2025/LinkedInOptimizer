@@ -13,7 +13,7 @@ description: >
   Analytics-Auswertung oder Monetarisierung, ist linkedin-community-builder zuständig.
 ---
 
-# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.4.0
+# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.5.0
 
 Ein 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Was daran belegt ist und was nicht, steht in `references/SOURCES.md`: belegte Quellen mit URL und Datum, zurückgezogene Zahlen und die Angaben, die ausdrücklich Erfahrungswerte aus der Beratungspraxis sind. Bewerte kein Kundenprofil gegen eine Zahl, die dort nicht steht.
 
@@ -60,7 +60,9 @@ Lies die jeweilige Datei, wenn du die Phase erreichst:
 | `references/SCORING.md` | Gewichtete 10-Kategorien-Matrix mit Sub-Kriterien und Bewertungsraster | Phase 2 (Scoring) |
 | `references/TEMPLATES.md` | Vorlagen für Headline, About, Content-Skill, Kommentar-Skill | Phase 4 + 6 |
 | `references/BANNER.md` | Technische Banner-Anleitung mit Safe Zones und Viewport-Matrix | Phase 5 |
+| `references/COMPETITIVE.md` | Erhebungsrahmen der Wettbewerbsanalyse: Auswahlregel, zehn Achsen, Ausgabeformat | Phase 3 |
 | `references/SOURCES.md` | Quellen mit Datum, zurückgezogene Zahlen, Erfahrungswerte, Prüfrhythmus | Vor jeder Zahl im Report |
+| `references/ETHICS.md` | Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich vor der Übergabe | Phase 4, noch einmal Phase 8 |
 | `scripts/create_banner.py` | Ausführbares Banner-Skript mit Font-Fallback und Validierung | Phase 5 (ausführen) |
 | `scripts/generate_report.js` | DOCX-Report-Template (Node.js, npm-Paket `docx`), als Strukturvorlage nutzen und mit den erhobenen Daten befüllen | Phase 8 (anpassen + ausführen) |
 
@@ -134,7 +136,7 @@ Stelle dem Kunden diese 10 Fragen:
 
 1. In welcher Nische willst du als Thought Leader wahrgenommen werden? → Topische Fokussierung
 2. Wer ist deine Zielgruppe? → Content-Tonalität und Format-Mix
-3. Wer sind deine 3–5 Nischen-Konkurrenten? → Wettbewerbsanalyse
+3. Wer sind deine 3–5 Nischen-Konkurrenten? → Wettbewerbsanalyse. Diese Nennung ist zugleich der Anlass nach `references/ETHICS.md` Regel 6; ohne sie wird kein Fremdprofil erhoben.
 4. Welche Bücher, Podcasts, Vorträge willst du hervorheben? → Social Proof maximieren
 5. Welche Hashtags nutzt dein Unternehmen? → Corporate-Branding
 6. Was ist dein primäres Ziel? (Top Voice, Follower, Lead-Gen, Recruiting) → Strategie-Ausrichtung
@@ -183,23 +185,36 @@ Identifiziere die 3 größten Score-Hebel in einer Prioritäts-Matrix (Impact ×
 
 ## Phase 3: Wettbewerbsanalyse
 
+Lies `references/COMPETITIVE.md`. Dort steht der vollständige Erhebungsrahmen: wer als
+Wettbewerber zählt, woher jede Achse kommt, wie das Ergebnis aussieht und was gilt, wenn die
+Mindestzahl nicht erreicht wird. Vor der ersten Erhebung gilt `references/ETHICS.md` Regel 6:
+Fremdprofile nur mit Anlass, und der Anlass ist die Nennung durch den Kunden in Phase 1.2,
+Frage 3.
+
 ### 3.1 Nischen-Konkurrenten analysieren
 
-Analysiere 3–5 Konkurrenten anhand: Follower, Post-Frequenz, ø Engagement, Content-Mix, Formate, Nischen-Fokus, Social Proof, Newsletter, Video-Anteil, Top Voice Status, SSI (geschätzt).
+Nimm 3 Wettbewerber, höchstens 5. Erhebe auf diesen zehn Achsen, in dieser Reihenfolge: Follower, Post-Frequenz, Median-Engagement je Beitrag, Content-Mix, Formate, Nischen-Fokus, Social Proof, Newsletter, Video-Anteil, Top-Voice-Status.
+
+Der SSI eines Wettbewerbers gehört nicht dazu. Er ist nur für das eigene Konto ablesbar; eine Schätzung wäre eine erfundene Zahl in einem Kundendokument.
 
 ### 3.2 Differenzierungs-Strategie
 
-Leite aus der Analyse ab:
+Leite aus der Matrix ab, jede Ableitung mit Verweis auf die Zeile, aus der sie stammt:
 - Content-Lücken: Welche Themen/Formate bedient kein Wettbewerber?
 - Tonalitäts-Differenzierung: Wie kann sich der Kunde sprachlich absetzen?
 - Social-Proof-Vorsprung: Welche Credentials hat nur der Kunde?
 - Format-Innovation: Welches Format nutzt keiner der Wettbewerber?
 
+Sind weniger als 3 Wettbewerber erhoben, entstehen diese vier Ableitungen nicht aus der Matrix. Das steht dann so im Report.
+
 ---
 
 ## Phase 4: Profil-Optimierung
 
-Lies `references/TEMPLATES.md` Abschnitte 1 + 2 für Headline- und About-Templates.
+Lies `references/TEMPLATES.md` Abschnitte 1 + 2 für Headline- und About-Templates und
+`references/ETHICS.md`, bevor du die erste Formulierung übernimmst. Regel 4 dort entscheidet,
+was in Headline und About stehen darf: Jeder Titel, jede Rolle, jede Zahl kommt vom Kunden und
+ist belegt. Erfinde nichts dazu, auch nicht, wenn der Kunde darum bittet.
 
 ### 4.1 Headline optimieren
 
@@ -256,7 +271,9 @@ Algorithmische Leitplanken, mit Beleglage in `references/SOURCES.md`:
 - Comment Quality > Like-Volumen → CTAs die inhaltliche Antworten provozieren
 - Save Rate = Qualitätssignal → Frameworks, Listen, Checklisten
 - Topische Konsistenz → ≥80% Posts in max. 2 Fokusthemen
-- Engagement Bait wird bestraft → Kein „What do you think?", „Agree?"
+- Kein Engagement-Bait: Kein „What do you think?", „Agree?", „Thoughts?", „Tag someone". Die
+  Liste und ihre Begründung stehen in `references/ETHICS.md`; dass der Algorithmus solche
+  Formulierungen derzeit auch schlechter rankt, ist dort der Nebeneffekt und nicht der Grund
 
 Formate nach Wirkung, als Reihenfolge und ohne Prozentwerte: Dokument- und Multi-Image-Beiträge vor Video, Video vor reinem Text und Link-Beiträgen. Das ist ein Erfahrungswert (`references/SOURCES.md`). Die früher hier genannten Prozentwerte je Format sind zurückgezogen, weil sich keine prüfbare Quelle dafür findet. Nenne im Report keine Format-Prozentwerte.
 
@@ -274,18 +291,47 @@ Strategisches Kommentieren (5–10/Tag) auf fremden Beiträgen zahlt auf Sichtba
 
 LinkedIn benennt vier SSI-Säulen (Q5 in `references/SOURCES.md`). Die verbreitete Aufteilung in je 25 Punkte bestätigt LinkedIn dort nicht; behandle sie als Konvention, nicht als Tatsache.
 
-Maßnahmen pro SSI-Säule:
+### 7.1 Maßnahmen je Säule und Zeitfenster
 
-1. **Professional Brand**: Profil vollständig, regelmäßig Content, Multimedia, strategische Endorsements
-2. **Find the Right People**: 5–10 strategische Connections/Woche, Kontaktanfragen immer mit persönlicher Nachricht (Erfahrungswert, die frühere Prozentangabe zur Annahmequote ist zurückgezogen)
-3. **Engage with Insights**: Täglich kommentieren, eigene Standpunkte. Beiträge zu Collaborative Articles zahlen nicht mehr auf ein Badge ein (Q3), sie bleiben nur als Sichtbarkeitskanal sinnvoll.
-4. **Build Relationships**: Inbox pflegen, Kommentare <2h beantworten, Follow-ups, Empfehlungen schreiben
+Der Plan läuft über drei Fenster: Tag 1–30, Tag 31–60, Tag 61–90. Dasselbe Raster trägt die Roadmap in Kapitel 8 des Reports; es gibt in diesem Skill keinen zweiten Zeithorizont.
 
-Ziel-SSI nach 90 Tagen: ≥75
+| Säule | Tag 1–30 | Tag 31–60 | Tag 61–90 |
+|-------|----------|-----------|-----------|
+| Professional Brand | Profil vollständig, Headline und About aus Phase 4 übernommen, Banner aus Phase 5 gesetzt | Beiträge im Rhythmus aus Phase 6.3, Multimedia-Formate ergänzen | Featured-Bereich nach den Beiträgen kuratieren, Skills und Endorsements ordnen |
+| Find the Right People | Zielliste aus Phase 6.2 anlegen, 5–10 Kontaktanfragen pro Woche mit persönlicher Nachricht | Denselben Rhythmus halten, Anfragen aus dem Kommentar-Umfeld priorisieren | Anfragen aus eingehenden Profilaufrufen bedienen |
+| Engage with Insights | 5–10 Kommentare pro Tag auf fremden Beiträgen, je mit eigener Perspektive | Kommentare auf die Ziel-Accounts konzentrieren, die geantwortet haben | Eigene Standpunkte auch dort, wo sie Widerspruch erzeugen |
+| Build Relationships | Inbox aufräumen, offene Anfragen beantworten | Kommentare unter eigenen Beiträgen innerhalb von zwei Stunden beantworten, Follow-ups | Empfehlungen schreiben, Gespräche aus den ersten zwei Fenstern weiterführen |
+
+Beiträge zu Collaborative Articles zahlen nicht mehr auf ein Badge ein (Q3), sie bleiben nur als Sichtbarkeitskanal sinnvoll und stehen deshalb in keinem der drei Fenster.
+
+Die Zahlen in der Tabelle (Kontaktanfragen und Kommentare pro Tag beziehungsweise Woche) sind Erfahrungswerte aus `references/SOURCES.md`, keine gemessenen Schwellen.
+
+### 7.2 Hypothese und Messweg je Fenster
+
+Jedes Fenster trägt eine Hypothese, eine Messgröße und einen Messweg. Ohne Zugang zu linkedin.com/sales/ssi ist keine davon prüfbar; dann wird sie im Report als nicht geprüft ausgewiesen und nicht durch eine Schätzung ersetzt.
+
+| Fenster | Hypothese | Messgröße | Messweg |
+|---------|-----------|-----------|---------|
+| Tag 1–30 | Ein vollständiges Profil mit neuer Headline, neuem About und neuem Banner hebt Professional Brand an, die anderen drei Säulen bewegen sich kaum | Teilwert Professional Brand | Am Tag 0 und am Tag 30 auf linkedin.com/sales/ssi ablesen, beide Werte mit Datum notieren |
+| Tag 31–60 | Täglich substanzielle Kommentare heben Engage with Insights, Professional Brand hält den Stand aus Fenster 1 | Teilwerte Engage with Insights und Professional Brand | Am Tag 60 ablesen und gegen Tag 30 stellen, nicht gegen Tag 0 |
+| Tag 61–90 | Beantwortete Kommentare und geschriebene Empfehlungen heben Build Relationships, der Gesamt-SSI erreicht die Zielmarke | Teilwert Build Relationships und Gesamt-SSI | Am Tag 90 ablesen, alle vier Messpunkte mit Datum in einer Zeile führen |
+
+Trifft eine Hypothese nicht zu, wird sie im Report so festgehalten. Eine Maßnahme, die drei Fenster lang nichts bewegt, gehört nicht in den nächsten Plan.
+
+Zielmarke dieses Skills, kein Branchenwert: Gesamt-SSI nach 90 Tagen ≥75. Nach Tag 90 endet der Plan dieses Skills. Was danach kommt, ist laufender Betrieb und gehört zu `linkedin-community-builder`.
 
 ---
 
 ## Phase 8: Report & Übergabe
+
+### 8.0 Ethik-Abgleich
+
+Bevor irgendetwas den Kunden erreicht, geht jedes der fünf Artefakte einmal gegen die Tabelle
+„Ethik-Abgleich vor der Übergabe" in `references/ETHICS.md`: Headline gegen Regel 4,
+About-Text gegen Regel 4 und 7, Content-Skill gegen Regel 1, Kommentar-Skill gegen Regel 2, 5
+und 6, Report gegen Regel 3, 4 und 6. Findet der Abgleich etwas, ändere das Artefakt und nicht
+den Abgleich. Halte im Report fest, wenn du dabei eine Kundenangabe herausgenommen hast, weil
+sie unbelegt war.
 
 ### 8.1 DOCX-Report erstellen (Pflicht-Deliverable)
 
@@ -301,7 +347,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
    - Headline-Varianten: Aus Phase 4.1
    - About-Analyse: Verbotene Wörter, CTA-Bewertung, Hashtag-Status
    - Profil-Audit: 18-Punkte-Checkliste mit Status je Element
-   - Roadmap: Kundenspezifisch priorisierte Maßnahmen
+   - `ROADMAP`: Kundenspezifisch priorisierte Maßnahmen je Fenster in den Feldern `tag30`, `tag60` und `tag90`, die im Report als Überschriften "Tag 1-30: Quick Wins", "Tag 31-60: Content-Rhythmus" und "Tag 61-90: Sichtbarkeit" erscheinen, dazu `expectedScore` für die Prognose nach 90 Tagen und `handover` für den Übergang in den laufenden Betrieb
 4. Passe die letzte Zeile an: der Ausgabepfad steht fest auf `/mnt/user-data/outputs/`. Außerhalb der claude.ai-Sandbox muss dort ein existierendes Verzeichnis stehen.
 5. Führe das Skript aus: `node generate_report.js`. Es schreibt den Pfad der erzeugten Datei als `Done: …` nach stdout.
 6. Prüfe das Ergebnis: `unzip -l <Ausgabedatei>.docx` muss `word/document.xml` listen, danach die Datei öffnen und die 9 Kapitel durchgehen.
@@ -322,7 +368,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 
 7. **Profil-Audit** (1 Seite): 18-Punkte-Checkliste als Tabelle mit Status (Vorhanden/Fehlt/Teilweise) und konkreter Maßnahme je Element. Zusammenfassung: X von 18 erfüllt.
 
-8. **Roadmap** (1 Seite): Zeitlich priorisierte Maßnahmen (Woche 1–2 Quick Wins → Woche 3–4 Content-Start → Monat 2–3 Skalierung → Monat 4–6 Authority Building). Erwarteter Score nach 3 Monaten mit Begründung.
+8. **Roadmap** (1 Seite): Zeitlich priorisierte Maßnahmen in denselben drei Fenstern wie der SSI-Plan aus Phase 7: Tag 1–30 Quick Wins → Tag 31–60 Content-Rhythmus → Tag 61–90 Sichtbarkeit. Erwarteter Score nach 90 Tagen mit Begründung. Danach endet die Roadmap dieses Skills; der Übergang in den laufenden Betrieb wird benannt und nicht als vierte Phase mitgeplant.
 
 9. **Methodik & Einschränkungen** (1 Seite): Wie die Daten erhoben wurden (Chrome/web_search/manuell), welche Scoring-Methodik verwendet wurde, welche Daten geschätzt oder nicht verfügbar waren. Transparenz schafft Vertrauen.
 
@@ -391,6 +437,8 @@ Prüfe vor Übergabe an den Kunden:
 
 **Report**: DOCX erzeugt, als ZIP lesbar (`unzip -l` listet `word/document.xml`), alle 9 Kapitel vorhanden, jede Tabelle hat einen erklärenden Textabsatz darunter, keine Scoring-Kategorie ohne Begründung.
 
+**Ethik**: Der Abgleich aus Phase 8.0 ist für alle fünf Artefakte durchgeführt. Headline und About enthalten keine Angabe ohne Beleg, der Content-Skill keine der in `references/ETHICS.md` gesperrten CTA-Formulierungen, der Kommentar-Skill keine Absprache und keine Automatisierung, der Report kein Fremdprofil ohne Anlass nach Regel 6.
+
 Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
 ---
@@ -409,7 +457,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
 **SSI nicht verfügbar**: Erfordert Zugang zu linkedin.com/sales/ssi. Schätze die 4 Säulen basierend auf beobachtbaren Profil-Signalen. Markiere als "(geschätzt)" im Report.
 
-**Wettbewerber nicht abrufbar**: Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Sind nur 2 erreichbar, erstelle die Matrix mit 2 und vermerke die Abweichung im Report. Bei <2: Branchenbenchmarks aus der Tabelle oben verwenden.
+**Wettbewerber nicht abrufbar**: Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Werden weniger erreicht, ist das Gate nicht bestanden. Erstelle die Matrix trotzdem, kennzeichne sie im Kopf als unvollständig, leite die Differenzierungs-Strategie nicht aus ihr ab und nenne die Zahl der einbezogenen Wettbewerber in Kapitel 9 des Reports. Die Tabelle der branchenspezifischen Anpassungen ist kein Ersatz: sie führt Erfahrungswerte zu Tonalität, Format und Frequenz, keine Wettbewerber. Der häufigste Grund für weniger als 3 ist, dass der Kunde in Phase 1.2, Frage 3 keine 3 genannt hat; frage dort nach, bevor du erhebst. Der vollständige Fall steht in `references/COMPETITIVE.md`.
 
 **Banner-Erstellung scheitert**: Bei `ModuleNotFoundError: No module named 'PIL'` fehlt Pillow. Hole `pip install -r requirements.txt` im Skill-Verzeichnis nach; die Datei liegt neben dieser SKILL.md und begründet dort die Untergrenze 10.1. Font-Fallback (DejaVuSans) und Gradient-Fallback sind im Skript eingebaut. Wenn Buchcover nicht in Safe Zone passt: weglassen.
 
@@ -423,18 +471,32 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 |-------|------|---------|
 | 1. Discovery | Alle Profildaten vollständig | Checkliste |
 | 2. Scoring | Jeder Score mit Begründung | Sub-Kriterien aus SCORING.md |
-| 3. Wettbewerb | Min. 3 Wettbewerber, Ausnahme siehe Fehlerbehandlung | Matrix ausgefüllt |
+| 3. Wettbewerb | Min. 3 Wettbewerber, keine Ausnahme | Matrix nach `references/COMPETITIVE.md` ausgefüllt |
 | 4. Profil | Headline in 60-Zeichen-Preview geprüft | Zeichenzahl-Check |
 | 5. Banner | Kein Overlap in Safe Zone | Skript-Validierung |
 | 6. Content | 3 Test-Posts auf Tonalität geprüft | Template-Check |
 | 7. SSI | Baseline dokumentiert | Score notieren |
 | 8. Report | Scoring-Delta dokumentiert | Vorher/Nachher |
+| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte | Tabelle in `references/ETHICS.md` |
 
 ---
 
 ## Changelog
 
 ```
+v2.5.0 (2026-09-05) – Ethik, Wettbewerbsvorlage, ein Zeitraster
+├── references/ETHICS.md: acht Leitplanken mit Begründung, dazu der Satz, was der Skill ablehnt, auch wenn der Kunde es verlangt
+├── Die Engagement-Bait-Regel ist nicht mehr als Algorithmus-Regel begründet, sondern als Haltung; die Strafe ist der Nebeneffekt
+├── Die gesperrten CTA-Formulierungen liefen unter vier verschiedenen Längen, jetzt an allen vier Stellen dieselben vier
+├── Ethik-Abgleich als Phase 8.0, als Zeile in der Verifikation und als Quality Gate
+├── references/COMPETITIVE.md: Auswahlregel, zehn Achsen mit Herkunft und Grenze, Ausgabeformat mit Erhebungsdatum
+├── Der Widerspruch zwischen Gate und Fehlerpfad ist aufgelöst, es gilt 3; unter 3 ist das Gate nicht bestanden und die Matrix als unvollständig gekennzeichnet
+├── Der geschätzte SSI eines Wettbewerbers entfällt, er ist nur für das eigene Konto ablesbar; damit zehn Achsen statt elf
+├── Ein Zeitraster statt drei: Tag 1–30, 31–60, 61–90 in Phase 7, in Kapitel 8 des Reports, im Report-Template, in README und auf der Landingpage
+├── Phase 7 trägt je Fenster eine Hypothese, eine Messgröße und den Messweg, mit dem Vorbehalt für fehlenden SSI-Zugang
+├── Die Spalte „Erwarteter Zeithorizont bis Top Voice" in SCORING.md ist als Prognose gekennzeichnet und steht als Erfahrungswert in SOURCES.md
+└── run_eval.py bindet CTA-Liste, Achsen, Mindestzahl und Zeitfenster und weist die abgelösten Wortlaute zurück
+
 v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
 ├── references/SOURCES.md: sieben Quellen mit URL, Veröffentlichungs- und Abrufdatum, dazu je Quelle, was sie nicht belegt
 ├── Elf unbelegte Zahlen ohne Ersatz entfernt, darunter der Plattformdurchschnitt der Engagement-Rate und die Werte je Postformat

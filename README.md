@@ -1,4 +1,4 @@
-# linkedin-profil-optimierung v2.4.0
+# linkedin-profil-optimierung v2.5.0
 
 [![CI](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml)
 
@@ -35,14 +35,14 @@ Das Skript setzt feste Zeitstempel und eine feste Reihenfolge und speichert unko
 | Deliverable | Beschreibung |
 |-------------|-------------|
 | Gewichteter Profil-Score | 10-Kategorie-Bewertung (0–100) nach dem Raster in references/SCORING.md |
-| Wettbewerbsanalyse | Positionierungsmatrix vs. 3–5 Nischen-Konkurrenten |
+| Wettbewerbsanalyse | Positionierungsmatrix auf zehn Achsen gegen 3–5 Nischen-Konkurrenten, Erhebungsrahmen in references/COMPETITIVE.md |
 | Optimierte Headline | 3 Varianten mit SEO-Score, Zeichenzahl und Begründung |
 | Optimierter About-Text | Orwell-inspiriert, strategische Hashtags, starker CTA |
 | Banner | 1584×396px mit Safe-Zone-Validierung |
 | Content Skill | Personalisierter Posting-Skill mit 10 Hook-Typen |
 | Kommentar Skill | 5 Kommentar-Typen, 15–20 Ziel-Accounts |
-| SSI-Aktionsplan | Social Selling Index Optimierung (4 Säulen) |
-| DOCX-Report | Word-Dokument mit 9 Kapiteln, Scoring-Tabellen und Roadmap bis Monat 6 |
+| SSI-Aktionsplan | Social Selling Index Optimierung über 4 Säulen, aufgeteilt auf Tag 1–30, 31–60 und 61–90, je mit Hypothese und Messweg |
+| DOCX-Report | Word-Dokument mit 9 Kapiteln, Scoring-Tabellen und 30/60/90-Tage-Roadmap |
 
 ## Ordnerstruktur
 
@@ -63,6 +63,8 @@ LinkedInOptimizer/
 ├── references/
 │   ├── SCORING.md              # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Bewertungsraster
 │   ├── SOURCES.md              # Quellen mit Datum, zurückgezogene Zahlen, Prüfrhythmus
+│   ├── ETHICS.md               # Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich
+│   ├── COMPETITIVE.md          # Erhebungsrahmen der Wettbewerbsanalyse: Auswahlregel, zehn Achsen, Ausgabe
 │   ├── TEMPLATES.md            # Vorlagen für Headline, About, Content, Kommentare
 │   └── BANNER.md               # Technische Banner-Anleitung mit Viewport-Matrix
 ├── tests/
@@ -88,6 +90,24 @@ Neben diesem Skill gibt es [LinkedIn-Orchestrator](https://github.com/GodModeAI2
 Beide reagieren heute auf dieselben Formulierungen: „Profil optimieren", „Profil verbessern", „Personal Branding", „Content-Strategie", „Top Voice". Das ist kein Schönheitsfehler, sondern führt dazu, dass Claude bei solchen Sätzen zwischen zwei Skills wählen muss. Die Auflösung steht im Abschnitt [Abgrenzung zum Schwester-Skill](SKILL.md#abgrenzung-zum-schwester-skill) in SKILL.md: Ist-Analyse und Artefakte hier, laufender Betrieb dort, bei beidem zuerst hier und danach Übergabe.
 
 Der Orchestrator führt seinerseits eine Abgrenzungstabelle, beschreibt diesen Skill darin aber nur in einer Zeile und ohne Trigger-Regel. Die Gegenrichtung dort nachzuziehen ist ein eigener Vorgang in jenem Repo.
+
+## Was dieser Skill nicht tut
+
+Der Skill positioniert Menschen öffentlich, unter ihrem Klarnamen. Deshalb schreibt er keine
+Behauptung ins Profil, die der Kunde nicht belegen kann, und er baut keine Reichweite, die nicht
+aus dem Interesse echter Leser entsteht. Das gilt auch dann, wenn ein Kunde ausdrücklich etwas
+anderes beauftragt.
+
+Abgelehnt wird: erfundene Titel, Rollen, Auszeichnungen oder Kundenzahlen; gekaufte Follower,
+Reaktionen und Kommentare; Pods und abgesprochene Kommentar-Runden; Automatisierung von
+Kontaktanfragen, Kommentaren oder Nachrichten; Fremdprofile über den Anlass hinaus.
+
+Die Regeln stehen mit ihrer Begründung in [references/ETHICS.md](references/ETHICS.md), der
+Abgleich vor der Übergabe in SKILL.md Phase 8.0. Was davon geprüft wird und was nicht, steht in
+ETHICS.md unter „Was diese Seite nicht leistet": `tests/run_eval.py` bindet die gesperrten
+CTA-Formulierungen an vier Fundstellen und prüft, dass der Abgleich in SKILL.md verankert ist.
+Ob eine Angabe im Profil stimmt, ob der Kunde den Text gelesen hat und ob sich jemand im
+Gespräch über eine Regel hinwegsetzt, sieht kein Skript.
 
 ## Datenbasis
 
@@ -122,6 +142,14 @@ SKILL.md Phase 4.3 und in der Audit-Tabelle des Report-Generators stehen, dass d
 Scoring-Engine auf der Landingpage aus `tests/fixtures/profile_mid.json` stammen und dass die
 Landingpage den Dialog als Beispiel ausweist und die Fixture dazu nennt.
 
+Seit v2.5.0 kommen drei Bindungen dazu: die vier gesperrten CTA-Formulierungen aus
+`references/ETHICS.md` stehen vollständig an allen vier Stellen, die dieselbe Liste führen; die
+zehn Achsen der Wettbewerbsmatrix stehen in `references/COMPETITIVE.md` und in SKILL.md Phase 3.1
+in derselben Reihenfolge, und die Mindestzahl der Wettbewerber lautet überall gleich; der
+Maßnahmenplan läuft an allen vier Stellen über Tag 1–30, 31–60 und 61–90, und die abgelösten
+Horizonte dürfen nicht danebenstehen. Alle drei prüfen Schreibweisen und Listen. Was sie nicht
+sehen, steht in den beiden Referenzdateien jeweils im letzten Abschnitt.
+
 Die Fixtures sind frei erfunden, nicht anonymisiert. Ein reales Profil zu erheben und danach zu
 verfremden wäre genau die Datenverarbeitung, die SECURITY.md einschränkt.
 
@@ -154,4 +182,4 @@ Offene Punkte, ohne Termin:
 
 Die Versionsnummer steht in der Datei `VERSION`. README, SKILL.md, Landingpage und Report-Template führen sie als Kopie; `scripts/check_versions.py` vergleicht sie bei jedem Push gegen `VERSION` und schlägt bei Abweichung fehl. Der Release-Workflow prüft zusätzlich, dass der Tagname zu `VERSION` passt.
 
-Aktuelle Version: v2.4.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
+Aktuelle Version: v2.5.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).

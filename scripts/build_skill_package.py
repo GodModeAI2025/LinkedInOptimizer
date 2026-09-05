@@ -44,6 +44,8 @@ CONTENTS = [
     "LICENSE",
     "requirements.txt",
     "references/BANNER.md",
+    "references/COMPETITIVE.md",
+    "references/ETHICS.md",
     "references/SCORING.md",
     "references/SOURCES.md",
     "references/TEMPLATES.md",
