@@ -35,7 +35,7 @@ Das Skript setzt feste Zeitstempel und eine feste Reihenfolge und speichert unko
 | Deliverable | Beschreibung |
 |-------------|-------------|
 | Gewichteter Profil-Score | 10-Kategorie-Bewertung (0–100) nach dem Raster in references/SCORING.md |
-| Wettbewerbsanalyse | Positionierungsmatrix vs. 3–5 Nischen-Konkurrenten |
+| Wettbewerbsanalyse | Positionierungsmatrix auf zehn Achsen gegen 3–5 Nischen-Konkurrenten, Erhebungsrahmen in references/COMPETITIVE.md |
 | Optimierte Headline | 3 Varianten mit SEO-Score, Zeichenzahl und Begründung |
 | Optimierter About-Text | Orwell-inspiriert, strategische Hashtags, starker CTA |
 | Banner | 1584×396px mit Safe-Zone-Validierung |
@@ -64,6 +64,7 @@ LinkedInOptimizer/
 │   ├── SCORING.md              # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Bewertungsraster
 │   ├── SOURCES.md              # Quellen mit Datum, zurückgezogene Zahlen, Prüfrhythmus
 │   ├── ETHICS.md               # Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich
+│   ├── COMPETITIVE.md          # Erhebungsrahmen der Wettbewerbsanalyse: Auswahlregel, zehn Achsen, Ausgabe
 │   ├── TEMPLATES.md            # Vorlagen für Headline, About, Content, Kommentare
 │   └── BANNER.md               # Technische Banner-Anleitung mit Viewport-Matrix
 ├── tests/

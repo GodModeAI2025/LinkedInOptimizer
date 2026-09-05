@@ -60,6 +60,7 @@ Lies die jeweilige Datei, wenn du die Phase erreichst:
 | `references/SCORING.md` | Gewichtete 10-Kategorien-Matrix mit Sub-Kriterien und Bewertungsraster | Phase 2 (Scoring) |
 | `references/TEMPLATES.md` | Vorlagen für Headline, About, Content-Skill, Kommentar-Skill | Phase 4 + 6 |
 | `references/BANNER.md` | Technische Banner-Anleitung mit Safe Zones und Viewport-Matrix | Phase 5 |
+| `references/COMPETITIVE.md` | Erhebungsrahmen der Wettbewerbsanalyse: Auswahlregel, zehn Achsen, Ausgabeformat | Phase 3 |
 | `references/SOURCES.md` | Quellen mit Datum, zurückgezogene Zahlen, Erfahrungswerte, Prüfrhythmus | Vor jeder Zahl im Report |
 | `references/ETHICS.md` | Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich vor der Übergabe | Phase 4, noch einmal Phase 8 |
 | `scripts/create_banner.py` | Ausführbares Banner-Skript mit Font-Fallback und Validierung | Phase 5 (ausführen) |
@@ -135,7 +136,7 @@ Stelle dem Kunden diese 10 Fragen:
 
 1. In welcher Nische willst du als Thought Leader wahrgenommen werden? → Topische Fokussierung
 2. Wer ist deine Zielgruppe? → Content-Tonalität und Format-Mix
-3. Wer sind deine 3–5 Nischen-Konkurrenten? → Wettbewerbsanalyse
+3. Wer sind deine 3–5 Nischen-Konkurrenten? → Wettbewerbsanalyse. Diese Nennung ist zugleich der Anlass nach `references/ETHICS.md` Regel 6; ohne sie wird kein Fremdprofil erhoben.
 4. Welche Bücher, Podcasts, Vorträge willst du hervorheben? → Social Proof maximieren
 5. Welche Hashtags nutzt dein Unternehmen? → Corporate-Branding
 6. Was ist dein primäres Ziel? (Top Voice, Follower, Lead-Gen, Recruiting) → Strategie-Ausrichtung
@@ -184,17 +185,27 @@ Identifiziere die 3 größten Score-Hebel in einer Prioritäts-Matrix (Impact ×
 
 ## Phase 3: Wettbewerbsanalyse
 
+Lies `references/COMPETITIVE.md`. Dort steht der vollständige Erhebungsrahmen: wer als
+Wettbewerber zählt, woher jede Achse kommt, wie das Ergebnis aussieht und was gilt, wenn die
+Mindestzahl nicht erreicht wird. Vor der ersten Erhebung gilt `references/ETHICS.md` Regel 6:
+Fremdprofile nur mit Anlass, und der Anlass ist die Nennung durch den Kunden in Phase 1.2,
+Frage 3.
+
 ### 3.1 Nischen-Konkurrenten analysieren
 
-Analysiere 3–5 Konkurrenten anhand: Follower, Post-Frequenz, ø Engagement, Content-Mix, Formate, Nischen-Fokus, Social Proof, Newsletter, Video-Anteil, Top Voice Status, SSI (geschätzt).
+Nimm 3 Wettbewerber, höchstens 5. Erhebe auf diesen zehn Achsen, in dieser Reihenfolge: Follower, Post-Frequenz, Median-Engagement je Beitrag, Content-Mix, Formate, Nischen-Fokus, Social Proof, Newsletter, Video-Anteil, Top-Voice-Status.
+
+Der SSI eines Wettbewerbers gehört nicht dazu. Er ist nur für das eigene Konto ablesbar; eine Schätzung wäre eine erfundene Zahl in einem Kundendokument.
 
 ### 3.2 Differenzierungs-Strategie
 
-Leite aus der Analyse ab:
+Leite aus der Matrix ab, jede Ableitung mit Verweis auf die Zeile, aus der sie stammt:
 - Content-Lücken: Welche Themen/Formate bedient kein Wettbewerber?
 - Tonalitäts-Differenzierung: Wie kann sich der Kunde sprachlich absetzen?
 - Social-Proof-Vorsprung: Welche Credentials hat nur der Kunde?
 - Format-Innovation: Welches Format nutzt keiner der Wettbewerber?
+
+Sind weniger als 3 Wettbewerber erhoben, entstehen diese vier Ableitungen nicht aus der Matrix. Das steht dann so im Report.
 
 ---
 
@@ -426,7 +437,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
 **SSI nicht verfügbar**: Erfordert Zugang zu linkedin.com/sales/ssi. Schätze die 4 Säulen basierend auf beobachtbaren Profil-Signalen. Markiere als "(geschätzt)" im Report.
 
-**Wettbewerber nicht abrufbar**: Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Sind nur 2 erreichbar, erstelle die Matrix mit 2 und vermerke die Abweichung im Report. Bei <2: Branchenbenchmarks aus der Tabelle oben verwenden.
+**Wettbewerber nicht abrufbar**: Das Quality Gate für Phase 3 verlangt 3 Wettbewerber. Werden weniger erreicht, ist das Gate nicht bestanden. Erstelle die Matrix trotzdem, kennzeichne sie im Kopf als unvollständig, leite die Differenzierungs-Strategie nicht aus ihr ab und nenne die Zahl der einbezogenen Wettbewerber in Kapitel 9 des Reports. Die Tabelle der branchenspezifischen Anpassungen ist kein Ersatz: sie führt Erfahrungswerte zu Tonalität, Format und Frequenz, keine Wettbewerber. Der häufigste Grund für weniger als 3 ist, dass der Kunde in Phase 1.2, Frage 3 keine 3 genannt hat; frage dort nach, bevor du erhebst. Der vollständige Fall steht in `references/COMPETITIVE.md`.
 
 **Banner-Erstellung scheitert**: Bei `ModuleNotFoundError: No module named 'PIL'` fehlt Pillow. Hole `pip install -r requirements.txt` im Skill-Verzeichnis nach; die Datei liegt neben dieser SKILL.md und begründet dort die Untergrenze 10.1. Font-Fallback (DejaVuSans) und Gradient-Fallback sind im Skript eingebaut. Wenn Buchcover nicht in Safe Zone passt: weglassen.
 
@@ -440,7 +451,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 |-------|------|---------|
 | 1. Discovery | Alle Profildaten vollständig | Checkliste |
 | 2. Scoring | Jeder Score mit Begründung | Sub-Kriterien aus SCORING.md |
-| 3. Wettbewerb | Min. 3 Wettbewerber, Ausnahme siehe Fehlerbehandlung | Matrix ausgefüllt |
+| 3. Wettbewerb | Min. 3 Wettbewerber, keine Ausnahme | Matrix nach `references/COMPETITIVE.md` ausgefüllt |
 | 4. Profil | Headline in 60-Zeichen-Preview geprüft | Zeichenzahl-Check |
 | 5. Banner | Kein Overlap in Safe Zone | Skript-Validierung |
 | 6. Content | 3 Test-Posts auf Tonalität geprüft | Template-Check |

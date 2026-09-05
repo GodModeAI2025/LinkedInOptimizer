@@ -150,7 +150,7 @@ const LIMITS = [
   { label: "Impressions:", text: "Nicht öffentlich sichtbar. Engagement-Rate auf Basis der Follower-Zahl geschätzt." },
   { label: "SSI-Score:", text: "Nicht verfügbar (erfordert linkedin.com/sales/ssi)." },
   { label: "Kommentar-Aktivität:", text: "Häufigkeit bei Dritten nicht messbar." },
-  { label: "Wettbewerbsanalyse:", text: "Phase 3 nicht durchgeführt (kein Kontext-Interview)." },
+  { label: "Wettbewerbsanalyse:", text: "[Anzahl einbezogener Wettbewerber und Erhebungsdatum. Unter 3: Gate nicht bestanden, Matrix unvollständig, Differenzierungs-Strategie nicht aus ihr abgeleitet. Gar nicht durchgeführt: Grund nennen.]" },
 ];
 
 // ══════════════════════════════════════════════════════════════════

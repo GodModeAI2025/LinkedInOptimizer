@@ -59,6 +59,10 @@ Was geprueft wird:
    Phase 8, in der Verifikation und in den Quality Gates. Das prueft
    Schreibweisen und Verweise; was es nicht sieht, steht in ETHICS.md unter
    "Was diese Seite nicht leistet".
+11. Die zehn Achsen der Wettbewerbsmatrix stehen in references/COMPETITIVE.md
+   und in SKILL.md Phase 3.1 in derselben Reihenfolge, und die Mindestzahl der
+   Wettbewerber lautet an allen drei Stellen gleich. Der frueher daneben
+   stehende zweite Wert darf nicht zurueckkommen.
 
 Die Fixtures sind frei erfunden. Es sind keine anonymisierten Echtprofile: ein
 Echtprofil zu erheben und danach zu verfremden waere genau die Datenverarbeitung,
@@ -677,6 +681,120 @@ def pruefe_ethik(fehler, ethik):
             fehler.append(f"{rel_pfad}: {grund} Erwartet wird der Wortlaut {satz!r}.")
 
 
+# Die Mindestzahl der Wettbewerber. Sie stand im Repo an zwei Stellen mit zwei
+# verschiedenen Werten: das Quality Gate verlangte 3, die Fehlerbehandlung nannte
+# daneben "Minimum 2 Wettbewerber fuer sinnvolle Matrix". Ein Gate, das der
+# eigene Fehlerpfad unterlaeuft, ist kein Gate. Es gilt eine Zahl, und die muss
+# an allen drei Stellen gleich lauten.
+WETTBEWERBER_MINIMUM = "3"
+
+# Wortlaute, die die Mindestzahl tragen. Jeder Eintrag nennt eine Datei, einen
+# Marker, der genau eine Zeile trifft, eine Beschreibung und die Zeichenkette,
+# die in dieser Zeile stehen muss. Die Zeichenkette traegt die Zahl im Kontext:
+# ein blosses "3" waere in der Gate-Zeile schon durch die Phasennummer erfuellt.
+MINIMUM_FUNDSTELLEN = [
+    ("SKILL.md", "| 3. Wettbewerb |",
+     "Quality Gate fuer Phase 3",
+     "Min. {} Wettbewerber"),
+    ("SKILL.md", "**Wettbewerber nicht abrufbar**:",
+     "Fehlerbehandlung fuer Phase 3",
+     "verlangt {} Wettbewerber"),
+    ("references/COMPETITIVE.md", "Es gilt eine Zahl:",
+     "Der Abschnitt zur nicht erreichten Mindestzahl",
+     "Es gilt eine Zahl: {}."),
+    ("references/COMPETITIVE.md", "Nimm 3 bis 5.",
+     "Die Auswahlregel",
+     "Nimm {} bis 5."),
+]
+
+# Die zweite Zahl darf nicht zurueckkommen, auch nicht in einer der
+# Schreibweisen, in denen sie im Repo stand.
+MINIMUM_VERBOTEN = [
+    "Minimum 2 Wettbewerber",
+    "Min. 2 Wettbewerber",
+    "mindestens 2 Wettbewerber",
+]
+
+
+def achsen_aus_competitive(competitive: str):
+    """Die zehn Achsen der Wettbewerbsmatrix, in der Reihenfolge der Tabelle."""
+    zeilen = tabelle(competitive, "## Die zehn Achsen", 4)
+    achsen = [zeile[0] for zeile in zeilen]
+    if len(achsen) != 10:
+        raise Fehler(
+            f"references/COMPETITIVE.md: die Achsen-Tabelle hat {len(achsen)} Zeilen, "
+            "die Ueberschrift verspricht zehn."
+        )
+    return achsen
+
+
+def achsen_aus_skill(skill: str):
+    """Die Achsenliste aus SKILL.md Phase 3.1."""
+    marker = "Erhebe auf diesen zehn Achsen, in dieser Reihenfolge:"
+    treffer = [z for z in skill.splitlines() if marker in z]
+    if len(treffer) != 1:
+        raise Fehler(
+            f"SKILL.md: der Marker {marker!r} trifft {len(treffer)} Zeilen, erwartet wird genau "
+            "eine. Ohne ihn laesst sich die Achsenliste nicht gegen COMPETITIVE.md halten."
+        )
+    rest = treffer[0].split(marker, 1)[1].strip().rstrip(".")
+    return [teil.strip() for teil in rest.split(",")]
+
+
+def pruefe_wettbewerb(fehler, skill, competitive):
+    """Bindet Achsen und Mindestzahl der Wettbewerbsanalyse.
+
+    Geprueft werden eine Liste und eine Zahl im Text. Nicht geprueft wird, ob
+    eine Erhebung stattgefunden hat, ob ihre Werte stimmen und ob die erhobenen
+    Profile die Auswahlregel erfuellen; das steht in COMPETITIVE.md unter "Was
+    diese Vorlage nicht leistet".
+    """
+    try:
+        aus_datei = achsen_aus_competitive(competitive)
+        aus_skill = achsen_aus_skill(skill)
+    except Fehler as ausnahme:
+        fehler.append(str(ausnahme))
+        return
+
+    if aus_datei != aus_skill:
+        fehler.append(
+            "Die zehn Achsen stehen in references/COMPETITIVE.md und SKILL.md Phase 3.1 nicht "
+            f"in derselben Reihenfolge.\n      COMPETITIVE.md: {aus_datei}\n      SKILL.md:       {aus_skill}"
+        )
+
+    for rel_pfad, marker, was, vorlage in MINIMUM_FUNDSTELLEN:
+        text = lies(ROOT / rel_pfad)
+        treffer = [z for z in text.splitlines() if marker in z]
+        if len(treffer) != 1:
+            fehler.append(
+                f"{rel_pfad}: der Marker {marker!r} ({was}) trifft {len(treffer)} Zeilen, "
+                "erwartet wird genau eine."
+            )
+            continue
+        wortlaut = vorlage.format(WETTBEWERBER_MINIMUM)
+        if wortlaut not in treffer[0]:
+            fehler.append(
+                f"{rel_pfad}: {was} nennt die Mindestzahl nicht im erwarteten Wortlaut "
+                f"{wortlaut!r}."
+            )
+
+    for rel_pfad in ("SKILL.md", "README.md", "references/COMPETITIVE.md"):
+        text = lies(ROOT / rel_pfad)
+        for verboten in MINIMUM_VERBOTEN:
+            for nummer, zeile in enumerate(text.splitlines(), 1):
+                if verboten not in zeile:
+                    continue
+                # In COMPETITIVE.md steht der alte Wortlaut einmal als Zitat in
+                # der Begruendung. Ein Zitat in Anfuehrungszeichen bleibt erlaubt,
+                # eine Regel nicht.
+                if rel_pfad == "references/COMPETITIVE.md" and "„" + verboten in zeile:
+                    continue
+                fehler.append(
+                    f"{rel_pfad}:{nummer}: {verboten!r} steht wieder im Skill. Es gilt eine "
+                    f"Mindestzahl, und die ist {WETTBEWERBER_MINIMUM}."
+                )
+
+
 def pruefe_deliverables(fehler, readme):
     vorhanden = deliverables_aus_readme(readme)
     for name in sorted(EXPECTED.glob("*.json")):
@@ -705,6 +823,7 @@ def main() -> int:
     js = lies(ROOT / "scripts" / "generate_report.js")
     readme = lies(ROOT / "README.md")
     ethik = lies(ROOT / "references" / "ETHICS.md")
+    competitive = lies(ROOT / "references" / "COMPETITIVE.md")
 
     try:
         modell = gewichte_aus_scoring(scoring)
@@ -734,6 +853,7 @@ def main() -> int:
             pruefe_landing_ehrlichkeit(fehler, seite)
             pruefe_deliverables(fehler, readme)
             pruefe_ethik(fehler, ethik)
+            pruefe_wettbewerb(fehler, skill, competitive)
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
 
@@ -743,7 +863,7 @@ def main() -> int:
             print(f"  - {eintrag}", file=sys.stderr)
         return 1
 
-    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    alle Fixtures im Band.")
+    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    alle Fixtures im Band.")
     return 0
 
 
