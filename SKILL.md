@@ -66,6 +66,7 @@ vorher.
 | `scripts/generate_report.js` | DOCX-Report-Template (Node.js, npm-Paket `docx`), als Strukturvorlage nutzen und mit den erhobenen Daten befüllen | Phase 8 (anpassen + ausführen) |
 
 ---
+
 ## Ablauf
 
 Acht Phasen, der Reihe nach. Jede Phase steht in einer eigenen Datei; lies sie, wenn du die Phase
