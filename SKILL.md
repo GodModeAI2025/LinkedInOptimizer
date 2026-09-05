@@ -347,7 +347,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
    - Headline-Varianten: Aus Phase 4.1
    - About-Analyse: Verbotene Wörter, CTA-Bewertung, Hashtag-Status
    - Profil-Audit: 18-Punkte-Checkliste mit Status je Element
-   - `ROADMAP`: Kundenspezifisch priorisierte Maßnahmen je Fenster (`tag30`, `tag60`, `tag90`) und die Score-Prognose nach 90 Tagen
+   - `ROADMAP`: Kundenspezifisch priorisierte Maßnahmen je Fenster in den Feldern `tag30`, `tag60` und `tag90`, die im Report als Überschriften "Tag 1-30: Quick Wins", "Tag 31-60: Content-Rhythmus" und "Tag 61-90: Sichtbarkeit" erscheinen, dazu `expectedScore` für die Prognose nach 90 Tagen und `handover` für den Übergang in den laufenden Betrieb
 4. Passe die letzte Zeile an: der Ausgabepfad steht fest auf `/mnt/user-data/outputs/`. Außerhalb der claude.ai-Sandbox muss dort ein existierendes Verzeichnis stehen.
 5. Führe das Skript aus: `node generate_report.js`. Es schreibt den Pfad der erzeugten Datei als `Done: …` nach stdout.
 6. Prüfe das Ergebnis: `unzip -l <Ausgabedatei>.docx` muss `word/document.xml` listen, danach die Datei öffnen und die 9 Kapitel durchgehen.

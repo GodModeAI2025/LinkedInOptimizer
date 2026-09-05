@@ -83,6 +83,17 @@ jobs:
       # Report-Generators, die Stueckzahl stimmt zusaetzlich in der
       # Deliverables-Beschreibung von SKILL.md, und die Landingpage weist ihren Dialog als Beispiel
       # aus und nennt die Fixture, aus der seine Zahlen stammen.
+      # Seit v2.5.0 kommen drei Bindungen dazu: die vier gesperrten
+      # CTA-Formulierungen aus references/ETHICS.md stehen vollstaendig an allen
+      # vier Stellen, die dieselbe Liste fuehren, und SKILL.md verankert den
+      # Ethik-Abgleich; die zehn Achsen der Wettbewerbsmatrix stehen in
+      # references/COMPETITIVE.md und SKILL.md Phase 3.1 in derselben
+      # Reihenfolge, und die Mindestzahl der Wettbewerber lautet ueberall
+      # gleich; der Massnahmenplan laeuft an allen vier Stellen ueber Tag 1-30,
+      # 31-60 und 61-90, und die abgeloesten Horizonte duerfen nicht
+      # danebenstehen. Alle drei pruefen Schreibweisen und Listen, kein
+      # Verhalten; die Grenze steht in den beiden Referenzdateien jeweils im
+      # letzten Abschnitt.
       - name: Eval-Set fahren
         run: python tests/run_eval.py
 
