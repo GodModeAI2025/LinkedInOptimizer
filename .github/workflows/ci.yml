@@ -88,13 +88,6 @@ jobs:
       - name: Verweise pruefen
         run: python scripts/check_links.py
 
-      # Jeder Verweis muss auf eine Datei zeigen, die es gibt: Backtick-Pfade im
-      # Skill-Text relativ zum Skill-Verzeichnis, Markdown-Links in der Doku
-      # relativ zum Repo-Wurzelverzeichnis. Ein toter Verweis faellt im Gespraech
-      # erst auf, wenn die Phase erreicht ist.
-      - name: Verweise pruefen
-        run: python scripts/check_links.py
-
       # Prueft references/SOURCES.md und haelt zugleich fest, dass keine der
       # dort als unbelegt entfernten Aussagen ueber eine spaetere Aenderung
       # zurueck in den Skill wandert. Die Sperren erzeugt das Skript aus der
