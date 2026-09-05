@@ -1,4 +1,4 @@
-# linkedin-profil-optimierung v2.4.0
+# linkedin-profil-optimierung v2.5.0
 
 [![CI](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml)
 
@@ -142,6 +142,14 @@ SKILL.md Phase 4.3 und in der Audit-Tabelle des Report-Generators stehen, dass d
 Scoring-Engine auf der Landingpage aus `tests/fixtures/profile_mid.json` stammen und dass die
 Landingpage den Dialog als Beispiel ausweist und die Fixture dazu nennt.
 
+Seit v2.5.0 kommen drei Bindungen dazu: die vier gesperrten CTA-Formulierungen aus
+`references/ETHICS.md` stehen vollständig an allen vier Stellen, die dieselbe Liste führen; die
+zehn Achsen der Wettbewerbsmatrix stehen in `references/COMPETITIVE.md` und in SKILL.md Phase 3.1
+in derselben Reihenfolge, und die Mindestzahl der Wettbewerber lautet überall gleich; der
+Maßnahmenplan läuft an allen vier Stellen über Tag 1–30, 31–60 und 61–90, und die abgelösten
+Horizonte dürfen nicht danebenstehen. Alle drei prüfen Schreibweisen und Listen. Was sie nicht
+sehen, steht in den beiden Referenzdateien jeweils im letzten Abschnitt.
+
 Die Fixtures sind frei erfunden, nicht anonymisiert. Ein reales Profil zu erheben und danach zu
 verfremden wäre genau die Datenverarbeitung, die SECURITY.md einschränkt.
 
@@ -174,4 +182,4 @@ Offene Punkte, ohne Termin:
 
 Die Versionsnummer steht in der Datei `VERSION`. README, SKILL.md, Landingpage und Report-Template führen sie als Kopie; `scripts/check_versions.py` vergleicht sie bei jedem Push gegen `VERSION` und schlägt bei Abweichung fehl. Der Release-Workflow prüft zusätzlich, dass der Tagname zu `VERSION` passt.
 
-Aktuelle Version: v2.4.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
+Aktuelle Version: v2.5.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).

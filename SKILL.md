@@ -13,7 +13,7 @@ description: >
   Analytics-Auswertung oder Monetarisierung, ist linkedin-community-builder zuständig.
 ---
 
-# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.4.0
+# LinkedIn Profil-Optimierung & Thought-Leader Skill v2.5.0
 
 Ein 8-Phasen-Workflow zur Analyse und Optimierung von LinkedIn-Profilen. Was daran belegt ist und was nicht, steht in `references/SOURCES.md`: belegte Quellen mit URL und Datum, zurückgezogene Zahlen und die Angaben, die ausdrücklich Erfahrungswerte aus der Beratungspraxis sind. Bewerte kein Kundenprofil gegen eine Zahl, die dort nicht steht.
 
@@ -484,6 +484,19 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 ## Changelog
 
 ```
+v2.5.0 (2026-09-05) – Ethik, Wettbewerbsvorlage, ein Zeitraster
+├── references/ETHICS.md: acht Leitplanken mit Begründung, dazu der Satz, was der Skill ablehnt, auch wenn der Kunde es verlangt
+├── Die Engagement-Bait-Regel ist nicht mehr als Algorithmus-Regel begründet, sondern als Haltung; die Strafe ist der Nebeneffekt
+├── Die gesperrten CTA-Formulierungen liefen unter vier verschiedenen Längen, jetzt an allen vier Stellen dieselben vier
+├── Ethik-Abgleich als Phase 8.0, als Zeile in der Verifikation und als Quality Gate
+├── references/COMPETITIVE.md: Auswahlregel, zehn Achsen mit Herkunft und Grenze, Ausgabeformat mit Erhebungsdatum
+├── Der Widerspruch zwischen Gate und Fehlerpfad ist aufgelöst, es gilt 3; unter 3 ist das Gate nicht bestanden und die Matrix als unvollständig gekennzeichnet
+├── Der geschätzte SSI eines Wettbewerbers entfällt, er ist nur für das eigene Konto ablesbar; damit zehn Achsen statt elf
+├── Ein Zeitraster statt drei: Tag 1–30, 31–60, 61–90 in Phase 7, in Kapitel 8 des Reports, im Report-Template, in README und auf der Landingpage
+├── Phase 7 trägt je Fenster eine Hypothese, eine Messgröße und den Messweg, mit dem Vorbehalt für fehlenden SSI-Zugang
+├── Die Spalte „Erwarteter Zeithorizont bis Top Voice" in SCORING.md ist als Prognose gekennzeichnet und steht als Erfahrungswert in SOURCES.md
+└── run_eval.py bindet CTA-Liste, Achsen, Mindestzahl und Zeitfenster und weist die abgelösten Wortlaute zurück
+
 v2.4.0 (2026-09-04) – Beleglage, Eval-Set, Abgrenzung
 ├── references/SOURCES.md: sieben Quellen mit URL, Veröffentlichungs- und Abrufdatum, dazu je Quelle, was sie nicht belegt
 ├── Elf unbelegte Zahlen ohne Ersatz entfernt, darunter der Plattformdurchschnitt der Engagement-Rate und die Werte je Postformat
