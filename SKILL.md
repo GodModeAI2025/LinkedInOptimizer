@@ -1,16 +1,11 @@
 ---
 name: linkedin-profil-optimierung
 description: >
-  Professionelle LinkedIn-Profilanalyse mit gewichtetem Scoring (0–100), Headline/About-Optimierung,
-  Banner-Erstellung, Content-Strategie und Thought-Leader-Positionierung. Verwende diesen Skill
-  immer wenn ein LinkedIn-Profil analysiert, bewertet, optimiert oder für ein Top Voice Badge
-  vorbereitet werden soll. Auch bei Anfragen wie "mein LinkedIn verbessern", "Profil-Score",
-  "LinkedIn Headline optimieren", "About-Sektion schreiben", "LinkedIn Banner erstellen",
-  "Content-Strategie LinkedIn", "SSI verbessern", "Top Voice werden", "LinkedIn Wettbewerbsanalyse",
-  oder wenn jemand seinen LinkedIn-Auftritt professionalisieren möchte.
-  Abgrenzung: Dieser Skill macht die einmalige Ist-Analyse und liefert die Profil-Artefakte.
-  Geht es um den laufenden Betrieb, also Wochenroutine, Content-Kalender, Community-Aufbau,
-  Analytics-Auswertung oder Monetarisierung, ist linkedin-community-builder zuständig.
+  Einmalige LinkedIn-Profilanalyse: gewichteter Score (0-100), Headline, About-Text, Banner,
+  Wettbewerbsmatrix, SSI-Plan und DOCX-Report. Verwenden bei: Profil analysieren, Profil-Score,
+  Headline optimieren, LinkedIn-Banner, Wettbewerbsanalyse, Top Voice vorbereiten. Nicht für den
+  laufenden Betrieb (Wochenroutine, Content-Kalender, Community, Monetarisierung), dafür
+  linkedin-community-builder.
 ---
 
 # LinkedIn Profil-Optimierung & Thought-Leader Skill v2.5.0
