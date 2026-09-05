@@ -53,6 +53,12 @@ Was geprueft wird:
 9. Die Landingpage bezeichnet den Dialog als Beispiel und nennt die Fixture, aus
    der seine Zahlen stammen. pruefe_landing bindet die Zahlen, diese Pruefung
    bindet die Aussage, dass sie nicht gemessen sind.
+10. Die gesperrten CTA-Formulierungen aus references/ETHICS.md stehen
+   vollstaendig an allen vier Stellen, die dieselbe Liste noch einmal fuehren,
+   und SKILL.md verankert den Ethik-Abgleich in der Ressourcen-Uebersicht, in
+   Phase 8, in der Verifikation und in den Quality Gates. Das prueft
+   Schreibweisen und Verweise; was es nicht sieht, steht in ETHICS.md unter
+   "Was diese Seite nicht leistet".
 
 Die Fixtures sind frei erfunden. Es sind keine anonymisierten Echtprofile: ein
 Echtprofil zu erheben und danach zu verfremden waere genau die Datenverarbeitung,
@@ -594,6 +600,83 @@ def pruefe_landing_ehrlichkeit(fehler, seite):
             fehler.append(f"index.html: {grund} Erwartet wird der Wortlaut {satz!r}.")
 
 
+# Fundstellen der gesperrten CTA-Formulierungen. Die Quelle ist die Tabelle
+# "Gesperrte CTA-Formulierungen" in references/ETHICS.md; hier steht, wo dieselbe
+# Liste noch einmal auftaucht und deshalb vollstaendig sein muss. Jeder Eintrag
+# nennt die Datei und einen Marker, der genau eine Zeile trifft. In dieser Zeile
+# muessen alle Formulierungen der Tabelle stehen.
+#
+# Das war der Befund: dieselbe Liste lief unter vier verschiedenen Laengen.
+# SKILL.md Phase 6.1 kannte zwei Formulierungen, die Algorithmus-Regeln in
+# TEMPLATES.md und das Sub-Kriterium in SCORING.md je drei, die Liste der
+# verbotenen Woerter in TEMPLATES.md eine vierte Zusammenstellung. Wer sich an
+# eine der kurzen Listen hielt, lieferte einen CTA aus, den eine andere Stelle
+# im selben Skill verbietet.
+CTA_FUNDSTELLEN = [
+    ("SKILL.md", "- Kein Engagement-Bait:"),
+    ("references/TEMPLATES.md", "7. Kein Engagement-Bait →"),
+    ("references/TEMPLATES.md", "gesperrte CTA-Formulierungen, vollständige Liste"),
+    ("references/SCORING.md", "| Engagement-Bait-Freiheit |"),
+]
+
+# Verweise, ohne die references/ETHICS.md eine Seite waere, die niemand liest.
+# Der Ethik-Abgleich ist der einzige Schritt, der die Regeln vor der Uebergabe
+# anwendet; faellt der Abschnitt aus SKILL.md, laeuft die Datei leer mit.
+ETHIK_VERANKERUNG = [
+    ("SKILL.md", "| `references/ETHICS.md` |",
+     "Die Ressourcen-Uebersicht muss references/ETHICS.md fuehren."),
+    ("SKILL.md", "### 8.0 Ethik-Abgleich",
+     "Phase 8 muss mit dem Ethik-Abgleich beginnen."),
+    ("SKILL.md", "**Ethik**:",
+     "Der Verifikations-Abschnitt muss eine Ethik-Zeile fuehren."),
+    ("SKILL.md", "| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte |",
+     "Die Quality Gates muessen den Ethik-Abgleich als Gate fuehren."),
+]
+
+
+def cta_formulierungen(ethik: str):
+    """Die gesperrten CTA-Formulierungen aus references/ETHICS.md."""
+    zeilen = tabelle(ethik, "## Gesperrte CTA-Formulierungen", 2)
+    formulierungen = [zeile[0] for zeile in zeilen]
+    if len(formulierungen) < 2:
+        raise Fehler(
+            "references/ETHICS.md: die Tabelle 'Gesperrte CTA-Formulierungen' hat weniger als "
+            "zwei Zeilen. Eine Liste, die auf eine Zeile schrumpft, bindet nichts mehr."
+        )
+    return formulierungen
+
+
+def pruefe_ethik(fehler, ethik):
+    """Bindet die gesperrten CTA-Formulierungen und die Verweise auf ETHICS.md.
+
+    Geprueft werden Schreibweisen und Verweise, nicht Verhalten. Was diese
+    Pruefung nicht sieht, steht in references/ETHICS.md im Abschnitt "Was diese
+    Seite nicht leistet": eine neu erfundene Bait-Formulierung, eine unbelegte
+    Angabe im Profil, ein uebergangener Abgleich im Gespraech.
+    """
+    formulierungen = cta_formulierungen(ethik)
+
+    for rel_pfad, marker in CTA_FUNDSTELLEN:
+        text = lies(ROOT / rel_pfad)
+        treffer = [z for z in text.splitlines() if marker in z]
+        if len(treffer) != 1:
+            fehler.append(
+                f"{rel_pfad}: der Marker {marker!r} trifft {len(treffer)} Zeilen, erwartet wird "
+                "genau eine. Ohne ihn laesst sich nicht pruefen, ob die Liste vollstaendig ist."
+            )
+            continue
+        for formulierung in formulierungen:
+            if formulierung not in treffer[0]:
+                fehler.append(
+                    f"{rel_pfad}: die Zeile zu {marker!r} nennt die gesperrte Formulierung "
+                    f"{formulierung!r} nicht. references/ETHICS.md fuehrt sie."
+                )
+
+    for rel_pfad, satz, grund in ETHIK_VERANKERUNG:
+        if satz not in lies(ROOT / rel_pfad):
+            fehler.append(f"{rel_pfad}: {grund} Erwartet wird der Wortlaut {satz!r}.")
+
+
 def pruefe_deliverables(fehler, readme):
     vorhanden = deliverables_aus_readme(readme)
     for name in sorted(EXPECTED.glob("*.json")):
@@ -621,6 +704,7 @@ def main() -> int:
     seite = lies(ROOT / "index.html")
     js = lies(ROOT / "scripts" / "generate_report.js")
     readme = lies(ROOT / "README.md")
+    ethik = lies(ROOT / "references" / "ETHICS.md")
 
     try:
         modell = gewichte_aus_scoring(scoring)
@@ -649,6 +733,7 @@ def main() -> int:
             pruefe_landing(fehler, seite)
             pruefe_landing_ehrlichkeit(fehler, seite)
             pruefe_deliverables(fehler, readme)
+            pruefe_ethik(fehler, ethik)
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
 
@@ -658,7 +743,7 @@ def main() -> int:
             print(f"  - {eintrag}", file=sys.stderr)
         return 1
 
-    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, alle Fixtures im Band.")
+    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    alle Fixtures im Band.")
     return 0
 
 

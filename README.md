@@ -63,6 +63,7 @@ LinkedInOptimizer/
 ├── references/
 │   ├── SCORING.md              # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Bewertungsraster
 │   ├── SOURCES.md              # Quellen mit Datum, zurückgezogene Zahlen, Prüfrhythmus
+│   ├── ETHICS.md               # Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich
 │   ├── TEMPLATES.md            # Vorlagen für Headline, About, Content, Kommentare
 │   └── BANNER.md               # Technische Banner-Anleitung mit Viewport-Matrix
 ├── tests/
@@ -88,6 +89,24 @@ Neben diesem Skill gibt es [LinkedIn-Orchestrator](https://github.com/GodModeAI2
 Beide reagieren heute auf dieselben Formulierungen: „Profil optimieren", „Profil verbessern", „Personal Branding", „Content-Strategie", „Top Voice". Das ist kein Schönheitsfehler, sondern führt dazu, dass Claude bei solchen Sätzen zwischen zwei Skills wählen muss. Die Auflösung steht im Abschnitt [Abgrenzung zum Schwester-Skill](SKILL.md#abgrenzung-zum-schwester-skill) in SKILL.md: Ist-Analyse und Artefakte hier, laufender Betrieb dort, bei beidem zuerst hier und danach Übergabe.
 
 Der Orchestrator führt seinerseits eine Abgrenzungstabelle, beschreibt diesen Skill darin aber nur in einer Zeile und ohne Trigger-Regel. Die Gegenrichtung dort nachzuziehen ist ein eigener Vorgang in jenem Repo.
+
+## Was dieser Skill nicht tut
+
+Der Skill positioniert Menschen öffentlich, unter ihrem Klarnamen. Deshalb schreibt er keine
+Behauptung ins Profil, die der Kunde nicht belegen kann, und er baut keine Reichweite, die nicht
+aus dem Interesse echter Leser entsteht. Das gilt auch dann, wenn ein Kunde ausdrücklich etwas
+anderes beauftragt.
+
+Abgelehnt wird: erfundene Titel, Rollen, Auszeichnungen oder Kundenzahlen; gekaufte Follower,
+Reaktionen und Kommentare; Pods und abgesprochene Kommentar-Runden; Automatisierung von
+Kontaktanfragen, Kommentaren oder Nachrichten; Fremdprofile über den Anlass hinaus.
+
+Die Regeln stehen mit ihrer Begründung in [references/ETHICS.md](references/ETHICS.md), der
+Abgleich vor der Übergabe in SKILL.md Phase 8.0. Was davon geprüft wird und was nicht, steht in
+ETHICS.md unter „Was diese Seite nicht leistet": `tests/run_eval.py` bindet die gesperrten
+CTA-Formulierungen an vier Fundstellen und prüft, dass der Abgleich in SKILL.md verankert ist.
+Ob eine Angabe im Profil stimmt, ob der Kunde den Text gelesen hat und ob sich jemand im
+Gespräch über eine Regel hinwegsetzt, sieht kein Skript.
 
 ## Datenbasis
 

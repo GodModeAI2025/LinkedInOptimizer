@@ -273,7 +273,7 @@ Arbeitsregeln dieses Skills. Belegt ist davon Punkt 1 (Dwell Time als Ranking-Si
 4. Topische Konsistenz → ≥80% Posts in den definierten Fokusthemen
 5. Erste 90 Minuten = Golden Hour → Beste Posting-Zeit einhalten
 6. Content Completion > Länge → Karussells: 9 Slides max, Videos: <60 Sekunden
-7. Engagement Bait wird bestraft → Kein „What do you think?", „Agree?", „Tag someone"
+7. Kein Engagement-Bait → Kein „What do you think?", „Agree?", „Thoughts?", „Tag someone" (Quelle der Liste und Begründung: `ETHICS.md`)
 8. Format-Variation → Nie 2× hintereinander dasselbe Format
 
 ## POST-FORMAT
@@ -351,7 +351,7 @@ Jeder Post beginnt mit einem Hook in den ersten 2 Zeilen. Variiere systematisch:
 - „Mehrwert stiften"
 - „Food for thought"
 - „Let that sink in"
-- „Agree?" / „Thoughts?" / „What do you think?" (= Engagement Bait, wird seit 2025 bestraft)
+- „Agree?" / „Thoughts?" / „What do you think?" / „Tag someone" (gesperrte CTA-Formulierungen, vollständige Liste mit Begründung in `ETHICS.md`)
 
 ## SAVE-OPTIMIERUNG
 Posts so formulieren, dass Leser sie speichern wollen:
@@ -362,7 +362,8 @@ Posts so formulieren, dass Leser sie speichern wollen:
 - „Diese 5 Fragen stelle ich mir bei jeder [Entscheidung]:"
 
 ## CTA-VARIANTEN (Engagement-Bait-frei)
-Jeder Post endet mit einem CTA. Variiere (KEINE generischen Fragen):
+Jeder Post endet mit einem CTA. Variiere (KEINE generischen Fragen). Was ein brauchbarer CTA
+von einem Bait unterscheidet, steht in `ETHICS.md`: Die Frage muss eine Antwort haben wollen.
 - „Welche Erfahrung hast du mit [konkretem Aspekt] gemacht?"
 - „Welchen der [X] Punkte würdest du ergänzen?"
 - „Speicher dir das für dein nächstes [konkretes Szenario]."
@@ -405,7 +406,8 @@ Jeder Post endet mit einem CTA. Variiere (KEINE generischen Fragen):
 - Länge: 15–50 Wörter (Sweet Spot: 20–30 Wörter, Erfahrungswert)
 - Sprache: [Sprache des Originalposts / DE als Default im DACH-Raum]
 - Immer Mehrwert: eigene Erfahrung, neue Perspektive oder kluge Frage
-- Kein Pod-Verhalten: Nicht jeden Tag bei denselben 5 Accounts kommentieren
+- Kein Pod-Verhalten: Nicht jeden Tag bei denselben 5 Accounts kommentieren. Eine abgesprochene
+  Kommentar-Runde ist nach `ETHICS.md` Regel 2 ausgeschlossen, unabhängig davon, ob LinkedIn sie erkennt
 - Nie: „Toller Beitrag!", „Danke fürs Teilen!", „100% Zustimmung!", „So true!"
 - Immer: Bezug zum konkreten Inhalt des Posts herstellen
 

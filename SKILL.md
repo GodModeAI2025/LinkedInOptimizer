@@ -61,6 +61,7 @@ Lies die jeweilige Datei, wenn du die Phase erreichst:
 | `references/TEMPLATES.md` | Vorlagen für Headline, About, Content-Skill, Kommentar-Skill | Phase 4 + 6 |
 | `references/BANNER.md` | Technische Banner-Anleitung mit Safe Zones und Viewport-Matrix | Phase 5 |
 | `references/SOURCES.md` | Quellen mit Datum, zurückgezogene Zahlen, Erfahrungswerte, Prüfrhythmus | Vor jeder Zahl im Report |
+| `references/ETHICS.md` | Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich vor der Übergabe | Phase 4, noch einmal Phase 8 |
 | `scripts/create_banner.py` | Ausführbares Banner-Skript mit Font-Fallback und Validierung | Phase 5 (ausführen) |
 | `scripts/generate_report.js` | DOCX-Report-Template (Node.js, npm-Paket `docx`), als Strukturvorlage nutzen und mit den erhobenen Daten befüllen | Phase 8 (anpassen + ausführen) |
 
@@ -199,7 +200,10 @@ Leite aus der Analyse ab:
 
 ## Phase 4: Profil-Optimierung
 
-Lies `references/TEMPLATES.md` Abschnitte 1 + 2 für Headline- und About-Templates.
+Lies `references/TEMPLATES.md` Abschnitte 1 + 2 für Headline- und About-Templates und
+`references/ETHICS.md`, bevor du die erste Formulierung übernimmst. Regel 4 dort entscheidet,
+was in Headline und About stehen darf: Jeder Titel, jede Rolle, jede Zahl kommt vom Kunden und
+ist belegt. Erfinde nichts dazu, auch nicht, wenn der Kunde darum bittet.
 
 ### 4.1 Headline optimieren
 
@@ -256,7 +260,9 @@ Algorithmische Leitplanken, mit Beleglage in `references/SOURCES.md`:
 - Comment Quality > Like-Volumen → CTAs die inhaltliche Antworten provozieren
 - Save Rate = Qualitätssignal → Frameworks, Listen, Checklisten
 - Topische Konsistenz → ≥80% Posts in max. 2 Fokusthemen
-- Engagement Bait wird bestraft → Kein „What do you think?", „Agree?"
+- Kein Engagement-Bait: Kein „What do you think?", „Agree?", „Thoughts?", „Tag someone". Die
+  Liste und ihre Begründung stehen in `references/ETHICS.md`; dass der Algorithmus solche
+  Formulierungen derzeit auch schlechter rankt, ist dort der Nebeneffekt und nicht der Grund
 
 Formate nach Wirkung, als Reihenfolge und ohne Prozentwerte: Dokument- und Multi-Image-Beiträge vor Video, Video vor reinem Text und Link-Beiträgen. Das ist ein Erfahrungswert (`references/SOURCES.md`). Die früher hier genannten Prozentwerte je Format sind zurückgezogen, weil sich keine prüfbare Quelle dafür findet. Nenne im Report keine Format-Prozentwerte.
 
@@ -286,6 +292,15 @@ Ziel-SSI nach 90 Tagen: ≥75
 ---
 
 ## Phase 8: Report & Übergabe
+
+### 8.0 Ethik-Abgleich
+
+Bevor irgendetwas den Kunden erreicht, geht jedes der fünf Artefakte einmal gegen die Tabelle
+„Ethik-Abgleich vor der Übergabe" in `references/ETHICS.md`: Headline gegen Regel 4,
+About-Text gegen Regel 4 und 7, Content-Skill gegen Regel 1, Kommentar-Skill gegen Regel 2, 5
+und 6, Report gegen Regel 3, 4 und 6. Findet der Abgleich etwas, ändere das Artefakt und nicht
+den Abgleich. Halte im Report fest, wenn du dabei eine Kundenangabe herausgenommen hast, weil
+sie unbelegt war.
 
 ### 8.1 DOCX-Report erstellen (Pflicht-Deliverable)
 
@@ -391,6 +406,8 @@ Prüfe vor Übergabe an den Kunden:
 
 **Report**: DOCX erzeugt, als ZIP lesbar (`unzip -l` listet `word/document.xml`), alle 9 Kapitel vorhanden, jede Tabelle hat einen erklärenden Textabsatz darunter, keine Scoring-Kategorie ohne Begründung.
 
+**Ethik**: Der Abgleich aus Phase 8.0 ist für alle fünf Artefakte durchgeführt. Headline und About enthalten keine Angabe ohne Beleg, der Content-Skill keine der in `references/ETHICS.md` gesperrten CTA-Formulierungen, der Kommentar-Skill keine Absprache und keine Automatisierung, der Report kein Fremdprofil ohne Anlass nach Regel 6.
+
 Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 
 ---
@@ -429,6 +446,7 @@ Bei Fehlern: Automatisch korrigieren und erneut prüfen.
 | 6. Content | 3 Test-Posts auf Tonalität geprüft | Template-Check |
 | 7. SSI | Baseline dokumentiert | Score notieren |
 | 8. Report | Scoring-Delta dokumentiert | Vorher/Nachher |
+| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte | Tabelle in `references/ETHICS.md` |
 
 ---
 

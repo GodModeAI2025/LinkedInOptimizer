@@ -181,7 +181,7 @@ dieser Grenze steht in `SOURCES.md`.
 | Kommentar-Qualität | 0–2 | >15 Wörter, eigene Perspektive, Fragen, Ergänzungen? (Längenschwelle ist ein Erfahrungswert) |
 | Reaktion auf eigene Kommentare | 0–2 | Beantwortet alle Kommentare unter eigenen Posts? (<2h) |
 | Ziel-Account-Strategie | 0–2 | Kommentiert regelmäßig bei 10–20 strategischen Accounts? |
-| Engagement-Bait-Freiheit | 0–1 | Kein „What do you think?" / „Agree?" / „Tag someone" |
+| Engagement-Bait-Freiheit | 0–1 | Kein „What do you think?" / „Agree?" / „Thoughts?" / „Tag someone" (Liste: `ETHICS.md`) |
 
 ### Bewertungsstufen
 
