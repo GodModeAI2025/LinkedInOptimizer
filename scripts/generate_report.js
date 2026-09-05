@@ -265,7 +265,7 @@ const doc = new Document({
 
       // ═══ 8. ROADMAP ═══
       pageBreak(), h1("8. Empfohlene Roadmap"),
-      p("Drei Fenster ueber 90 Tage, dasselbe Raster wie der SSI-Plan in Kapitel 7 der Analyse: Quick Wins zuerst, dann der Content-Rhythmus, dann Sichtbarkeit. Nach Tag 90 endet diese Roadmap."),
+      p("Drei Fenster über 90 Tage, dasselbe Raster wie der SSI-Plan in Kapitel 7 der Analyse: Quick Wins zuerst, dann der Content-Rhythmus, dann Sichtbarkeit. Nach Tag 90 endet diese Roadmap."),
       h2("Tag 1-30: Quick Wins"), ...ROADMAP.tag30.map(m => bullet(m)),
       h2("Tag 31-60: Content-Rhythmus"), ...ROADMAP.tag60.map(m => bullet(m)),
       h2("Tag 61-90: Sichtbarkeit"), ...ROADMAP.tag90.map(m => bullet(m)),
