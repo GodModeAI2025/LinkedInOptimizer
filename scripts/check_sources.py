@@ -96,6 +96,7 @@ SOURCES = ROOT / "references" / "SOURCES.md"
 # dessen, was entfernt wurde, und in der Spalte mit den Sperrmustern.
 GEPRUEFTE_DATEIEN = [
     "SKILL.md",
+    "CHANGELOG.md",
     "README.md",
     "index.html",
     "references/SCORING.md",
@@ -103,6 +104,15 @@ GEPRUEFTE_DATEIEN = [
     "references/BANNER.md",
     "references/COMPETITIVE.md",
     "references/ETHICS.md",
+    "references/UNTRUSTED.md",
+    "references/PHASE-1-discovery.md",
+    "references/PHASE-2-scoring.md",
+    "references/PHASE-3-wettbewerb.md",
+    "references/PHASE-4-profil.md",
+    "references/PHASE-5-banner.md",
+    "references/PHASE-6-content.md",
+    "references/PHASE-7-ssi.md",
+    "references/PHASE-8-report.md",
     "scripts/generate_report.js",
     "scripts/create_banner.py",
 ]

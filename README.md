@@ -1,4 +1,4 @@
-# linkedin-profil-optimierung v2.5.0
+# linkedin-profil-optimierung v2.6.0
 
 [![CI](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/GodModeAI2025/LinkedInOptimizer/actions/workflows/ci.yml)
 
@@ -18,7 +18,7 @@ Die Datei entweder in Claude Chat ziehen oder lokal auspacken:
 unzip linkedin-optimizer.skill -d /path/to/skills/user/linkedin-profil-optimierung/
 ```
 
-Im Archiv liegen SKILL.md, `references/` einschließlich SOURCES.md, `scripts/create_banner.py`, `scripts/generate_report.js`, LICENSE und requirements.txt. Landingpage, Workflows und die Repo-Werkzeuge `check_versions.py`, `check_sources.py` und `build_skill_package.py` sind nicht enthalten.
+Im Archiv liegen SKILL.md, CHANGELOG.md, `references/` einschließlich der acht Phasendateien und SOURCES.md, `scripts/create_banner.py`, `scripts/generate_report.js`, LICENSE und requirements.txt. Landingpage, Workflows und die Repo-Werkzeuge `check_versions.py`, `check_sources.py` und `build_skill_package.py` sind nicht enthalten.
 
 Aus einem Klon lässt sich dasselbe Archiv selbst bauen, ohne Netz und ohne GitHub:
 
@@ -49,7 +49,8 @@ Das Skript setzt feste Zeitstempel und eine feste Reihenfolge und speichert unko
 ```
 LinkedInOptimizer/
 ├── README.md                   # Diese Übersicht
-├── SKILL.md                    # Hauptworkflow (8 Phasen)
+├── SKILL.md                    # Router: Abgrenzung, Ressourcen, Ablauf, Gates
+├── CHANGELOG.md                # Versionsgeschichte
 ├── VERSION                     # Quelle der Versionsnummer, alles andere ist Kopie
 ├── requirements.txt            # Pillow-Untergrenze für create_banner.py
 ├── LICENSE                     # MIT-Lizenz
@@ -61,6 +62,14 @@ LinkedInOptimizer/
 │   ├── build_skill_package.py  # Baut linkedin-optimizer.skill, reproduzierbar und offline
 │   └── generate_report.js      # DOCX-Report-Template (Node.js, npm-Paket docx)
 ├── references/
+│   ├── PHASE-1-discovery.md    # Phase 1: Datenerhebung, Interview, SSI
+│   ├── PHASE-2-scoring.md      # Phase 2: Scoring und Gap-Analyse
+│   ├── PHASE-3-wettbewerb.md   # Phase 3: Wettbewerbsanalyse
+│   ├── PHASE-4-profil.md       # Phase 4: Headline, About, Quick Wins
+│   ├── PHASE-5-banner.md       # Phase 5: Banner-Erstellung
+│   ├── PHASE-6-content.md      # Phase 6: Content- und Kommentar-Strategie
+│   ├── PHASE-7-ssi.md          # Phase 7: SSI-Massnahmenplan
+│   ├── PHASE-8-report.md       # Phase 8: Ethik-Abgleich, Report, Uebergabe
 │   ├── SCORING.md              # Gewichtete Bewertungsmatrix mit Sub-Kriterien und Bewertungsraster
 │   ├── SOURCES.md              # Quellen mit Datum, zurückgezogene Zahlen, Prüfrhythmus
 │   ├── ETHICS.md               # Ethische Leitplanken, gesperrte CTA-Formulierungen, Ethik-Abgleich
@@ -183,4 +192,4 @@ Offene Punkte, ohne Termin:
 
 Die Versionsnummer steht in der Datei `VERSION`. README, SKILL.md, Landingpage und Report-Template führen sie als Kopie; `scripts/check_versions.py` vergleicht sie bei jedem Push gegen `VERSION` und schlägt bei Abweichung fehl. Der Release-Workflow prüft zusätzlich, dass der Tagname zu `VERSION` passt.
 
-Aktuelle Version: v2.5.0. Was sich je Version geändert hat, steht im Changelog in [SKILL.md](SKILL.md#changelog).
+Aktuelle Version: v2.6.0. Was sich je Version geändert hat, steht in [CHANGELOG.md](CHANGELOG.md).

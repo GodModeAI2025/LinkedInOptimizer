@@ -85,17 +85,18 @@ jobs:
 
       # Prueft die Scoring-Matrix gegen drei erfundene Profil-Fixtures und
       # haelt zugleich drei Listen zusammen: die zehn Kategorien heissen in
-      # SCORING.md, SKILL.md, index.html und generate_report.js wortgleich, die
-      # 18 Profil-Elemente aus der Checkliste in SCORING.md stehen in derselben
-      # Reihenfolge in SKILL.md Phase 4.3 und in der Audit-Tabelle des
+      # SCORING.md, im Skill-Text und in index.html und generate_report.js
+      # und in der Audit-Tabelle des Report-Generators.
+      # wortgleich, die 18 Profil-Elemente in derselben Reihenfolge in Phase 4.3
       # Report-Generators, die Stueckzahl stimmt zusaetzlich in der
-      # Deliverables-Beschreibung von SKILL.md, und die Landingpage weist ihren Dialog als Beispiel
+      # Der Skill-Text ist seit v2.6.0 die Router-Datei SKILL.md plus die acht
+      # Phasendateien; die Landingpage weist ihren Dialog als Beispiel
       # aus und nennt die Fixture, aus der seine Zahlen stammen.
       # Seit v2.5.0 kommen drei Bindungen dazu: die vier gesperrten
       # CTA-Formulierungen aus references/ETHICS.md stehen vollstaendig an allen
-      # vier Stellen, die dieselbe Liste fuehren, und SKILL.md verankert den
+      # vier Stellen, die dieselbe Liste fuehren, und der Skill-Text verankert den
       # Ethik-Abgleich; die zehn Achsen der Wettbewerbsmatrix stehen in
-      # references/COMPETITIVE.md und SKILL.md Phase 3.1 in derselben
+      # references/COMPETITIVE.md und in Phase 3.1 in derselben
       # Reihenfolge, und die Mindestzahl der Wettbewerber lautet ueberall
       # gleich; der Massnahmenplan laeuft an allen vier Stellen ueber Tag 1-30,
       # 31-60 und 61-90, und die abgeloesten Horizonte duerfen nicht
@@ -136,14 +137,24 @@ jobs:
           # Genau diese Eintraege, keine weiteren. Der Vergleich faellt in beide
           # Richtungen auf: fehlende Datei und ungewollte Zugabe.
           erwartet="$(printf '%s\n' \
+            CHANGELOG.md \
             LICENSE \
             SKILL.md \
             references/BANNER.md \
             references/COMPETITIVE.md \
             references/ETHICS.md \
+            references/PHASE-1-discovery.md \
+            references/PHASE-2-scoring.md \
+            references/PHASE-3-wettbewerb.md \
+            references/PHASE-4-profil.md \
+            references/PHASE-5-banner.md \
+            references/PHASE-6-content.md \
+            references/PHASE-7-ssi.md \
+            references/PHASE-8-report.md \
             references/SCORING.md \
             references/SOURCES.md \
             references/TEMPLATES.md \
+            references/UNTRUSTED.md \
             requirements.txt \
             scripts/create_banner.py \
             scripts/generate_report.js | sort)"
@@ -153,8 +164,8 @@ jobs:
           # Wer nur das Paket hat, findet requirements.txt darin, aber ohne
           # diese Zeile nirgends den Weg dorthin. Der dokumentierte Aufruf
           # endet dann mit ModuleNotFoundError: No module named 'PIL'.
-          if ! unzip -p "$paket" SKILL.md | grep -qF "pip install -r requirements.txt"; then
-            echo "FEHLER: SKILL.md im Paket nennt pip install -r requirements.txt nicht." >&2
+          if ! unzip -p "$paket" SKILL.md references/PHASE-5-banner.md | grep -qF "pip install -r requirements.txt"; then
+            echo "FEHLER: Das Paket nennt pip install -r requirements.txt nirgends." >&2
             exit 1
           fi
 

@@ -117,6 +117,26 @@ class Fehler(Exception):
     pass
 
 
+# Der Skill-Text verteilt sich seit v2.6.0 auf die Router-Datei SKILL.md und die
+# acht Phasendateien unter references/. Die Bindungen unten pruefen ihn als
+# Ganzes: eine Liste, die in Phase 4.3 steht, ist dieselbe Liste, egal in
+# welcher Datei sie liegt. In den Pfadlisten steht dafuer SKILL_TEXT; die
+# Fehlermeldung nennt dann beide Orte, damit klar ist, wo zu suchen ist.
+SKILL_TEXT = "SKILL.md + references/PHASE-*.md"
+
+
+def skill_dateien():
+    return [ROOT / "SKILL.md"] + sorted((ROOT / "references").glob("PHASE-*.md"))
+
+
+def lies_skill() -> str:
+    return "\n".join(lies(pfad) for pfad in skill_dateien())
+
+
+def lies_pfad(rel_pfad: str) -> str:
+    return lies_skill() if rel_pfad == SKILL_TEXT else lies(ROOT / rel_pfad)
+
+
 def lies(pfad: Path) -> str:
     return pfad.read_text(encoding="utf-8")
 
@@ -621,7 +641,7 @@ def pruefe_landing_ehrlichkeit(fehler, seite):
 # eine der kurzen Listen hielt, lieferte einen CTA aus, den eine andere Stelle
 # im selben Skill verbietet.
 CTA_FUNDSTELLEN = [
-    ("SKILL.md", "- Kein Engagement-Bait:"),
+    (SKILL_TEXT, "- Kein Engagement-Bait:"),
     ("references/TEMPLATES.md", "7. Kein Engagement-Bait →"),
     ("references/TEMPLATES.md", "gesperrte CTA-Formulierungen, vollständige Liste"),
     ("references/SCORING.md", "| Engagement-Bait-Freiheit |"),
@@ -631,13 +651,13 @@ CTA_FUNDSTELLEN = [
 # Der Ethik-Abgleich ist der einzige Schritt, der die Regeln vor der Uebergabe
 # anwendet; faellt der Abschnitt aus SKILL.md, laeuft die Datei leer mit.
 ETHIK_VERANKERUNG = [
-    ("SKILL.md", "| `references/ETHICS.md` |",
+    (SKILL_TEXT, "| `references/ETHICS.md` |",
      "Die Ressourcen-Uebersicht muss references/ETHICS.md fuehren."),
-    ("SKILL.md", "### 8.0 Ethik-Abgleich",
+    (SKILL_TEXT, "### 8.0 Ethik-Abgleich",
      "Phase 8 muss mit dem Ethik-Abgleich beginnen."),
-    ("SKILL.md", "**Ethik**:",
+    (SKILL_TEXT, "**Ethik**:",
      "Der Verifikations-Abschnitt muss eine Ethik-Zeile fuehren."),
-    ("SKILL.md", "| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte |",
+    (SKILL_TEXT, "| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte |",
      "Die Quality Gates muessen den Ethik-Abgleich als Gate fuehren."),
 ]
 
@@ -665,7 +685,7 @@ def pruefe_ethik(fehler, ethik):
     formulierungen = cta_formulierungen(ethik)
 
     for rel_pfad, marker in CTA_FUNDSTELLEN:
-        text = lies(ROOT / rel_pfad)
+        text = lies_pfad(rel_pfad)
         treffer = [z for z in text.splitlines() if marker in z]
         if len(treffer) != 1:
             fehler.append(
@@ -681,7 +701,7 @@ def pruefe_ethik(fehler, ethik):
                 )
 
     for rel_pfad, satz, grund in ETHIK_VERANKERUNG:
-        if satz not in lies(ROOT / rel_pfad):
+        if satz not in lies_pfad(rel_pfad):
             fehler.append(f"{rel_pfad}: {grund} Erwartet wird der Wortlaut {satz!r}.")
 
 
@@ -697,10 +717,10 @@ WETTBEWERBER_MINIMUM = "3"
 # die in dieser Zeile stehen muss. Die Zeichenkette traegt die Zahl im Kontext:
 # ein blosses "3" waere in der Gate-Zeile schon durch die Phasennummer erfuellt.
 MINIMUM_FUNDSTELLEN = [
-    ("SKILL.md", "| 3. Wettbewerb |",
+    (SKILL_TEXT, "| 3. Wettbewerb |",
      "Quality Gate fuer Phase 3",
      "Min. {} Wettbewerber"),
-    ("SKILL.md", "**Wettbewerber nicht abrufbar**:",
+    (SKILL_TEXT, "**Wettbewerber nicht abrufbar**:",
      "Fehlerbehandlung fuer Phase 3",
      "verlangt {} Wettbewerber"),
     ("references/COMPETITIVE.md", "Es gilt eine Zahl:",
@@ -775,7 +795,7 @@ def pruefe_wettbewerb(fehler, skill, competitive):
         fehler.append(str(ausnahme))
 
     for rel_pfad, marker, was, vorlage in MINIMUM_FUNDSTELLEN:
-        text = lies(ROOT / rel_pfad)
+        text = lies_pfad(rel_pfad)
         treffer = [z for z in text.splitlines() if marker in z]
         if len(treffer) != 1:
             fehler.append(
@@ -790,8 +810,8 @@ def pruefe_wettbewerb(fehler, skill, competitive):
                 f"{wortlaut!r}."
             )
 
-    for rel_pfad in ("SKILL.md", "README.md", "references/COMPETITIVE.md"):
-        text = lies(ROOT / rel_pfad)
+    for rel_pfad in (SKILL_TEXT, "README.md", "references/COMPETITIVE.md"):
+        text = lies_pfad(rel_pfad)
         for verboten in MINIMUM_VERBOTEN:
             for nummer, zeile in enumerate(text.splitlines(), 1):
                 if verboten not in zeile:
@@ -820,7 +840,7 @@ def pruefe_wettbewerb(fehler, skill, competitive):
 # Haelfte weiter unten ist die, die die Vereinheitlichung misst; ohne sie liesse
 # sich ein alter Horizont danebenstellen, ohne dass etwas anschlaegt.
 ZEITFENSTER = [
-    ("SKILL.md", ["Tag 1–30", "Tag 31–60", "Tag 61–90"]),
+    (SKILL_TEXT, ["Tag 1–30", "Tag 31–60", "Tag 61–90"]),
     ("scripts/generate_report.js", ["Tag 1-30", "Tag 31-60", "Tag 61-90"]),
     ("README.md", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60 und 61–90"]),
     ("index.html", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60, 61–90"]),
@@ -842,15 +862,7 @@ ALTE_HORIZONTE = [
 # Dateien, in denen kein abgeloester Horizont mehr stehen darf. SKILL.md traegt
 # den Changelog und darf die alten Wortlaute dort nennen; die Ausnahme ist auf
 # den Changelog begrenzt und nicht auf die Datei.
-HORIZONT_DATEIEN = ["SKILL.md", "README.md", "index.html", "scripts/generate_report.js"]
-
-
-def ohne_changelog(rel_pfad: str, text: str) -> str:
-    """SKILL.md ohne den Changelog. Dort stehen die alten Wortlaute mit Absicht."""
-    if rel_pfad != "SKILL.md":
-        return text
-    schnitt = text.find("\n## Changelog")
-    return text if schnitt == -1 else text[:schnitt]
+HORIZONT_DATEIEN = [SKILL_TEXT, "README.md", "index.html", "scripts/generate_report.js"]
 
 
 def pruefe_zeitfenster(fehler):
@@ -861,7 +873,7 @@ def pruefe_zeitfenster(fehler):
     jemals gemessen wurden und ob ein Kunde den Plan durchhaelt.
     """
     for rel_pfad, erwartet in ZEITFENSTER:
-        text = lies(ROOT / rel_pfad)
+        text = lies_pfad(rel_pfad)
         for wortlaut in erwartet:
             if wortlaut not in text:
                 fehler.append(
@@ -870,7 +882,9 @@ def pruefe_zeitfenster(fehler):
                 )
 
     for rel_pfad in HORIZONT_DATEIEN:
-        text = ohne_changelog(rel_pfad, lies(ROOT / rel_pfad))
+        # CHANGELOG.md steht bewusst nicht in HORIZONT_DATEIEN: dort werden die
+        # abgeloesten Horizonte als Historie genannt, das ist ihr Platz.
+        text = lies_pfad(rel_pfad)
         for nummer, zeile in enumerate(text.splitlines(), 1):
             for alt in ALTE_HORIZONTE:
                 if alt in zeile:
@@ -919,14 +933,14 @@ def pruefe_untrusted(fehler, skill):
         ("3.1", "### 3.1 Nischen-Konkurrenten analysieren"),
     ):
         if ueberschrift not in skill:
-            fehler.append(f"SKILL.md hat keine Ueberschrift fuer Phase {phase} mehr")
+            fehler.append(f"{SKILL_TEXT}: keine Ueberschrift fuer Phase {phase} mehr")
             continue
         start = skill.index(ueberschrift)
         ende = skill.find("\n### ", start + len(ueberschrift))
         abschnitt = skill[start:ende if ende != -1 else len(skill)]
         if "references/UNTRUSTED.md" not in abschnitt:
             fehler.append(
-                f"SKILL.md Phase {phase} verweist nicht auf references/UNTRUSTED.md"
+                f"Phase {phase} verweist nicht auf references/UNTRUSTED.md"
             )
 
 
@@ -941,7 +955,7 @@ def main() -> int:
 
     fehler = []
     scoring = lies(ROOT / "references" / "SCORING.md")
-    skill = lies(ROOT / "SKILL.md")
+    skill = lies_skill()
     seite = lies(ROOT / "index.html")
     js = lies(ROOT / "scripts" / "generate_report.js")
     readme = lies(ROOT / "README.md")

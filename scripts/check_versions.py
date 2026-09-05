@@ -6,7 +6,7 @@ Zeile mit der Versionsnummer ohne fuehrendes v. Alles andere ist eine Kopie,
 die hier gegen die Quelle geprueft wird.
 
 Geprueft werden sechs Fundstellen: die Ueberschrift und der Versions-Abschnitt
-der README, die Ueberschrift und der oberste Changelog-Eintrag in SKILL.md, das
+der README, die Ueberschrift von SKILL.md, der oberste Eintrag in CHANGELOG.md, das
 Hero-Badge der Landingpage und der DOCX-Kopfzeilen-String im Report-Template.
 
 Exitcode 0, wenn alle sechs die Version aus VERSION nennen. Exitcode 1, wenn
@@ -50,9 +50,9 @@ CHECKS = [
         re.compile(r"^# LinkedIn Profil-Optimierung .* Skill v" + VERSION + r"\s*$", re.M),
     ),
     (
-        "SKILL.md",
-        "oberster Changelog-Eintrag",
-        re.compile(r"## Changelog\s*\n+```\s*\nv" + VERSION + r" \("),
+        "CHANGELOG.md",
+        "oberster Eintrag",
+        re.compile(r"# Changelog\b.*?\n```\s*\nv" + VERSION + r" \(", re.S),
     ),
     (
         "index.html",
