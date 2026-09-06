@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - 'v*'
+  # Handstart, wenn kein Tag gepusht werden kann oder ein Release wiederholt
+  # werden muss. Die Version kommt auch dann aus VERSION und nicht aus einer
+  # Eingabe: es gibt eine Quelle, und das bleibt so.
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,10 +26,19 @@ jobs:
         with:
           python-version: '3.11'
 
-      # Der Tag muss zu VERSION passen, sonst haengt am Release ein Artefakt
-      # mit einer anderen Versionsangabe als der Tagname verspricht.
-      - name: Tag gegen VERSION pruefen
-        run: python scripts/check_versions.py --expect "${GITHUB_REF_NAME#v}"
+      # Beim Tag-Lauf muss der Tagname zu VERSION passen, sonst haengt am
+      # Release ein Artefakt mit einer anderen Versionsangabe als der Tagname
+      # verspricht. Beim Handstart gibt es keinen Tagnamen; dann gilt VERSION,
+      # und der Tag wird daraus gesetzt.
+      - name: Version bestimmen und pruefen
+        id: version
+        run: |
+          version="$(cat VERSION)"
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            version="${GITHUB_REF_NAME#v}"
+          fi
+          python scripts/check_versions.py --expect "$version"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
 
       # Die gesamte Packaging-Logik steht in scripts/build_skill_package.py.
       # Hier wird sie nur aufgerufen, damit sie lokal genauso laeuft wie hier.
@@ -39,5 +52,6 @@ jobs:
       - name: Release anlegen und Artefakt anhaengen
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.version.outputs.tag }}
           files: ${{ steps.paket.outputs.pfad }}
           fail_on_unmatched_files: true
