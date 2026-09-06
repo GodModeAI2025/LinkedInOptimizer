@@ -9,13 +9,15 @@ Voice). Ohne eine Abgrenzung in der description muss das Modell raten.
 Geprueft werden vier Dinge:
 
 1. name stimmt mit dem erwarteten Skill-Namen ueberein.
-2. Die description ist hoechstens MAX_CHARS Zeichen lang, zusammengefaltet auf
-   eine Zeile gemessen. Laengere Beschreibungen verwaessern den Treffer.
+2. Die description ist kuerzer als MAX_CHARS Zeichen, zusammengefaltet auf eine
+   Zeile gemessen. Laengere Beschreibungen verwaessern den Treffer. Die Grenze
+   steht in CLAUDE.md als "unter 400", deshalb faellt genau 400 schon auf.
 3. Die description enthaelt keinen Geviert- oder Halbgeviertstrich. Beide
    ueberleben die Weitergabe an manche Runtimes nicht unveraendert.
 4. Die description nennt den Schwester-Skill in einem Abgrenzungssatz, also
-   sowohl "Nicht fuer" als auch den Namen des anderen Skills. Fehlt der Satz,
-   kollidieren die Trigger wieder.
+   sowohl "Nicht fuer" als auch den Namen des anderen Skills, und der Satz
+   steht am Ende. Fehlt er, kollidieren die Trigger wieder; steht er mitten in
+   der Aufzaehlung, geht er zwischen den Ausloesern unter.
 
 Exitcode 0, wenn alle vier zutreffen. Exitcode 1 sonst, mit einer Zeile je
 Verstoss. Was hier nicht geprueft wird: ob die genannten Trigger die richtigen
@@ -79,9 +81,9 @@ def main():
         problems.append("description fehlt")
         description = ""
 
-    if len(description) > MAX_CHARS:
+    if len(description) >= MAX_CHARS:
         problems.append(
-            "description ist %d Zeichen lang, erlaubt sind %d"
+            "description ist %d Zeichen lang, erlaubt sind weniger als %d"
             % (len(description), MAX_CHARS)
         )
 
@@ -96,6 +98,13 @@ def main():
     if "Nicht f" not in description:
         problems.append(
             "description hat keinen Abgrenzungssatz, erwartet wird \"Nicht fuer ..., dafuer %s\""
+            % SIBLING
+        )
+    elif not description.rstrip().rstrip(".").endswith(SIBLING):
+        # Der Satz gehoert ans Ende. Steht er mitten in der Aufzaehlung, liest
+        # das Modell danach weiter Ausloeser und nicht die Abgrenzung.
+        problems.append(
+            "der Abgrenzungssatz steht nicht am Ende der description; sie muss mit %r enden"
             % SIBLING
         )
 

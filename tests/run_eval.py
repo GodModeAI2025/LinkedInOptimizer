@@ -122,6 +122,12 @@ class Fehler(Exception):
 # Ganzes: eine Liste, die in Phase 4.3 steht, ist dieselbe Liste, egal in
 # welcher Datei sie liegt. In den Pfadlisten steht dafuer SKILL_TEXT; die
 # Fehlermeldung nennt dann beide Orte, damit klar ist, wo zu suchen ist.
+#
+# SKILL_TEXT steht nur dort, wo eine Fundstelle bewusst in irgendeiner
+# Skill-Datei liegen darf. Anker, die zur Struktur gehoeren, also die
+# Ressourcen-Uebersicht, die Verifikation und die Quality Gates im Router oder
+# der Ethik-Abgleich in Phase 8, nennen ihre Datei. Sonst waere die Aussage
+# "das steht im Router" durch einen Treffer in einer Phasendatei erfuellt.
 SKILL_TEXT = "SKILL.md + references/PHASE-*.md"
 
 
@@ -641,7 +647,7 @@ def pruefe_landing_ehrlichkeit(fehler, seite):
 # eine der kurzen Listen hielt, lieferte einen CTA aus, den eine andere Stelle
 # im selben Skill verbietet.
 CTA_FUNDSTELLEN = [
-    (SKILL_TEXT, "- Kein Engagement-Bait:"),
+    ("references/PHASE-6-content.md", "- Kein Engagement-Bait:"),
     ("references/TEMPLATES.md", "7. Kein Engagement-Bait →"),
     ("references/TEMPLATES.md", "gesperrte CTA-Formulierungen, vollständige Liste"),
     ("references/SCORING.md", "| Engagement-Bait-Freiheit |"),
@@ -651,14 +657,14 @@ CTA_FUNDSTELLEN = [
 # Der Ethik-Abgleich ist der einzige Schritt, der die Regeln vor der Uebergabe
 # anwendet; faellt der Abschnitt aus SKILL.md, laeuft die Datei leer mit.
 ETHIK_VERANKERUNG = [
-    (SKILL_TEXT, "| `references/ETHICS.md` |",
-     "Die Ressourcen-Uebersicht muss references/ETHICS.md fuehren."),
-    (SKILL_TEXT, "### 8.0 Ethik-Abgleich",
+    ("SKILL.md", "| `references/ETHICS.md` |",
+     "Die Ressourcen-Uebersicht im Router muss references/ETHICS.md fuehren."),
+    ("references/PHASE-8-report.md", "### 8.0 Ethik-Abgleich",
      "Phase 8 muss mit dem Ethik-Abgleich beginnen."),
-    (SKILL_TEXT, "**Ethik**:",
-     "Der Verifikations-Abschnitt muss eine Ethik-Zeile fuehren."),
-    (SKILL_TEXT, "| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte |",
-     "Die Quality Gates muessen den Ethik-Abgleich als Gate fuehren."),
+    ("SKILL.md", "**Ethik**:",
+     "Der Verifikations-Abschnitt im Router muss eine Ethik-Zeile fuehren."),
+    ("SKILL.md", "| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte |",
+     "Die Quality Gates im Router muessen den Ethik-Abgleich als Gate fuehren."),
 ]
 
 
@@ -717,10 +723,10 @@ WETTBEWERBER_MINIMUM = "3"
 # die in dieser Zeile stehen muss. Die Zeichenkette traegt die Zahl im Kontext:
 # ein blosses "3" waere in der Gate-Zeile schon durch die Phasennummer erfuellt.
 MINIMUM_FUNDSTELLEN = [
-    (SKILL_TEXT, "| 3. Wettbewerb |",
+    ("SKILL.md", "| 3. Wettbewerb |",
      "Quality Gate fuer Phase 3",
      "Min. {} Wettbewerber"),
-    (SKILL_TEXT, "**Wettbewerber nicht abrufbar**:",
+    ("SKILL.md", "**Wettbewerber nicht abrufbar**:",
      "Fehlerbehandlung fuer Phase 3",
      "verlangt {} Wettbewerber"),
     ("references/COMPETITIVE.md", "Es gilt eine Zahl:",
@@ -906,14 +912,21 @@ def pruefe_deliverables(fehler, readme):
                 )
 
 
-def pruefe_untrusted(fehler, skill):
+def pruefe_untrusted(fehler, _skill=None):
     """Bindet die Regel "erhobener Seitentext ist Daten" an ihre Fundstellen.
 
     Geprueft wird dreierlei: die Datei references/UNTRUSTED.md existiert, sie
-    fuehrt die fuenf nummerierten Regeln, und SKILL.md verweist an beiden
+    fuehrt die fuenf nummerierten Regeln, und der Skill verweist an beiden
     Stellen darauf, an denen fremder Text hereinkommt, also in Phase 1.1 und in
     Phase 3.1. Faellt einer der beiden Verweise bei einer Ueberarbeitung weg,
     steht die Regel zwar noch in der Referenz, aber nicht mehr im Weg.
+
+    Der Abschnitt wird je Datei geschnitten und nicht im zusammengesetzten
+    Skill-Text. Im zusammengesetzten Text endet der letzte Abschnitt einer Datei
+    nicht an der Dateigrenze, sondern erst an der naechsten Ueberschrift der
+    naechsten Datei: ein geloeschter Verweis in Phase 1 waere dann durch einen
+    Treffer in Phase 2 gedeckt gewesen. Genau dieser Fall ist in der Review
+    aufgefallen und hier behoben.
 
     Nicht geprueft wird, ob die Regel im Gespraech eingehalten wird. Das steht
     so in UNTRUSTED.md unter "Was diese Seite nicht leistet".
@@ -932,16 +945,22 @@ def pruefe_untrusted(fehler, skill):
         ("1.1", "### 1.1 Profildaten via Chrome extrahieren"),
         ("3.1", "### 3.1 Nischen-Konkurrenten analysieren"),
     ):
-        if ueberschrift not in skill:
+        gefunden = False
+        for datei in skill_dateien():
+            text = lies(datei)
+            if ueberschrift not in text:
+                continue
+            gefunden = True
+            start = text.index(ueberschrift)
+            ende = text.find("\n### ", start + len(ueberschrift))
+            abschnitt = text[start:ende if ende != -1 else len(text)]
+            if "references/UNTRUSTED.md" not in abschnitt:
+                fehler.append(
+                    f"{datei.relative_to(ROOT)}: Phase {phase} verweist nicht auf "
+                    "references/UNTRUSTED.md"
+                )
+        if not gefunden:
             fehler.append(f"{SKILL_TEXT}: keine Ueberschrift fuer Phase {phase} mehr")
-            continue
-        start = skill.index(ueberschrift)
-        ende = skill.find("\n### ", start + len(ueberschrift))
-        abschnitt = skill[start:ende if ende != -1 else len(skill)]
-        if "references/UNTRUSTED.md" not in abschnitt:
-            fehler.append(
-                f"Phase {phase} verweist nicht auf references/UNTRUSTED.md"
-            )
 
 
 def main() -> int:

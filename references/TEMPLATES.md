@@ -336,6 +336,20 @@ Jeder Post beginnt mit einem Hook in den ersten 2 Zeilen. Variiere systematisch:
 „Wir haben [Maßnahme] eingeführt. Das Ergebnis nach [Zeitraum]:"
 → Funktioniert für: Praxis-Beweise, Social Proof
 
+### Hook-Regeln
+
+- Unter 200 Zeichen. Wo LinkedIn abschneidet, hängt von Gerät und Fensterbreite ab.
+- Spannung oder Neugier erzeugen.
+- Spezifisch sein: Zahlen, Namen, Details.
+- Keine „Ich"-Eröffnung.
+- Drei Hooks schreiben, den stärksten wählen.
+
+### Was der Hook-Katalog nicht leistet
+
+Die Zuordnung „Funktioniert für" ist ein Erfahrungswert, keine Messung. Kein Typ ist gegen einen
+anderen getestet, und keiner trägt eine Reichweitenzahl. `LinkedInOptimizer/scripts/check_hooks.py`
+liest Namen und Reihenfolge, nicht die Qualität eines Hooks.
+
 ## CONTENT-SÄULEN
 - [Säule 1 – 50–60%]: [Kernthema – z.B. „KI im Enterprise: Agents, GenAI, Strategie"]
 - [Säule 2 – 20–25%]: [Nebenthema – z.B. „Energiewende & Digitalisierung"]

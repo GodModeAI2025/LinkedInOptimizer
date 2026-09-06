@@ -39,23 +39,46 @@ PAKET_SKRIPT = ROOT / "scripts" / "build_skill_package.py"
 # Ein Pfad in Backticks mit mindestens einem Verzeichnisanteil.
 BACKTICK = re.compile(r"`([A-Za-z0-9._][A-Za-z0-9._-]*(?:/[A-Za-z0-9._-]+)+\.(?:md|py|js|json|yml|html))`")
 
-# Pfade, die absichtlich aus dem Repo herausfuehren: das Schwester-Repo.
-FREMDE_REPOS = ("LinkedInOptimizer/", "LinkedIn-Orchestrator/")
+# Der eigene Repo-Name als Praefix. Ein Werkzeug, das nicht im Skill-Paket
+# liegt, wird so geschrieben, damit klar ist, dass der Pfad vom
+# Repo-Wurzelverzeichnis aus gilt. Das Praefix wird abgeschnitten und der Rest
+# gegen das Repo geprueft: sonst waere ausgerechnet die vorgeschriebene
+# Schreibweise die einzige, die nie geprueft wird, und ein umbenanntes Skript
+# faellt nicht auf.
+EIGENES_REPO = "LinkedInOptimizer/"
+
+# Das Schwester-Repo. Diese Pfade liegen ausserhalb und werden nicht geprueft.
+FREMDES_REPO = "LinkedIn-Orchestrator/"
 
 MD_LINK = re.compile(r"\[[^\]]*\]\(([^)#][^)]*?)\)")
 
 
 def verweise(pfad):
-    """(Zeilennummer, Pfad) je Backtick-Verweis mit Verzeichnisanteil."""
+    """(Zeilennummer, Pfad, Art) je Backtick-Verweis mit Verzeichnisanteil.
+
+    Art ist "skill" fuer einen Pfad relativ zum Skill-Verzeichnis und "repo"
+    fuer einen mit dem eigenen Repo-Namen davor, dessen Ziel im Repo fehlt.
+    """
     for nummer, zeile in enumerate(pfad.read_text(encoding="utf-8").splitlines(), 1):
         for ziel in BACKTICK.findall(zeile):
-            if not ziel.startswith(FREMDE_REPOS):
-                yield nummer, ziel
+            if ziel.startswith(FREMDES_REPO):
+                continue
+            if ziel.startswith(EIGENES_REPO):
+                if not (ROOT / ziel[len(EIGENES_REPO):]).exists():
+                    yield nummer, ziel, "repo"
+                continue
+            yield nummer, ziel, "skill"
 
 
 def pruefe_skill(fehler):
     for pfad in SKILL_DATEIEN:
-        for nummer, ziel in verweise(pfad):
+        for nummer, ziel, art in verweise(pfad):
+            if art == "repo":
+                fehler.append(
+                    "%s:%d: `%s` nennt den Repo-Namen, die Datei gibt es dort aber nicht."
+                    % (pfad.relative_to(ROOT), nummer, ziel)
+                )
+                continue
             if ".." in Path(ziel).parts:
                 fehler.append(
                     "%s:%d: `%s` fuehrt mit .. aus dem Skill-Verzeichnis heraus. "
@@ -95,17 +118,36 @@ def pruefe_paket(fehler):
         return
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("build_skill_package", PAKET_SKRIPT)
-    modul = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(modul)
+    # sys.dont_write_bytecode: der Import legt sonst scripts/__pycache__ an, und
+    # ein git add -A nimmt es mit. Genau so ist schon einmal eine .pyc ins Repo
+    # geraten.
+    vorher = sys.dont_write_bytecode
+    sys.dont_write_bytecode = True
+    try:
+        spec = importlib.util.spec_from_file_location("build_skill_package", PAKET_SKRIPT)
+        modul = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(modul)
+    finally:
+        sys.dont_write_bytecode = vorher
     im_paket = set(modul.CONTENTS)
+
+    # Eine Datei, die in der Paketliste steht, aber noch nicht existiert, ist ein
+    # Fehler in der Liste und kein Grund fuer einen Traceback.
+    fehlend = sorted(rel for rel in im_paket if not (ROOT / rel).exists())
+    for rel in fehlend:
+        fehler.append(
+            "scripts/build_skill_package.py fuehrt %s in der Paketliste, die Datei fehlt." % rel
+        )
+    im_paket -= set(fehlend)
 
     for rel in sorted(im_paket):
         if not rel.endswith(".md"):
             continue
         pfad = ROOT / rel
         eigener_ordner = str(Path(rel).parent)
-        for nummer, ziel in verweise(pfad):
+        for nummer, ziel, art in verweise(pfad):
+            if art == "repo":
+                continue
             kandidaten = {ziel}
             if eigener_ordner not in (".", ""):
                 kandidaten.add("%s/%s" % (eigener_ordner, ziel))
