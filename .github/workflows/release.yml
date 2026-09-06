@@ -39,6 +39,7 @@ jobs:
           fi
           python scripts/check_versions.py --expect "$version"
           echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          echo "nummer=$version" >> "$GITHUB_OUTPUT"
 
       # Die gesamte Packaging-Logik steht in scripts/build_skill_package.py.
       # Hier wird sie nur aufgerufen, damit sie lokal genauso laeuft wie hier.
@@ -49,9 +50,30 @@ jobs:
           python scripts/build_skill_package.py "dist/$name"
           echo "pfad=dist/$name" >> "$GITHUB_OUTPUT"
 
+      # Ein Release ohne Text ist ein Name und ein Anhang. Der Text steht schon
+      # in CHANGELOG.md; er wird hier ausgeschnitten, statt ihn ein zweites Mal
+      # zu schreiben. Fehlt der Block, bricht der Lauf ab: eine Version ohne
+      # Changelog-Eintrag soll gar nicht erst als Release erscheinen.
+      - name: Release-Text aus CHANGELOG.md schneiden
+        run: |
+          python - "${{ steps.version.outputs.nummer }}" <<'PY' > release-notes.md
+          import re, sys
+          version = sys.argv[1]
+          text = open("CHANGELOG.md", encoding="utf-8").read()
+          treffer = re.search(r"^```\s*\n(v%s \(.*?)^```" % re.escape(version),
+                              text, re.S | re.M)
+          if not treffer:
+              sys.exit("FEHLER: CHANGELOG.md hat keinen Block fuer v%s" % version)
+          print("```")
+          print(treffer.group(1).rstrip())
+          print("```")
+          PY
+          cat release-notes.md
+
       - name: Release anlegen und Artefakt anhaengen
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
+          body_path: release-notes.md
           files: ${{ steps.paket.outputs.pfad }}
           fail_on_unmatched_files: true
