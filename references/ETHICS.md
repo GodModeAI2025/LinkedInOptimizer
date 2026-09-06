@@ -72,7 +72,7 @@ Diese Liste ist die Quelle für die Formulierungsverbote in `TEMPLATES.md` und f
 Sub-Kriterium „Engagement-Bait-Freiheit" in `SCORING.md`. Bis v2.4.0 führten die drei Stellen
 drei verschieden lange Listen: SKILL.md kannte zwei Formulierungen, SCORING.md und die
 Algorithmus-Regeln in TEMPLATES.md je drei, die Liste der verbotenen Wörter in TEMPLATES.md
-eine vierte Variante. `tests/run_eval.py` hält die Stellen seit v2.5.0 gegen diese Tabelle.
+eine vierte Variante. `LinkedInOptimizer/tests/run_eval.py` hält die Stellen seit v2.5.0 gegen diese Tabelle.
 
 | Formulierung | Warum sie fällt |
 |--------------|-----------------|
@@ -101,7 +101,7 @@ Findet der Abgleich etwas, wird das Artefakt geändert und nicht der Abgleich.
 
 ## Was diese Seite nicht leistet
 
-`tests/run_eval.py` prüft von alldem genau einen Ausschnitt: dass die vier gesperrten
+`LinkedInOptimizer/tests/run_eval.py` prüft von alldem genau einen Ausschnitt: dass die vier gesperrten
 CTA-Formulierungen oben in SKILL.md, `TEMPLATES.md` und `SCORING.md` vollständig ankommen, und
 dass die Abgleich-Tabelle in SKILL.md Phase 8 verankert ist. Das sind Schreibweisen und
 Verweise.

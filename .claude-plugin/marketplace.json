@@ -1,0 +1,26 @@
+{
+  "name": "linkedin-optimizer",
+  "owner": {
+    "name": "Mark Zimmermann",
+    "url": "https://github.com/GodModeAI2025"
+  },
+  "description": "Der Skill linkedin-profil-optimierung: einmalige Ist-Analyse eines LinkedIn-Profils mit Score, Artefakten und Report.",
+  "plugins": [
+    {
+      "name": "linkedin-profil-optimierung",
+      "displayName": "LinkedIn Profil-Optimierung",
+      "source": "./",
+      "description": "Einmalige LinkedIn-Profilanalyse mit gewichtetem Score, Headline, About-Text, Banner, Wettbewerbsmatrix, SSI-Plan und DOCX-Report. Nicht fuer den laufenden Betrieb, dafuer linkedin-community-builder.",
+      "version": "2.6.0",
+      "author": {
+        "name": "Mark Zimmermann",
+        "url": "https://github.com/GodModeAI2025"
+      },
+      "homepage": "https://godmodeai2025.github.io/LinkedInOptimizer/",
+      "repository": "https://github.com/GodModeAI2025/LinkedInOptimizer",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": ["linkedin", "profil", "personal-branding", "scoring", "deutsch"]
+    }
+  ]
+}

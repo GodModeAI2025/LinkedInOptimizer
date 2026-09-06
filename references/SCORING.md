@@ -252,7 +252,7 @@ dieser Grenze steht in `SOURCES.md`.
 Diese Liste ist die Quelle der Wahrheit für die geprüften Profil-Elemente. Jede Zeile hat die
 Form `Kurzname (Kriterium)`. Der Kurzname vor der Klammer ist der Name, unter dem das Element
 in SKILL.md Phase 4.3 und in der Audit-Tabelle von `scripts/generate_report.js` auftaucht.
-`tests/run_eval.py` vergleicht die drei Listen bei jedem CI-Lauf Zeile für Zeile. Wer hier ein
+`LinkedInOptimizer/tests/run_eval.py` vergleicht die drei Listen bei jedem CI-Lauf Zeile für Zeile. Wer hier ein
 Element ergänzt, streicht oder umbenennt, muss die beiden anderen Stellen mitziehen, sonst
 schlägt der Lauf fehl.
 
@@ -348,13 +348,13 @@ GESAMT:                             70.0/100
 ```
 
 Die zehn Namen oben sind verbindlich. Dieselbe Schreibweise gilt in SKILL.md, in
-`scripts/generate_report.js`, auf der Landingpage und im Report. `tests/run_eval.py` im Repo
+`scripts/generate_report.js`, auf der Landingpage und im Report. `LinkedInOptimizer/tests/run_eval.py` im Repo
 vergleicht die vier Stellen bei jedem CI-Lauf und fällt bei Abweichung aus.
 
 ### Eval-Set
 
 Das Eval-Set liegt im Repo unter `tests/` und ist nicht Teil des ausgelieferten Skill-Pakets.
-`tests/run_eval.py` prüft dieses Dokument bei jedem CI-Lauf gegen drei erfundene Profile in
+`LinkedInOptimizer/tests/run_eval.py` prüft dieses Dokument bei jedem CI-Lauf gegen drei erfundene Profile in
 `tests/fixtures/`. Geprüft werden die Gewichtssumme, die Schreibweise der zehn Kategorien in
 SKILL.md, auf der Landingpage und im Report-Template, die Nachrechnung des Gesamtscores und die
 erwarteten Bänder je Kategorie in `tests/expected/`.

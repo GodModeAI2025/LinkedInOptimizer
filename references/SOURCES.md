@@ -14,7 +14,7 @@ Die Regel für künftige Änderungen: Eine Zahl darf nur dann in den Skill, wenn
 Zeile mit URL und Veröffentlichungsdatum bekommt. Wer eine Zahl nicht belegen kann, streicht
 die Aussage, statt eine Quelle zu suchen, die ungefähr passt.
 
-`scripts/check_sources.py` prüft bei jedem CI-Lauf, dass jede im Skill verwendete Quellen-ID
+`LinkedInOptimizer/scripts/check_sources.py` prüft bei jedem CI-Lauf, dass jede im Skill verwendete Quellen-ID
 hier existiert, dass jede Zeile eine URL und ein Datum trägt und dass das Prüfdatum nach dem
 Stand liegt. Gesucht wird nach jedem Vorkommen von `Qn`, gleich in welcher Klammer und welchem
 Satzbau, damit eine ausgedachte Belegangabe nicht über eine andere Schreibweise ins Paket kommt.
@@ -62,7 +62,7 @@ Diese Aussagen standen bis Version 2.3.0 im Skill und sind ohne Ersatz entfernt 
 Grund steht jeweils dabei. Sie kommen nur zurück, wenn jemand eine Quelle mit URL und Datum
 beibringt.
 
-Die Spalte **Sperrmuster** ist der maschinenlesbare Teil dieser Tabelle. `scripts/check_sources.py`
+Die Spalte **Sperrmuster** ist der maschinenlesbare Teil dieser Tabelle. `LinkedInOptimizer/scripts/check_sources.py`
 baut daraus die Regex, mit der es die ausgelieferten Dateien absucht. Mehrere Muster werden mit
 Semikolon getrennt. Geschrieben werden sie so, wie die Aussage früher im Skill stand; das Skript
 normalisiert selbst: `3,4` fängt auch `3.4`, `%` fängt auch das ausgeschriebene Prozent, `×` fängt
@@ -86,7 +86,7 @@ Vier Regeln für neue Zeilen:
    ließ sich jede Sperre durch das Ändern einer Tabellenzelle abschalten, auch die gegen den
    Creator Mode. Wenn ein Textverbot an einer Stelle wirklich schaden würde, weil es richtige
    Verneinungen mit treffen würde, gehört die Aussage in `BEHAUPTUNGS_REGELN` in
-   `scripts/check_sources.py`. Das ist ein Codediff und keine Tabellenzelle.
+   `LinkedInOptimizer/scripts/check_sources.py`. Das ist ein Codediff und keine Tabellenzelle.
 4. Mindestens ein Muster der Zeile muss den eigenen Wortlaut in der Spalte „Frühere Aussage"
    treffen. Das prüft `check_sources.py` ebenfalls gegen die Tabelle selbst und erdet die
    Sperre am zurückgezogenen Text. Ohne diese Regel genügte irgendein Wort in der Zelle: die

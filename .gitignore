@@ -1,0 +1,13 @@
+# Kundendaten gehoeren nicht ins Repo. SECURITY.md fuehrt das als Luecke 7.
+*.docx
+*.xlsx
+*.csv
+assets/kunden/
+dist/
+testing/
+
+# Laufzeitreste
+__pycache__/
+*.py[cod]
+.DS_Store
+.env

@@ -117,6 +117,32 @@ class Fehler(Exception):
     pass
 
 
+# Der Skill-Text verteilt sich seit v2.6.0 auf die Router-Datei SKILL.md und die
+# acht Phasendateien unter references/. Die Bindungen unten pruefen ihn als
+# Ganzes: eine Liste, die in Phase 4.3 steht, ist dieselbe Liste, egal in
+# welcher Datei sie liegt. In den Pfadlisten steht dafuer SKILL_TEXT; die
+# Fehlermeldung nennt dann beide Orte, damit klar ist, wo zu suchen ist.
+#
+# SKILL_TEXT steht nur dort, wo eine Fundstelle bewusst in irgendeiner
+# Skill-Datei liegen darf. Anker, die zur Struktur gehoeren, also die
+# Ressourcen-Uebersicht, die Verifikation und die Quality Gates im Router oder
+# der Ethik-Abgleich in Phase 8, nennen ihre Datei. Sonst waere die Aussage
+# "das steht im Router" durch einen Treffer in einer Phasendatei erfuellt.
+SKILL_TEXT = "SKILL.md + references/PHASE-*.md"
+
+
+def skill_dateien():
+    return [ROOT / "SKILL.md"] + sorted((ROOT / "references").glob("PHASE-*.md"))
+
+
+def lies_skill() -> str:
+    return "\n".join(lies(pfad) for pfad in skill_dateien())
+
+
+def lies_pfad(rel_pfad: str) -> str:
+    return lies_skill() if rel_pfad == SKILL_TEXT else lies(ROOT / rel_pfad)
+
+
 def lies(pfad: Path) -> str:
     return pfad.read_text(encoding="utf-8")
 
@@ -621,7 +647,7 @@ def pruefe_landing_ehrlichkeit(fehler, seite):
 # eine der kurzen Listen hielt, lieferte einen CTA aus, den eine andere Stelle
 # im selben Skill verbietet.
 CTA_FUNDSTELLEN = [
-    ("SKILL.md", "- Kein Engagement-Bait:"),
+    ("references/PHASE-6-content.md", "- Kein Engagement-Bait:"),
     ("references/TEMPLATES.md", "7. Kein Engagement-Bait →"),
     ("references/TEMPLATES.md", "gesperrte CTA-Formulierungen, vollständige Liste"),
     ("references/SCORING.md", "| Engagement-Bait-Freiheit |"),
@@ -632,13 +658,13 @@ CTA_FUNDSTELLEN = [
 # anwendet; faellt der Abschnitt aus SKILL.md, laeuft die Datei leer mit.
 ETHIK_VERANKERUNG = [
     ("SKILL.md", "| `references/ETHICS.md` |",
-     "Die Ressourcen-Uebersicht muss references/ETHICS.md fuehren."),
-    ("SKILL.md", "### 8.0 Ethik-Abgleich",
+     "Die Ressourcen-Uebersicht im Router muss references/ETHICS.md fuehren."),
+    ("references/PHASE-8-report.md", "### 8.0 Ethik-Abgleich",
      "Phase 8 muss mit dem Ethik-Abgleich beginnen."),
     ("SKILL.md", "**Ethik**:",
-     "Der Verifikations-Abschnitt muss eine Ethik-Zeile fuehren."),
+     "Der Verifikations-Abschnitt im Router muss eine Ethik-Zeile fuehren."),
     ("SKILL.md", "| 8. Übergabe | Ethik-Abgleich für alle fünf Artefakte |",
-     "Die Quality Gates muessen den Ethik-Abgleich als Gate fuehren."),
+     "Die Quality Gates im Router muessen den Ethik-Abgleich als Gate fuehren."),
 ]
 
 
@@ -665,7 +691,7 @@ def pruefe_ethik(fehler, ethik):
     formulierungen = cta_formulierungen(ethik)
 
     for rel_pfad, marker in CTA_FUNDSTELLEN:
-        text = lies(ROOT / rel_pfad)
+        text = lies_pfad(rel_pfad)
         treffer = [z for z in text.splitlines() if marker in z]
         if len(treffer) != 1:
             fehler.append(
@@ -681,7 +707,7 @@ def pruefe_ethik(fehler, ethik):
                 )
 
     for rel_pfad, satz, grund in ETHIK_VERANKERUNG:
-        if satz not in lies(ROOT / rel_pfad):
+        if satz not in lies_pfad(rel_pfad):
             fehler.append(f"{rel_pfad}: {grund} Erwartet wird der Wortlaut {satz!r}.")
 
 
@@ -775,7 +801,7 @@ def pruefe_wettbewerb(fehler, skill, competitive):
         fehler.append(str(ausnahme))
 
     for rel_pfad, marker, was, vorlage in MINIMUM_FUNDSTELLEN:
-        text = lies(ROOT / rel_pfad)
+        text = lies_pfad(rel_pfad)
         treffer = [z for z in text.splitlines() if marker in z]
         if len(treffer) != 1:
             fehler.append(
@@ -790,8 +816,8 @@ def pruefe_wettbewerb(fehler, skill, competitive):
                 f"{wortlaut!r}."
             )
 
-    for rel_pfad in ("SKILL.md", "README.md", "references/COMPETITIVE.md"):
-        text = lies(ROOT / rel_pfad)
+    for rel_pfad in (SKILL_TEXT, "README.md", "references/COMPETITIVE.md"):
+        text = lies_pfad(rel_pfad)
         for verboten in MINIMUM_VERBOTEN:
             for nummer, zeile in enumerate(text.splitlines(), 1):
                 if verboten not in zeile:
@@ -820,7 +846,7 @@ def pruefe_wettbewerb(fehler, skill, competitive):
 # Haelfte weiter unten ist die, die die Vereinheitlichung misst; ohne sie liesse
 # sich ein alter Horizont danebenstellen, ohne dass etwas anschlaegt.
 ZEITFENSTER = [
-    ("SKILL.md", ["Tag 1–30", "Tag 31–60", "Tag 61–90"]),
+    (SKILL_TEXT, ["Tag 1–30", "Tag 31–60", "Tag 61–90"]),
     ("scripts/generate_report.js", ["Tag 1-30", "Tag 31-60", "Tag 61-90"]),
     ("README.md", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60 und 61–90"]),
     ("index.html", ["30/60/90-Tage-Roadmap", "Tag 1–30, 31–60, 61–90"]),
@@ -842,15 +868,7 @@ ALTE_HORIZONTE = [
 # Dateien, in denen kein abgeloester Horizont mehr stehen darf. SKILL.md traegt
 # den Changelog und darf die alten Wortlaute dort nennen; die Ausnahme ist auf
 # den Changelog begrenzt und nicht auf die Datei.
-HORIZONT_DATEIEN = ["SKILL.md", "README.md", "index.html", "scripts/generate_report.js"]
-
-
-def ohne_changelog(rel_pfad: str, text: str) -> str:
-    """SKILL.md ohne den Changelog. Dort stehen die alten Wortlaute mit Absicht."""
-    if rel_pfad != "SKILL.md":
-        return text
-    schnitt = text.find("\n## Changelog")
-    return text if schnitt == -1 else text[:schnitt]
+HORIZONT_DATEIEN = [SKILL_TEXT, "README.md", "index.html", "scripts/generate_report.js"]
 
 
 def pruefe_zeitfenster(fehler):
@@ -861,7 +879,7 @@ def pruefe_zeitfenster(fehler):
     jemals gemessen wurden und ob ein Kunde den Plan durchhaelt.
     """
     for rel_pfad, erwartet in ZEITFENSTER:
-        text = lies(ROOT / rel_pfad)
+        text = lies_pfad(rel_pfad)
         for wortlaut in erwartet:
             if wortlaut not in text:
                 fehler.append(
@@ -870,7 +888,9 @@ def pruefe_zeitfenster(fehler):
                 )
 
     for rel_pfad in HORIZONT_DATEIEN:
-        text = ohne_changelog(rel_pfad, lies(ROOT / rel_pfad))
+        # CHANGELOG.md steht bewusst nicht in HORIZONT_DATEIEN: dort werden die
+        # abgeloesten Horizonte als Historie genannt, das ist ihr Platz.
+        text = lies_pfad(rel_pfad)
         for nummer, zeile in enumerate(text.splitlines(), 1):
             for alt in ALTE_HORIZONTE:
                 if alt in zeile:
@@ -892,6 +912,57 @@ def pruefe_deliverables(fehler, readme):
                 )
 
 
+def pruefe_untrusted(fehler, _skill=None):
+    """Bindet die Regel "erhobener Seitentext ist Daten" an ihre Fundstellen.
+
+    Geprueft wird dreierlei: die Datei references/UNTRUSTED.md existiert, sie
+    fuehrt die fuenf nummerierten Regeln, und der Skill verweist an beiden
+    Stellen darauf, an denen fremder Text hereinkommt, also in Phase 1.1 und in
+    Phase 3.1. Faellt einer der beiden Verweise bei einer Ueberarbeitung weg,
+    steht die Regel zwar noch in der Referenz, aber nicht mehr im Weg.
+
+    Der Abschnitt wird je Datei geschnitten und nicht im zusammengesetzten
+    Skill-Text. Im zusammengesetzten Text endet der letzte Abschnitt einer Datei
+    nicht an der Dateigrenze, sondern erst an der naechsten Ueberschrift der
+    naechsten Datei: ein geloeschter Verweis in Phase 1 waere dann durch einen
+    Treffer in Phase 2 gedeckt gewesen. Genau dieser Fall ist in der Review
+    aufgefallen und hier behoben.
+
+    Nicht geprueft wird, ob die Regel im Gespraech eingehalten wird. Das steht
+    so in UNTRUSTED.md unter "Was diese Seite nicht leistet".
+    """
+    pfad = ROOT / "references" / "UNTRUSTED.md"
+    if not pfad.exists():
+        fehler.append("references/UNTRUSTED.md fehlt")
+        return
+    regel = lies(pfad)
+
+    for nummer in range(1, 6):
+        if f"{nummer}. **" not in regel:
+            fehler.append(f"references/UNTRUSTED.md fuehrt Regel {nummer} nicht")
+
+    for phase, ueberschrift in (
+        ("1.1", "### 1.1 Profildaten via Chrome extrahieren"),
+        ("3.1", "### 3.1 Nischen-Konkurrenten analysieren"),
+    ):
+        gefunden = False
+        for datei in skill_dateien():
+            text = lies(datei)
+            if ueberschrift not in text:
+                continue
+            gefunden = True
+            start = text.index(ueberschrift)
+            ende = text.find("\n### ", start + len(ueberschrift))
+            abschnitt = text[start:ende if ende != -1 else len(text)]
+            if "references/UNTRUSTED.md" not in abschnitt:
+                fehler.append(
+                    f"{datei.relative_to(ROOT)}: Phase {phase} verweist nicht auf "
+                    "references/UNTRUSTED.md"
+                )
+        if not gefunden:
+            fehler.append(f"{SKILL_TEXT}: keine Ueberschrift fuer Phase {phase} mehr")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Prueft die Scoring-Matrix gegen die Fixtures.")
     parser.add_argument("--fixture", help="Nur dieses Fixture pruefen.")
@@ -903,7 +974,7 @@ def main() -> int:
 
     fehler = []
     scoring = lies(ROOT / "references" / "SCORING.md")
-    skill = lies(ROOT / "SKILL.md")
+    skill = lies_skill()
     seite = lies(ROOT / "index.html")
     js = lies(ROOT / "scripts" / "generate_report.js")
     readme = lies(ROOT / "README.md")
@@ -940,6 +1011,7 @@ def main() -> int:
             pruefe_ethik(fehler, ethik)
             pruefe_wettbewerb(fehler, skill, competitive)
             pruefe_zeitfenster(fehler)
+            pruefe_untrusted(fehler, skill)
     except Fehler as ausnahme:
         fehler.append(str(ausnahme))
 
@@ -949,7 +1021,7 @@ def main() -> int:
             print(f"  - {eintrag}", file=sys.stderr)
         return 1
 
-    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    ein Zeitraster statt drei,\n    alle Fixtures im Band.")
+    print("\nOK: Kategorienamen an vier Stellen gleich, Profil-Elemente an drei Stellen\n    gleich, gesperrte CTA-Formulierungen an vier Stellen vollstaendig,\n    Achsen und Mindestzahl der Wettbewerbsanalyse gebunden,\n    ein Zeitraster statt drei,\n    Untrusted-Regel an beiden Erhebungsstellen verankert,\n    alle Fixtures im Band.")
     return 0
 
 

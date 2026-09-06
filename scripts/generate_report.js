@@ -175,7 +175,7 @@ const doc = new Document({
     { reference: "numbers", levels: [{ level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 720, hanging: 360 } } } }] },
   ]},
   sections: [{ properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
-    headers: { default: new Header({ children: [new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: BLUE, space: 6 } }, children: [ new TextRun({ text: "LinkedIn Profil-Analyse", size: 16, font: "Arial", color: GRAY }), new TextRun({ text: "\t" }), new TextRun({ text: "linkedin-profil-optimierung v2.5.0", size: 16, font: "Arial", color: GRAY }) ], tabStops: [{ type: TabStopType.RIGHT, position: TabStopPosition.MAX }] })] }) },
+    headers: { default: new Header({ children: [new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: BLUE, space: 6 } }, children: [ new TextRun({ text: "LinkedIn Profil-Analyse", size: 16, font: "Arial", color: GRAY }), new TextRun({ text: "\t" }), new TextRun({ text: "linkedin-profil-optimierung v2.6.0", size: 16, font: "Arial", color: GRAY }) ], tabStops: [{ type: TabStopType.RIGHT, position: TabStopPosition.MAX }] })] }) },
     footers: { default: new Footer({ children: [new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "CCCCCC", space: 6 } }, alignment: AlignmentType.CENTER, children: [ new TextRun({ text: "Seite ", size: 16, font: "Arial", color: GRAY }), new TextRun({ children: [PageNumber.CURRENT], size: 16, font: "Arial", color: GRAY }) ] })] }) },
     children: [
       // ═══ TITELSEITE ═══
