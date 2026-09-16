@@ -46,6 +46,8 @@ const PROFILE = {
 };
 
 // Scoring: cat, raw (0-10), w, weighted (raw*w), max (w*10), pct, color, reason
+// Nicht erhobene Kategorie (references/SCORING.md): raw: null, weighted: null, pct: null,
+// reason nennt, welche Daten gefehlt haben. Der Gesamtscore wird dann als Spanne ausgegeben.
 const scoring = [
   { cat: "Headline",         raw: 5, w: 1.2, weighted: 6.0,  max: 12, pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "About-Sektion",    raw: 5, w: 1.2, weighted: 6.0,  max: 12, pct: 50, color: YELLOW, reason: "[Begründung]" },
@@ -58,7 +60,12 @@ const scoring = [
   { cat: "Profil-Vollständigkeit", raw: 5, w: 0.7, weighted: 3.5,  max: 7,  pct: 50, color: YELLOW, reason: "[Begründung]" },
   { cat: "Top Voice Readiness", raw: 5, w: 0.5, weighted: 2.5,  max: 5,  pct: 50, color: YELLOW, reason: "[Begründung]" },
 ];
-const totalScore = scoring.reduce((s, d) => s + d.weighted, 0);
+const offen = scoring.filter(d => d.raw === null);
+// Untergrenze: Summe der erhobenen Kategorien. Obergrenze: plus Maximalbeitrag der nicht erhobenen.
+const totalScore = scoring.reduce((s, d) => s + (d.raw === null ? 0 : d.weighted), 0);
+const totalMax = totalScore + offen.reduce((s, d) => s + d.max, 0);
+const scoreText = offen.length ? `${totalScore.toFixed(1)}-${totalMax.toFixed(1)}` : totalScore.toFixed(1);
+const nichtErhoben = (d) => d.raw === null;
 
 const posts = [
   { time: "[Zeitpunkt]", reactions: 0, comments: 0 },
@@ -160,7 +167,7 @@ const LIMITS = [
 // Keine Namen, Firmen oder profilspezifischen Texte im Code unten.
 // ══════════════════════════════════════════════════════════════════
 
-const SL = scoreLabel(totalScore);
+const SL = scoreLabel(totalScore) + (offen.length ? " (Untergrenze)" : "");
 const SC = scoreColor(totalScore);
 
 const doc = new Document({
@@ -187,7 +194,7 @@ const doc = new Document({
       p(PROFILE.location, { align: AlignmentType.CENTER, color: GRAY, after: 300 }),
       new Table({ width: { size: 5000, type: WidthType.DXA }, columnWidths: [5000], alignment: AlignmentType.CENTER, rows: [new TableRow({ children: [new TableCell({ borders: { top: { style: BorderStyle.SINGLE, size: 4, color: BLUE }, bottom: { style: BorderStyle.SINGLE, size: 4, color: BLUE }, left: { style: BorderStyle.SINGLE, size: 4, color: BLUE }, right: { style: BorderStyle.SINGLE, size: 4, color: BLUE } }, width: { size: 5000, type: WidthType.DXA }, margins: { top: 200, bottom: 200, left: 200, right: 200 }, children: [
         new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 40 }, children: [new TextRun({ text: "GESAMTSCORE", size: 20, font: "Arial", color: GRAY, bold: true })] }),
-        new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 40 }, children: [new TextRun({ text: `${totalScore.toFixed(1)} / 100`, size: 52, font: "Arial", color: BLUE, bold: true })] }),
+        new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 40 }, children: [new TextRun({ text: `${scoreText} / 100`, size: 52, font: "Arial", color: BLUE, bold: true })] }),
         new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: `Bewertung: ${SL}`, size: 22, font: "Arial", color: SC, bold: true })] }),
       ] })] })] }),
       emptyLine(), emptyLine(),
@@ -208,20 +215,21 @@ const doc = new Document({
       new Table({ width: { size: TABLE_W, type: WidthType.DXA }, columnWidths: [2600, 800, 900, 1100, 800, 800, 2360], rows: [
         new TableRow({ children: [hCell("Kategorie", 2600), hCell("Roh", 800), hCell("Gew.", 900), hCell("Punkte", 1100), hCell("Max", 800), hCell("%", 800), hCell("Bewertung", 2360)] }),
         ...scoring.map(s => new TableRow({ children: [
-          dCell(s.cat, 2600, { bold: true }), dCell(`${s.raw}/10`, 800, { align: AlignmentType.CENTER }), dCell(`x${s.w}`, 900, { align: AlignmentType.CENTER, color: GRAY }),
-          dCell(s.weighted.toFixed(1), 1100, { align: AlignmentType.CENTER, bold: true, color: s.color }), dCell(String(s.max), 800, { align: AlignmentType.CENTER, color: GRAY }),
-          dCell(`${s.pct}%`, 800, { align: AlignmentType.CENTER, color: s.color, bold: true }), dCell(s.pct >= 70 ? "Gut" : s.pct >= 50 ? "Ausbaufähig" : "Kritisch", 2360, { color: s.color }),
+          dCell(s.cat, 2600, { bold: true }), dCell(nichtErhoben(s) ? "n. e." : `${s.raw}/10`, 800, { align: AlignmentType.CENTER }), dCell(`x${s.w}`, 900, { align: AlignmentType.CENTER, color: GRAY }),
+          dCell(nichtErhoben(s) ? "n. e." : s.weighted.toFixed(1), 1100, { align: AlignmentType.CENTER, bold: true, color: nichtErhoben(s) ? GRAY : s.color }), dCell(String(s.max), 800, { align: AlignmentType.CENTER, color: GRAY }),
+          dCell(nichtErhoben(s) ? "-" : `${s.pct}%`, 800, { align: AlignmentType.CENTER, color: nichtErhoben(s) ? GRAY : s.color, bold: true }), dCell(nichtErhoben(s) ? "Nicht erhoben" : s.pct >= 70 ? "Gut" : s.pct >= 50 ? "Ausbaufähig" : "Kritisch", 2360, { color: nichtErhoben(s) ? GRAY : s.color }),
         ] })),
         new TableRow({ children: [ dCell("GESAMT", 2600, { bold: true, fill: LIGHTBLUE }), dCell("", 800, { fill: LIGHTBLUE }), dCell("", 900, { fill: LIGHTBLUE }),
-          dCell(totalScore.toFixed(1), 1100, { align: AlignmentType.CENTER, bold: true, color: BLUE, fill: LIGHTBLUE }), dCell("100", 800, { align: AlignmentType.CENTER, color: GRAY, fill: LIGHTBLUE }),
-          dCell(`${Math.round(totalScore)}%`, 800, { align: AlignmentType.CENTER, bold: true, color: BLUE, fill: LIGHTBLUE }), dCell(SL, 2360, { bold: true, color: SC, fill: LIGHTBLUE }) ] }),
+          dCell(scoreText, 1100, { align: AlignmentType.CENTER, bold: true, color: BLUE, fill: LIGHTBLUE }), dCell("100", 800, { align: AlignmentType.CENTER, color: GRAY, fill: LIGHTBLUE }),
+          dCell(offen.length ? `${Math.round(totalScore)}-${Math.round(totalMax)}%` : `${Math.round(totalScore)}%`, 800, { align: AlignmentType.CENTER, bold: true, color: BLUE, fill: LIGHTBLUE }), dCell(SL, 2360, { bold: true, color: SC, fill: LIGHTBLUE }) ] }),
       ] }),
       emptyLine(), p("Spalte 'Roh' = ungewichteter Score (0-10). 'Gew.' = Multiplikator. 'Punkte' = Roh x Gew. Rot <40%, Gelb 40-69%, Grün ab 70%.", { color: GRAY }),
+      ...(offen.length ? [p(`Nicht erhoben (n. e.): ${offen.map(d => d.cat).join(", ")}. Für diese Kategorien lagen keine Daten vor; sie sind weder geschätzt noch mit 0 bewertet. Der Gesamtscore ist deshalb eine Spanne: Untergrenze ohne diese Kategorien, Obergrenze mit ihrem Maximalbeitrag. ${scoring.length - offen.length} von ${scoring.length} Kategorien erhoben.`, { color: GRAY })] : []),
 
       // ═══ 3. DETAILANALYSE ═══
       pageBreak(), h1("3. Detailanalyse je Kategorie"),
       p("Jede Kategorie wird einzeln begründet. Die Bewertung stützt sich auf die Sub-Kriterien aus der Scoring-Matrix und die via Chrome erhobenen Profildaten."),
-      ...scoring.flatMap((s, i) => [h2(`3.${i + 1} ${s.cat} — ${s.weighted.toFixed(1)}/${s.max} Punkte (${s.pct}%)`), p(s.reason)]),
+      ...scoring.flatMap((s, i) => [h2(nichtErhoben(s) ? `3.${i + 1} ${s.cat} — nicht erhoben` : `3.${i + 1} ${s.cat} — ${s.weighted.toFixed(1)}/${s.max} Punkte (${s.pct}%)`), p(s.reason)]),
 
       // ═══ 4. CONTENT ═══
       pageBreak(), h1("4. Content-Aktivität"),

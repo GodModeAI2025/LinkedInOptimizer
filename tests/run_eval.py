@@ -9,7 +9,8 @@ Verwendung:
 Ohne --result prueft der Runner den Referenzlauf, der im Fixture mitliegt. Mit
 --result prueft er das Ergebnis eines echten Laufs gegen dieselben Baender. Die
 Ergebnisdatei ist ein JSON-Objekt mit einem Feld "kategorien" (Kategoriename auf
-Rohscore 0 bis 10) und optional "gesamt".
+Rohscore 0 bis 10, oder null fuer eine nicht erhobene Kategorie) und optional
+"gesamt" (Zahl, bei nicht erhobenen Kategorien die Spanne [Untergrenze, Obergrenze]).
 
 Was geprueft wird:
 
@@ -478,7 +479,13 @@ def pruefe_fixture(fehler, scoring, modell, name, ergebnis=None):
         return None
 
     gesamt = 0.0
+    offen = 0.0
     for kategorie, wert in kategorien.items():
+        # null = nicht erhoben (references/SCORING.md). Erlaubt nur in einem echten Lauf,
+        # der Referenzlauf eines Fixtures muss vollstaendig sein, sonst prueft er nichts.
+        if wert is None and ergebnis is not None:
+            offen += modell[kategorie]
+            continue
         if not isinstance(wert, int) or not 0 <= wert <= 10:
             fehler.append(f"{kennung}: {kategorie} hat den Wert {wert!r}, erlaubt sind 0 bis 10.")
             continue
@@ -489,16 +496,35 @@ def pruefe_fixture(fehler, scoring, modell, name, ergebnis=None):
                 f"{kennung}: {kategorie} liegt bei {wert}, erwartet war {unten} bis {oben}."
             )
     gesamt = round(gesamt, 1)
+    obergrenze = round(gesamt + offen, 1)
 
     gemeldet = lauf.get("gesamt")
-    if gemeldet is not None and round(float(gemeldet), 1) != gesamt:
+    if offen:
+        # Mit nicht erhobenen Kategorien ist der Gesamtscore eine Spanne [Untergrenze, Obergrenze].
+        if gemeldet is not None and (
+            not isinstance(gemeldet, list) or len(gemeldet) != 2
+            or [round(float(g), 1) for g in gemeldet] != [gesamt, obergrenze]
+        ):
+            fehler.append(
+                f"{kennung}: gemeldeter Gesamtscore {gemeldet}, mit nicht erhobenen Kategorien "
+                f"ergibt sich die Spanne [{gesamt}, {obergrenze}]."
+            )
+    elif gemeldet is not None and (
+        isinstance(gemeldet, list) or round(float(gemeldet), 1) != gesamt
+    ):
         fehler.append(
             f"{kennung}: gemeldeter Gesamtscore {gemeldet}, aus den Rohscores "
             f"nachgerechnet ergibt sich {gesamt}."
         )
 
     unten, oben = erwartet["gesamt"]
-    if not unten <= gesamt <= oben:
+    if offen:
+        if obergrenze < unten or gesamt > oben:
+            fehler.append(
+                f"{kennung}: Gesamtscore-Spanne {gesamt} bis {obergrenze} beruehrt das "
+                f"erwartete Band {unten} bis {oben} nicht."
+            )
+    elif not unten <= gesamt <= oben:
         fehler.append(f"{kennung}: Gesamtscore {gesamt}, erwartet war {unten} bis {oben}.")
 
     if ergebnis is None:
@@ -551,7 +577,7 @@ def pruefe_fixture(fehler, scoring, modell, name, ergebnis=None):
         if "erfunden" not in fixture.get("herkunft", ""):
             fehler.append(f"{kennung}: das Feld herkunft muss die Fixture als erfunden ausweisen.")
 
-    return gesamt
+    return f"{gesamt} bis {obergrenze}" if offen else gesamt
 
 
 def pruefe_landing(fehler, seite):

@@ -21,6 +21,9 @@ Bewerte das Profil in 10 gewichteten Kategorien (jede 0–10, multipliziert mit 
 
 Dokumentiere für jeden Score die Begründung anhand der Sub-Kriterien aus SCORING.md.
 
+Fehlen für eine Kategorie die Daten, wird sie nicht geschätzt: Regel und Spannenrechnung stehen in
+`references/SCORING.md` unter „Nicht erhobene Kategorien“.
+
 ### 2.2 Gap-Analyse
 
 Identifiziere die 3 größten Score-Hebel in einer Prioritäts-Matrix (Impact × Aufwand):

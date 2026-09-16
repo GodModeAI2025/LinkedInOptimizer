@@ -136,7 +136,7 @@ Prüfe vor Übergabe an den Kunden:
 
 **Content-Skill**: Alle 10 Hook-Typen mit kundenspezifischen Beispielen, Säulen summieren auf 100%, keine Engagement-Bait-Phrasen.
 
-**Scoring**: Jede Kategorie mit Begründung, gewichtete Summe korrekt berechnet, ≥3 Hebel identifiziert.
+**Scoring**: Jede Kategorie mit Begründung, gewichtete Summe korrekt berechnet, ≥3 Hebel identifiziert. Keine Kategorie geschätzt, für die Daten fehlten; nicht erhobene Kategorien sind gekennzeichnet und der Gesamtscore ist dann eine Spanne (`references/SCORING.md`).
 
 **Report**: DOCX erzeugt, als ZIP lesbar (`unzip -l` listet `word/document.xml`), alle 9 Kapitel vorhanden, jede Tabelle hat einen erklärenden Textabsatz darunter, keine Scoring-Kategorie ohne Begründung.
 

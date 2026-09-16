@@ -17,7 +17,7 @@ Der Analyse-Report wird immer als professionelles Word-Dokument (.docx) geliefer
 1. Lies `scripts/generate_report.js` mit dem view-Tool
 2. Kopiere es unter dem Namen `generate_report.js` in das Arbeitsverzeichnis und installiere dort das Paket `docx` mit `npm install docx`
 3. Ersetze die Platzhalter-Daten durch die erhobenen Kundendaten:
-   - `scoring`-Array: Alle 10 Kategorien mit Roh-Score, Gewichtung, Begründung
+   - `scoring`-Array: Alle 10 Kategorien mit Roh-Score, Gewichtung, Begründung; eine nicht erhobene Kategorie mit `raw: null, weighted: null, pct: null` und einer Begründung, welche Daten fehlten (`references/SCORING.md`)
    - `posts`-Array: Content-Aktivitäten aus Phase 1 (Schritt 2)
    - Profil-Metadaten: Name, Position, Unternehmen, Standort, Follower, Connections
    - Headline-Varianten: Aus Phase 4.1
