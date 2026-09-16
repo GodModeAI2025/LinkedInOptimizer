@@ -351,6 +351,38 @@ Die zehn Namen oben sind verbindlich. Dieselbe Schreibweise gilt in SKILL.md, in
 `scripts/generate_report.js`, auf der Landingpage und im Report. `LinkedInOptimizer/tests/run_eval.py` im Repo
 vergleicht die vier Stellen bei jedem CI-Lauf und fällt bei Abweichung aus.
 
+### Nicht erhobene Kategorien
+
+Eine Kategorie, für die keine Daten vorliegen, bekommt keinen geschätzten Score und auch keine 0.
+Beides wäre eine Zahl ohne Befund: die 0 behauptet „fehlt“, wo nur „nicht gesehen“ zutrifft, und
+ein Schätzwert sieht im Report genauso belastbar aus wie ein erhobener.
+
+Reihenfolge, bevor eine Kategorie als nicht erhoben gilt:
+
+1. Erhebung nach Phase 1 vollständig versuchen (eingeloggt, Activity-Seite gescrollt, About
+   aufgeklappt).
+2. Den Kunden fragen. Viele Werte kennt er selbst: Kommentar-Aktivität bei anderen, Wachstum,
+   Empfehlungen, Newsletter.
+3. Erst wenn beides nichts liefert: Kategorie als **nicht erhoben** führen, mit einem Satz, was
+   gefehlt hat.
+
+Der Gesamtscore wird dann als Spanne angegeben:
+
+```
+Untergrenze = Σ gewichtete Punkte der erhobenen Kategorien
+Obergrenze  = Untergrenze + Σ Maximalbeitrag der nicht erhobenen Kategorien
+
+Beispiel: Engagement & Kommentare (max. 15.0) nicht erhoben,
+alle anderen wie oben → 70.0 − 10.5 = 59.5
+GESAMT: 59.5–74.5/100, 9 von 10 Kategorien erhoben
+```
+
+Die Bewertungsstufe richtet sich nach der Untergrenze und wird als solche gekennzeichnet. Eine
+Kategorie, die nur teilweise erhoben ist, wird mit den Sub-Kriterien bewertet, die sich prüfen
+ließen, und die Begründung nennt die übrigen. Top Voice Readiness fasst andere Kategorien
+zusammen und gilt als nicht erhoben, wenn keines ihrer Sub-Kriterien beobachtbar war.
+Im Report-Template steht eine nicht erhobene Kategorie mit `raw: null, weighted: null`.
+
 ### Eval-Set
 
 Das Eval-Set liegt im Repo unter `tests/` und ist nicht Teil des ausgelieferten Skill-Pakets.
