@@ -69,6 +69,8 @@ QUALITÄTSKRITERIEN:
 □ Rollen wie Autor/Speaker/Podcast-Host erwähnt (wenn vorhanden)
 □ Pipe-Separator (|) für Gliederung – keine Punkte oder Kommas als Trenner
 □ Keine Floskeln („Passionate about…", „Helping companies…")
+□ Austauschbarkeitstest bestanden: Mit dem Namen einer anderen Person derselben Rolle gelesen,
+  stimmt die Headline nicht mehr
 □ Kein „Open to Work" in der Headline (dafür gibt es den LinkedIn-Rahmen)
 ```
 
@@ -242,10 +244,14 @@ PRÜFPROTOKOLL:
 1. Erste 270 Zeichen (vor „…mehr") kopieren → Würde ICH auf „mehr" klicken?
 2. Orwell-Test: Jeden Satz einzeln lesen → „Kann ich den streichen?" → Ja = raus
 3. Floskeln-Scan: Jedes Adjektiv prüfen → Kann es durch ein konkretes Beispiel ersetzt werden?
-4. Zeichenzahl prüfen: ≤2.600 (LinkedIn-Limit)
-5. Hashtag-Check: 5–7 Hashtags, inklusive Unternehmens-Hashtag
-6. CTA-Check: Ist die Handlungsaufforderung konkret? (nicht „Let's connect")
-7. Social-Proof-Check: Sind Bücher/Awards/Zahlen prominent platziert?
+4. Austauschbarkeitstest: Jeden Satz, der etwas über den Kunden behauptet, mit einer anderen
+   Person derselben Rolle gegenlesen → stimmt er dann immer noch? → Ja = er sagt nichts über
+   diesen Kunden, also streichen oder durch eine Angabe ersetzen, die nur für ihn gilt.
+   Ausgenommen sind Überleitungen und der CTA; die gelten für jeden und sollen es auch
+5. Zeichenzahl prüfen: ≤2.600 (LinkedIn-Limit)
+6. Hashtag-Check: 5–7 Hashtags, inklusive Unternehmens-Hashtag
+7. CTA-Check: Ist die Handlungsaufforderung konkret? (nicht „Let's connect")
+8. Social-Proof-Check: Sind Bücher/Awards/Zahlen prominent platziert?
 ```
 
 ---

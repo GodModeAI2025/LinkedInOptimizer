@@ -9,9 +9,16 @@ ist belegt. Erfinde nichts dazu, auch nicht, wenn der Kunde darum bittet.
 
 Kernregeln: Max. 220 Zeichen, erste 60 Zeichen = stärkstes Signal, 3–4 SEO-Keywords, keine Emojis im DACH-Markt, Pipe-Separator (|). Liefere immer 3 Varianten mit SEO-Keywords, Zeichenzahl und Vorher/Nachher-Vergleich.
 
+Jede Variante besteht den Austauschbarkeitstest aus der Headline-Checkliste in
+`references/TEMPLATES.md`: Setz den Namen einer anderen Person derselben Rolle davor. Stimmt die
+Headline dann immer noch, beschreibt sie eine Position und keine Positionierung. Der Test macht
+den Sprung zwischen den Bewertungsstufen „Nische erkennbar, aber zu breit oder generisch" und
+„Klare Nische" in `references/SCORING.md` an jeder einzelnen Variante entscheidbar, statt ihn dem
+Gefühl zu überlassen.
+
 ### 4.2 About-Sektion optimieren
 
-Die ersten 270 Zeichen (vor „…mehr") entscheiden über Weiterlesen. Orwell-Prinzipien anwenden: Kein überflüssiger Satz, aktiv statt passiv, konkret statt abstrakt, eigene Bilder statt Klischees. Verbotene Wörter beachten (Liste in TEMPLATES.md).
+Die ersten 270 Zeichen (vor „…mehr") entscheiden über Weiterlesen. Orwell-Prinzipien anwenden: Kein überflüssiger Satz, aktiv statt passiv, konkret statt abstrakt, eigene Bilder statt Klischees. Verbotene Wörter beachten (Liste in TEMPLATES.md). Der Austauschbarkeitstest gilt hier für jeden Satz, der etwas über den Kunden behauptet; er steht als Schritt 4 im Prüfprotokoll in `references/TEMPLATES.md`.
 
 ### 4.3 Quick-Win-Checkliste
 
