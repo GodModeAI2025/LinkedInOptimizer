@@ -128,9 +128,9 @@ Die folgenden Zeilen sind Erfahrungswerte, keine erhobenen Branchenkennzahlen. D
 
 Prüfe vor Übergabe an den Kunden:
 
-**Headline**: Zeichenzahl ≤220, erste 60 Zeichen enthalten Nischen-Keyword, keine Emojis, ≥3 SEO-Keywords, keine verbotenen Wörter, Pipe-Separator.
+**Headline**: Zeichenzahl ≤220, erste 60 Zeichen enthalten Nischen-Keyword, keine Emojis, ≥3 SEO-Keywords, keine verbotenen Wörter, Pipe-Separator, Austauschbarkeitstest bestanden (`references/TEMPLATES.md`).
 
-**About**: Zeichenzahl ≤2.600, erste 270 Zeichen = eigenständiger Hook mit Positionierung, Orwell-Scan gegen verbotene Wörter, CTA vorhanden und konkret, 5–7 Hashtags am Ende, max. 3 Emoji-Typen, kein Absatz >4 Zeilen.
+**About**: Zeichenzahl ≤2.600, erste 270 Zeichen = eigenständiger Hook mit Positionierung, Orwell-Scan gegen verbotene Wörter, Austauschbarkeitstest für jeden Aussagesatz bestanden, CTA vorhanden und konkret, 5–7 Hashtags am Ende, max. 3 Emoji-Typen, kein Absatz >4 Zeilen.
 
 **Banner**: Exakt 1584×396px, <8 MB, alle Textelemente in x=520–1200 / y=30–350, Schriftgrößen eingehalten, WCAG-Kontrast ≥4.5:1.
 
