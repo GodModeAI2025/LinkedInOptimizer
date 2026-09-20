@@ -246,7 +246,8 @@ PRÜFPROTOKOLL:
 3. Floskeln-Scan: Jedes Adjektiv prüfen → Kann es durch ein konkretes Beispiel ersetzt werden?
 4. Austauschbarkeitstest: Jeden Satz, der etwas über den Kunden behauptet, mit einer anderen
    Person derselben Rolle gegenlesen → stimmt er dann immer noch? → Ja = er sagt nichts über
-   diesen Kunden, also streichen oder durch eine Angabe ersetzen, die nur für ihn gilt.
+   diesen Kunden, also streichen oder durch eine Angabe ersetzen, die nur für ihn gilt und die
+   er selbst genannt hat (Regel 4 in `references/ETHICS.md`).
    Ausgenommen sind Überleitungen und der CTA; die gelten für jeden und sollen es auch
 5. Zeichenzahl prüfen: ≤2.600 (LinkedIn-Limit)
 6. Hashtag-Check: 5–7 Hashtags, inklusive Unternehmens-Hashtag
