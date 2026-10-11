@@ -164,5 +164,5 @@ Halbjährlich, jeweils zum Stand-Datum plus sechs Monate. Zu prüfen ist bei jed
 1. Sind die URLs in der Tabelle noch erreichbar und tragen sie noch dieselbe Aussage?
 2. Hat LinkedIn Badge-Kriterien oder das SSI-Modell geändert?
 3. Lässt sich eine der zurückgezogenen Zahlen inzwischen belegen?
-4. Stand-Datum und nächstes Prüfdatum in dieser Datei hochsetzen, den Changelog in SKILL.md
+4. Stand-Datum und nächstes Prüfdatum in dieser Datei hochsetzen, den Changelog in CHANGELOG.md
    ergänzen und die Angabe auf der Landingpage nachziehen.

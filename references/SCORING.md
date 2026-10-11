@@ -94,7 +94,7 @@ Die Gewichtung priorisiert die Faktoren, die den größten Einfluss auf algorith
 | 3–4 | Eigenes Bild, aber ohne Text/Botschaft |
 | 5–6 | Bild mit Text, aber unprofessionell oder schlecht lesbar oder Overlap |
 | 7–8 | Professionell, klare Botschaft, passend zur Nische, lesbar |
-| 9–10 | Perfekt: Professionell, lesbar, Nische klar, ggf. Buch/Logo integriert, kein Overlap, Viewport-getestet |
+| 9–10 | Perfekt: Professionell, lesbar, Nische klar, ggf. Buch/Logo integriert, kein Overlap, Viewport-geprüft |
 
 ---
 

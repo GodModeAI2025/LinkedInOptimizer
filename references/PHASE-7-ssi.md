@@ -9,13 +9,13 @@ Der Plan läuft über drei Fenster: Tag 1–30, Tag 31–60, Tag 61–90. Dassel
 | Säule | Tag 1–30 | Tag 31–60 | Tag 61–90 |
 |-------|----------|-----------|-----------|
 | Professional Brand | Profil vollständig, Headline und About aus Phase 4 übernommen, Banner aus Phase 5 gesetzt | Beiträge im Rhythmus aus Phase 6.3, Multimedia-Formate ergänzen | Featured-Bereich nach den Beiträgen kuratieren, Skills und Endorsements ordnen |
-| Find the Right People | Zielliste aus Phase 6.2 anlegen, 5–10 Kontaktanfragen pro Woche mit persönlicher Nachricht | Denselben Rhythmus halten, Anfragen aus dem Kommentar-Umfeld priorisieren | Anfragen aus eingehenden Profilaufrufen bedienen |
-| Engage with Insights | 5–10 Kommentare pro Tag auf fremden Beiträgen, je mit eigener Perspektive | Kommentare auf die Ziel-Accounts konzentrieren, die geantwortet haben | Eigene Standpunkte auch dort, wo sie Widerspruch erzeugen |
-| Build Relationships | Inbox aufräumen, offene Anfragen beantworten | Kommentare unter eigenen Beiträgen innerhalb von zwei Stunden beantworten, Follow-ups | Empfehlungen schreiben, Gespräche aus den ersten zwei Fenstern weiterführen |
+| Find the Right People | Zielliste aus Phase 6.2 anlegen, Kontaktanfragen in dem Umfang, den der Kunde über 90 Tage hält, mit persönlicher Nachricht | Denselben Rhythmus halten, Anfragen aus dem Kommentar-Umfeld priorisieren | Anfragen aus eingehenden Profilaufrufen bedienen |
+| Engage with Insights | Kommentare auf fremde Beiträge in dem Umfang, den der Kunde hält, je mit eigener Perspektive | Kommentare auf die Ziel-Accounts konzentrieren, die geantwortet haben | Eigene Standpunkte auch dort, wo sie Widerspruch erzeugen |
+| Build Relationships | Inbox aufräumen, offene Anfragen beantworten | Kommentare unter eigenen Beiträgen zeitnah beantworten, Follow-ups | Empfehlungen schreiben, Gespräche aus den ersten zwei Fenstern weiterführen |
 
 Beiträge zu Collaborative Articles zahlen nicht mehr auf ein Badge ein (Q3), sie bleiben nur als Sichtbarkeitskanal sinnvoll und stehen deshalb in keinem der drei Fenster.
 
-Die Zahlen in der Tabelle (Kontaktanfragen und Kommentare pro Tag beziehungsweise Woche) sind Erfahrungswerte aus `references/SOURCES.md`, keine gemessenen Schwellen.
+Die Tabelle nennt für Kontaktanfragen und Kommentare keine Mengen. Den Umfang legt der Kunde fest, nach dem, was er über 90 Tage halten kann; der Skill belegt dafür keine Zahl.
 
 ### 7.2 Hypothese und Messweg je Fenster
 

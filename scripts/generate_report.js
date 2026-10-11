@@ -237,9 +237,9 @@ const doc = new Document({
       emptyLine(),
       new Table({ width: { size: TABLE_W, type: WidthType.DXA }, columnWidths: [1800, 1500, 2400, 1500, 2160], rows: [
         new TableRow({ children: [hCell("Nr.", 1800), hCell("Zeitpunkt", 1500), hCell("Reaktionen", 2400), hCell("Kommentare", 1500), hCell("Eng.-Rate", 2160)] }),
-        ...posts.map((post, i) => { const er = ((post.reactions + post.comments) / PROFILE.followers * 100).toFixed(1); return new TableRow({ children: [
+        ...posts.map((post, i) => { const er = PROFILE.followers > 0 ? ((post.reactions + post.comments) / PROFILE.followers * 100).toFixed(1) : null; return new TableRow({ children: [
           dCell(`Post ${i + 1}`, 1800), dCell(post.time, 1500), dCell(String(post.reactions), 2400, { align: AlignmentType.CENTER, bold: true, color: post.reactions >= 50 ? GREEN : DARK }),
-          dCell(String(post.comments), 1500, { align: AlignmentType.CENTER }), dCell(`~${er}%`, 2160, { align: AlignmentType.CENTER, color: parseFloat(er) > 5 ? GREEN : YELLOW }),
+          dCell(String(post.comments), 1500, { align: AlignmentType.CENTER }), dCell(er === null ? "n. v." : `~${er}%`, 2160, { align: AlignmentType.CENTER, color: er !== null && parseFloat(er) > 5 ? GREEN : YELLOW }),
         ] }); }),
       ] }),
       emptyLine(), p(`Engagement-Rate geschätzt als (Reaktionen + Kommentare) / ${PROFILE.followers.toLocaleString("de-DE")} Follower. Der Wert ist follower-basiert und liegt systematisch höher als eine impressions-basierte Rate. Er ist nicht mit dem Bewertungsraster in SCORING.md vergleichbar, nur mit früheren Werten desselben Profils. Ein belegbarer Plattform-Durchschnitt liegt nicht vor, siehe references/SOURCES.md.`, { color: GRAY }),
@@ -289,5 +289,21 @@ const doc = new Document({
   }],
 });
 
-const out = `/mnt/user-data/outputs/${PROFILE.name.replace(/\s+/g, "-")}-LinkedIn-Analyse.docx`;
-Packer.toBuffer(doc).then(buf => { fs.writeFileSync(out, buf); console.log(`Done: ${out}`); });
+const OUT_DIR = process.env.REPORT_OUT_DIR || "/mnt/user-data/outputs";
+const out = `${OUT_DIR}/${PROFILE.name.replace(/\s+/g, "-")}-LinkedIn-Analyse.docx`;
+if (!fs.existsSync(OUT_DIR)) {
+  console.error(`Report nicht geschrieben: Ausgabeordner ${OUT_DIR} fehlt. Mit REPORT_OUT_DIR einen vorhandenen Ordner angeben.`);
+  process.exit(1);
+}
+Packer.toBuffer(doc).then(buf => {
+  try {
+    fs.writeFileSync(out, buf);
+    console.log(`Done: ${out}`);
+  } catch (err) {
+    console.error(`Report nicht geschrieben: ${err.message}`);
+    process.exit(1);
+  }
+}).catch(err => {
+  console.error(`Report nicht geschrieben: ${err.message}`);
+  process.exit(1);
+});

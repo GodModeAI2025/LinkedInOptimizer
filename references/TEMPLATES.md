@@ -328,7 +328,7 @@ Jeder Post beginnt mit einem Hook in den ersten 2 Zeilen. Variiere systematisch:
 → Funktioniert für: Aktualitäts-Posts, Einordnung
 
 ### 7. LEHRE AUS FEHLER
-„Ich habe [konkreten Fehler] gemacht. Hier ist, was ich daraus gelernt habe."
+„Ein Fehler, [konkreter Fehler], hat [Folge] gekostet. Hier ist, was daraus folgt."
 → Funktioniert für: Authentizitäts-Posts, Vertrauensaufbau
 
 ### 8. FRAMEWORK / LISTE

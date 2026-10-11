@@ -138,7 +138,7 @@ Die zehn Kategorien, ihre Gewichte und die Begründung je Gewicht stehen in [ref
 - LinkedIn blockiert web_fetch und web_search über robots.txt. Ohne das Chrome-Plugin bleibt die manuelle Eingabe, und die Datenqualität sinkt entsprechend.
 - Impressions sind öffentlich nicht sichtbar. `scripts/generate_report.js` schätzt die Engagement-Rate deshalb aus der Follower-Zahl, während das Bewertungsraster in SCORING.md Impressions als Nenner voraussetzt. Der geschätzte Wert liegt systematisch höher, beide sind nicht direkt vergleichbar.
 - Der DOCX-Report enthält keine Diagramme. Radar-Chart und Balkendiagramm sind in SCORING.md als Darstellungsform beschrieben, das Report-Template erzeugt sie nicht.
-- Der Ausgabepfad in `scripts/generate_report.js` steht fest auf `/mnt/user-data/outputs/`, also auf die Sandbox von claude.ai. Für einen lokalen Lauf muss die letzte Zeile angepasst werden.
+- Der Ausgabeordner in `scripts/generate_report.js` ist `/mnt/user-data/outputs/`, also die Sandbox von claude.ai, sofern `REPORT_OUT_DIR` nicht gesetzt ist. Für einen lokalen Lauf `REPORT_OUT_DIR` auf einen vorhandenen Ordner setzen.
 - Der SSI lässt sich nur mit Zugang zu linkedin.com/sales/ssi ablesen. Ohne Zugang wird er aus Profil-Signalen geschätzt und ist im Report als geschätzt zu kennzeichnen.
 - `scripts/create_banner.py` braucht Pillow ab 10.1. Ältere Versionen wenden die angeforderte Schriftgröße nicht auf den Ersatz-Font an; die Safe-Zone-Messung ist dann nicht belastbar, und `--strict` bricht ab.
 - requirements.txt nennt für Pillow nur eine Untergrenze, keinen Pin. Für das npm-Paket `docx` gibt es weiterhin keine package.json, seine Version ist damit offen.
